@@ -81,3 +81,12 @@ def addConnection(request):
     return render(request,'addConnection.html',{'instance':instance})
 
 
+def feedback(request):
+    isAuthenticated = request.session.get('isAuthenticated')
+    if isAuthenticated:
+        return render(request,'feedback.html')
+    messages.error(request, 'Login first!')
+    return redirect('home')
+
+
+
