@@ -43,3 +43,48 @@
     cursor:pointer;
     transition:all ease-in-out 0.3s;
 }
+.nameHeader{
+    font-size:40px;
+    font-weight:bold;
+    margin-left:5vw;
+    margin-top:5vh;
+
+}
+.navContainer{
+    height:50vh;
+    width:15vw;
+    background-color:black;
+    border-radius:10px;
+    margin-left:30vw;
+    margin-top:5vh;
+    padding:5px;
+    text-align:center;
+}
+.mainContainer{
+    height:50vh;
+    width:20vw;
+    background-color:black;
+    border-radius:10px;
+    margin-left:50vw;
+
+    margin-top:-51.5vh;
+    padding:5px;
+
+}
+.btn{
+    background:none;
+    border:none;
+    font-size:20px;
+    color:white;
+    margin-top:5vh;
+    transition:all ease-in-out 0.2s;
+}
+.btn:hover{
+    cursor:pointer;
+    color:#5F9EA0;
+    transition:all ease-in-out 0.2s;
+}
+#logoutBtn{
+    margin-top:20vh;
+}
+
