@@ -3,6 +3,7 @@ import json
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from .models import UserData,allUser
+from django.contrib import messages
 
 def home(request):
     isAuthenticated = request.session.get("isAuthenticated")
@@ -60,9 +61,11 @@ def login(request):
     return render(request,'login.html')
 
 def notification(request):
-
-
-    return render(request,'notification.html')
+    isAuthenticated = request.session.get('isAuthenticated')
+    if isAuthenticated:
+        return render(request,'notification.html', {'isAuthenticated': isAuthenticated})
+    messages.error(request, 'Login first!')
+    return redirect('home')
 
 
 def logout(request):
@@ -78,5 +81,14 @@ def addConnection(request):
     instance1=(get_object_or_404(allUser)).userObj['users']
 
     return render(request,'addConnection.html',{'instance':instance,'instance1':instance1})
+
+
+def feedback(request):
+    isAuthenticated = request.session.get('isAuthenticated')
+    if isAuthenticated:
+        return render(request,'feedback.html')
+    messages.error(request, 'Login first!')
+    return redirect('home')
+
 
 

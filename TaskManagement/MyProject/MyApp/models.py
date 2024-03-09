@@ -6,7 +6,6 @@ class UserData(models.Model):
     email=models.EmailField(blank=False)
     name=models.CharField(blank=False,max_length=150)
     password=models.CharField(blank=False,max_length=150)
-    sessionId=models.CharField(blank=True,max_length=150)
 
 
     connectionRequest=models.JSONField(blank=True,default={'requests':[]})

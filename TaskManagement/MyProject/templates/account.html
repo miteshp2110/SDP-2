@@ -23,19 +23,19 @@
 
 </div>
 {% else %}
-<div class="formContainer" >
-    <form action="http://127.0.0.1:8000/account/" method="post">
-        {% csrf_token %}
-        <input type="text" placeholder="Enter Name" class="verificationInput" name="name" required>
-        <input type="email" placeholder="Email" class="verificationInput" name="email" required>
-        <input type="password" placeholder="Password" class="verificationInput" name="password" required>
+<div class="align-vc" >
+    <div class="formContainer" >
+        <form action="http://127.0.0.1:8000/account/" method="post">
+            {% csrf_token %}
+            <input type="text" placeholder="Enter Name" class="verificationInput" name="name" required>
+            <input type="email" placeholder="Email" class="verificationInput" name="email" required>
+            <input type="password" placeholder="Password" class="verificationInput" name="password" required>
+            <br>
+            <button class="Btn" type="submit">SignIn</button>
+        </form>
         <br>
-        <button class="Btn" type="submit">SignIn</button>
-    </form>
-    <br>
-    <br>
-    <a href="/account/login" class="Btn" id="loginBtn">Login</a>
-
+        <a href="/account/login" class="Btn" id="loginBtn">Or Login</a>
+    </div>
 </div>
 
 {% endif %}

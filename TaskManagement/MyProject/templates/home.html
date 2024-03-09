@@ -6,8 +6,8 @@
 {% block header %}
 {% if isAuthenticated %}
 hi {{instance.name}}
+{{instance.password}}
 {% else %}
-git
 
 <div id="col" >
   <div>
@@ -24,7 +24,7 @@ git
     </div>
 
     <div>
-      <a href="#" class="btn" id="home-div-a" >Get started</a>
+      <a href="/account/login" class="btn" id="home-div-a" >Get started</a>
     </div>
   </div>
 
@@ -63,4 +63,32 @@ git
   styleFn();
 </script>
 {% endif %}
+
+{% if messages %}
+    {% for message in messages %}
+        <div style="
+        width: 150px;
+        font-size: x-large;
+        border-left: 4px solid red;
+        border-radius: 5px;
+        box-shadow: 0 0 10px 2px #d9d9d9;
+        position: absolute;
+        top: 10vh;
+        left: -30vw;
+        transition: left 700ms ease;
+        " id="err-msg" >
+            {{message}}
+        </div>
+
+        <script>
+          setTimeout(() => {
+            document.getElementById("err-msg").style.left = "3vw";
+            setTimeout(() => {
+              document.getElementById("err-msg").hidden = true;
+            }, 2500);
+          }, 500);
+        </script>
+    {% endfor %}
+{% endif %}
+
 {% endblock %}
