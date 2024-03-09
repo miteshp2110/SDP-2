@@ -62,7 +62,8 @@
     background-color:black;
     border-radius:10px;
     margin-left:50vw;
-
+    color:white;
+    text-align:center;
     margin-top:-51.5vh;
     padding:5px;
 
@@ -83,4 +84,21 @@
 #logoutBtn{
     margin-top:20vh;
 }
-
+.connectionContainer{
+    color:white;
+}
+.displayCards{
+    margin-top:3vh;
+}
+.addConBtn{
+    margin-left:2vw;
+    background:none;
+    color:white;
+    border:none;
+    transition:all ease-in-out 0.1s;
+}
+.addConBtn:hover{
+    cursor:pointer;
+    transition:all ease-in-out 0.2s;
+    color:#5F9EA0;
+}

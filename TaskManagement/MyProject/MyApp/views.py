@@ -75,6 +75,8 @@ def activeConnections(request):
 
 def addConnection(request):
     instance=UserData.objects.get(email=request.session.get('email'))
-    return render(request,'addConnection.html',{'instance':instance})
+    instance1=(get_object_or_404(allUser)).userObj['users']
+
+    return render(request,'addConnection.html',{'instance':instance,'instance1':instance1})
 
 

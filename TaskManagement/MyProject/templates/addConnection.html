@@ -21,8 +21,48 @@
 </div>
 
 <div class="mainContainer">
+    <div class="connectionContainer">
 
+    </div>
+
+<form id="sForm" method="post" >
+    {% csrf_token %}
+    <input type="hidden" id="requestEmail" name="reqEmail" value="">
+</form>
 </div>
+
+<script>
+    var usersArray={{instance1 | safe}}
+    var connectionContainer=document.querySelector('.connectionContainer')
+    var i=0
+    var sForm=document.getElementById('sForm')
+    var reqEmail=document.getElementById('requestEmail')
+    usersArray.map((result)=>{
+        var newEle=document.createElement('div')
+        newEle.classList.add('displayCards')
+        var newBtn=document.createElement('button')
+        newBtn.classList.add('addConBtn')
+        newBtn.innerHTML='Add'
+        newBtn.id=i
+        newEle.innerHTML=result
+        newBtn.setAttribute('onclick',`sendRequest(${i})`)
+        console.log(newEle)
+        newEle.appendChild(newBtn)
+
+        connectionContainer.appendChild(newEle)
+        i++
+    })
+
+    function sendRequest(id){
+        var x=usersArray[id]
+        reqEmail.value=x
+        sForm.submit()
+        alert(`Sent connection request to `,x)
+
+
+    }
+
+</script>
 
 
 
