@@ -1,6 +1,8 @@
-from django.shortcuts import render, redirect
+import json
+
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
-from .models import UserData
+from .models import UserData,allUser
 
 def home(request):
     isAuthenticated = request.session.get("isAuthenticated")
@@ -27,6 +29,11 @@ def account(request):
                 request.session['email']=verificationEmail
                 newUser = UserData(email=verificationEmail, name=name, password=password)
                 newUser.save()
+                instance=get_object_or_404(allUser)
+                arr=(instance.userObj)['users']
+                arr.append(verificationEmail)
+                (instance.userObj)['users']=arr
+                instance.save()
                 return redirect('home')
 
     return render(request,'account.html')
@@ -62,6 +69,12 @@ def logout(request):
     request.session.clear()
     return redirect('home')
 
+def activeConnections(request):
+    instance=UserData.objects.get(email=request.session.get('email'))
+    return render(request,'activeConnections.html',{'instance':instance})
 
+def addConnection(request):
+    instance=UserData.objects.get(email=request.session.get('email'))
+    return render(request,'addConnection.html',{'instance':instance})
 
 

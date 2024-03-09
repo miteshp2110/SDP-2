@@ -8,11 +8,20 @@
 
 
 {% if isAuthenticated %}
-    hi {{instance.name}}
+    <div class="nameHeader"> Welcome {{instance.name}}</div>
+
+<div class="navContainer">
+    <a href="http://127.0.0.1:8000/account/activeConnections"> <button class="btn">Active Connections</button></a>
+    <a href="http://127.0.0.1:8000/account/addConnections"> <button class="btn">Add Connection</button></a>
     <form method="post" action="http://127.0.0.1:8000/account/logout">
         {% csrf_token %}
-        <button type="submit">Logout</button>
+        <button id="logoutBtn" type="submit" class="btn">Logout</button>
     </form>
+</div>
+
+<div class="mainContainer">
+
+</div>
 {% else %}
 <div class="formContainer" >
     <form action="http://127.0.0.1:8000/account/" method="post">

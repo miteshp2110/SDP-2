@@ -6,5 +6,7 @@ urlpatterns=[
     path('account/',views.account,name='account'),
     path('notification/',views.notification,name='notification'),
     path('account/login',views.login,name='login'),
-    path('account/logout',views.logout)
+    path('account/logout',views.logout),
+    path('account/activeConnections',views.activeConnections),
+    path('account/addConnections',views.addConnection)
 ]
