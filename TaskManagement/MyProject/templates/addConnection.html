@@ -14,6 +14,7 @@
 <div class="navContainer">
     <a href="http://127.0.0.1:8000/account/activeConnections"> <button  class="btn">Active Connections</button></a>
     <a href="http://127.0.0.1:8000/account/addConnections"> <button id="actBtn" class="btn">Add Connection</button></a>
+    <a href="http://127.0.0.1:8000/account/feedback"> <button class="btn">Feedback</button></a>
     <form method="post" action="http://127.0.0.1:8000/account/logout">
         {% csrf_token %}
         <button id="logoutBtn" type="submit" class="btn">Logout</button>
@@ -57,7 +58,7 @@
         var x=usersArray[id]
         reqEmail.value=x
         sForm.submit()
-        alert(`Sent connection request to `,x)
+        alert('Sent connection request to ',x)
 
 
     }
