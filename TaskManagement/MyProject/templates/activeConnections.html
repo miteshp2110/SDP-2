@@ -22,12 +22,27 @@
 
 <div class="mainContainer">
 
+    <div class="connectionContainer">
 
+    </div>
 </div>
 
 <script>
     var connectionsArray=({{instance.activeConnections | safe}}).connections
     console.log("act: ",connectionsArray)
+    var connectionContainer=document.querySelector('.connectionContainer')
+    if(connectionsArray.length ==0){
+        connectionContainer.innerHTML='No active Connections'
+    }
+    else{
+        connectionsArray.map((result)=>{
+            var newEle=document.createElement('div')
+            newEle.classList.add('displayCards')
+            newEle.innerHTML=result
+            connectionContainer.appendChild(newEle)
+        })
+    }
+
 </script>
 
 
