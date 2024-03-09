@@ -1,0 +1,50 @@
+body {
+    /* background-image: linear-gradient(to bottom right, #4d4d4d, rgb(198, 179, 197)); */
+    background-repeat: no-repeat;
+    background: cover;
+    height: 100vh;
+}
+
+#homeLogo {
+    scale: 1.2;
+}
+
+th, td {
+    border: 1px solid black;
+}
+
+#home-div-p {
+    color: black;
+    margin: 10vh 0 7vh 17vw;
+    font-size: 50px;
+}
+
+#home-div-a {
+    text-decoration: none;
+    color: black;
+    border: 1px solid black;
+    border-radius: 5px;
+    font-size: large;
+    margin-left: 17vw;
+    padding: 0 1vw;
+}
+#home-div-a:hover {
+    color: white;
+    background-color: black;
+}
+
+#create, #manage, #assign {
+    color: black;
+    opacity: 0.1;
+    font-weight: bolder;
+}
+
+#col {
+    display: flex;
+    align-items: center;
+}
+
+img {
+    margin: 10vh 0 0 5vw;
+    height: 60vh;
+}

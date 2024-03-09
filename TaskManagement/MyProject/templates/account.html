@@ -1,0 +1,37 @@
+{% extends 'header.html' %}
+{% block title %}Account{% endblock %}
+{% load static %}
+{% block cssLink %}<link rel="stylesheet" href="{% static 'css/account.css' %}">{% endblock %}
+{% block header %}
+
+
+
+
+{% if isAuthenticated %}
+    hi {{instance.name}}
+    <form method="post" action="http://127.0.0.1:8000/account/logout">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>
+{% else %}
+<div class="formContainer" >
+    <form action="http://127.0.0.1:8000/account/" method="post">
+        {% csrf_token %}
+        <input type="text" placeholder="Enter Name" class="verificationInput" name="name" required>
+        <input type="email" placeholder="Email" class="verificationInput" name="email" required>
+        <input type="password" placeholder="Password" class="verificationInput" name="password" required>
+        <br>
+        <button class="Btn" type="submit">SignIn</button>
+    </form>
+    <br>
+    <br>
+    <a href="/account/login" class="Btn" id="loginBtn">Login</a>
+
+</div>
+
+{% endif %}
+
+
+
+
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'header.html' %}
+{% block title %}Home {% endblock %}
+{% load static %}
+{% block cssLink %}<link rel="stylesheet" href="{% static 'css/home.css' %}">{% endblock %}
+
+{% block header %}
+{% if isAuthenticated %}
+hi {{instance.name}}
+{% else %}
+git
+
+<div id="col" >
+  <div>
+    <div id="home-div-p" >
+      <p class="switch" id="create" >
+        Create tasks,
+      </p>
+      <p class="switch" id="manage" >
+        Manage them
+      </p>
+      <p class="switch"  id="assign" >
+        Assign!
+      </p>
+    </div>
+
+    <div>
+      <a href="#" class="btn" id="home-div-a" >Get started</a>
+    </div>
+  </div>
+
+  <img src="{% static 'resources/bg.png' %}" />
+</div>
+
+<script>
+  const c = document.getElementById("create"), m = document.getElementById("manage"), a = document.getElementById("assign");
+  function styleFn() {
+    setTimeout(() => {
+      a.style.color = "black";
+      a.style.opacity = "0.1";
+      c.style.color = "#06D6A0";
+      c.style.opacity = "1";
+    }, 1000);
+
+    setTimeout(() => {
+      c.style.color = "black";
+      c.style.opacity = "0.1";
+      m.style.color = "#FF5E5B";
+      m.style.opacity = "1";
+    }, 2000);
+
+    setTimeout(() => {
+      m.style.color = "black";
+      m.style.opacity = "0.1";
+      a.style.color = "#118AB2";
+      a.style.opacity = "1";
+    }, 3000);
+
+    setTimeout(() => {
+      styleFn();
+    }, 3000);
+  }
+
+  styleFn();
+</script>
+{% endif %}
+{% endblock %}
