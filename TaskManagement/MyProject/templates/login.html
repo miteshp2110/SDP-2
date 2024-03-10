@@ -6,7 +6,7 @@
 
 
     <div class="formContainer" >
-        <form action="http://127.0.0.1:8000/account/login" method="post">
+        <form action="/account/login" method="post">
             {% csrf_token %}
             <input type="email" placeholder="Email" class="verificationInput" name="email" required>
             <input type="password" placeholder="Password" class="verificationInput" name="password" required>

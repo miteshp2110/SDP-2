@@ -41,7 +41,7 @@
 
       <div id="create-task-container" hidden >
         <h1>Create a Task</h1>
-        <form id="sForm" method="post" action="http://127.0.0.1:8000/addTask/">
+        <form id="sForm" method="post" action="/addTask/">
           {% csrf_token %}
           <input type="text" placeholder="TaskTitle" name="title" class="inputField">
           <br>
@@ -176,9 +176,8 @@ function createTaskElement(elementType, flexGrow, content) {
   }
 
   function submitForm(){
-    console.log()
-    console.log(sForm)
-    sForm.submit()
+    console.log(sForm);
+      // sForm.submit();
   }
 </script>
 

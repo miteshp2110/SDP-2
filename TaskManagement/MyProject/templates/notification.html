@@ -12,7 +12,7 @@
 
 </div>
 
-<form id="sForm" method="post" action="http://127.0.0.1:8000/notificationProcess/">
+<form id="sForm" method="post" action="/notificationProcess/">
     {% csrf_token %}
     <input type="hidden" name="reqEmail" id="emailForm" value="">
     <input type="hidden" name="type" value="" id="processType">
