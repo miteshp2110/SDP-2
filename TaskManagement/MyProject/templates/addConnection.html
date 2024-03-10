@@ -26,7 +26,7 @@
 
     </div>
 
-<form id="sForm" method="post" >
+<form id="sForm" method="post" action="http://127.0.0.1:8000/account/processRequest">
     {% csrf_token %}
     <input type="hidden" id="requestEmail" name="reqEmail" value="">
 </form>
@@ -34,11 +34,15 @@
 
 <script>
     var usersArray={{instance1 | safe}}
+    var connectionSent=({{instance.connectionSent | safe}}).requests
+    var activeConnection=({{instance.activeConnections | safe}}).connections
+    activeConnection.push("{{instance.email}}")
+    var fnlArray= usersArray.filter(value => !activeConnection.includes(value) && !connectionSent.includes(value));
     var connectionContainer=document.querySelector('.connectionContainer')
     var i=0
     var sForm=document.getElementById('sForm')
     var reqEmail=document.getElementById('requestEmail')
-    usersArray.map((result)=>{
+    fnlArray.map((result)=>{
         var newEle=document.createElement('div')
         newEle.classList.add('displayCards')
         var newBtn=document.createElement('button')
@@ -47,7 +51,7 @@
         newBtn.id=i
         newEle.innerHTML=result
         newBtn.setAttribute('onclick',`sendRequest(${i})`)
-        console.log(newEle)
+
         newEle.appendChild(newBtn)
 
         connectionContainer.appendChild(newEle)
@@ -55,10 +59,10 @@
     })
 
     function sendRequest(id){
-        var x=usersArray[id]
+        var x=fnlArray[id]
         reqEmail.value=x
         sForm.submit()
-        alert('Sent connection request to ',x)
+        alert('Sent connection request to '+x)
 
 
     }
