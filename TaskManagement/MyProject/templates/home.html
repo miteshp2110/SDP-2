@@ -5,20 +5,56 @@
 
 {% block header %}
 {% if isAuthenticated %}
-hi {{instance.name}}
-{{instance.password}}
 
+<!-- hi {{instance.name}}
+{{instance.password}} -->
 
-<div class="create-button1">
-  <button onclick="showCreateButtons()">Create New Program</button>
+<div id="dashboard-container" >
+  <h1>Dashboard</h1>
+
+  <div id="lr-container" >
+    <div id="l-container" >
+      <button onclick="createTask()" id="create-task-btn" >Create task</button>
+      <button onclick="ongoingTasks()" id="ongoing-tasks-btn" >Ongoing tasks</button>
+    </div>
+
+    <div id="r-container" >
+      <div id="create-task-container" hidden >
+        <input type="text" />
+      </div>
+
+      <table id="ongoing-tasks-table" hidden >
+        <tr>
+          <th>S. No.</th>
+          <th>Task title</th>
+          <th>Deadline</th>
+          <th>Assigned by:</th>
+        </tr>
+        <tr>
+          <td>1.</td>
+          <td>r2c2</td>
+          <td>r2c3</td>
+          <td>r2c4</td>
+        </tr>
+      </table>
+    </div>
+  </div>
 </div>
 
-<div class="create-button">
-  <button onclick="createIndividualTask()">Individual Tasks</button>
-  <input type="text" placeholder="Enter task for individual" id="individualTaskText"/>
-  <input type="text" placeholder="Enter task for group" id="groupTaskText"/>
-  <button onclick="createGroupTask()">Group Tasks</button>
-</div>
+<script>
+  const create_task_container = document.getElementById("create-task-container");
+  const ongoing_tasks_table = document.getElementById("ongoing-tasks-table");
+
+  function createTask() {
+    ongoing_tasks_table.hidden = true;
+    create_task_container.hidden = false;
+  }
+
+  function ongoingTasks() {
+    create_task_container.hidden = true;
+    ongoing_tasks_table.hidden = false;
+  }
+</script>
 
 {% else %}
 
@@ -80,13 +116,11 @@ hi {{instance.name}}
 {% if messages %}
     {% for message in messages %}
         <div style="
-        width: 25vw;
+        width: 150px;
         font-size: x-large;
-        background-color: white;
-        border-left: 4px solid rgb(0, 38, 255);
+        border-left: 4px solid red;
         border-radius: 5px;
         box-shadow: 0 0 10px 2px #d9d9d9;
-        padding-left: 1vw;
         position: absolute;
         top: 10vh;
         left: -30vw;

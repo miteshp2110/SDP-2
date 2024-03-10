@@ -1,16 +1,9 @@
 body {
-    /* background-image: linear-gradient(to bottom right, #4d4d4d, rgb(198, 179, 197)); */
-    background-repeat: no-repeat;
-    background: cover;
-    height: 100vh;
+    background-color: #d9d9d9;
 }
 
 #homeLogo {
     scale: 1.2;
-}
-
-th, td {
-    border: 1px solid black;
 }
 
 #home-div-p {
@@ -47,4 +40,56 @@ th, td {
 img {
     margin: 10vh 0 0 5vw;
     height: 60vh;
+}
+
+#dashboard-container {
+    margin: 0 2vh;
+}
+
+h1 {
+    text-align: left;
+    font-size: 50px;
+    border-bottom: 1px solid black;
+}
+
+#lr-container {
+    border: 1px solid red;
+    display: flex;
+    height: 75vh;
+    overflow: auto;
+}
+
+#l-container {
+    border: 1px solid green;
+    width: 17vw;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+#r-container {
+    border: 1px solid green;
+    width: 80vw;
+    margin-left: 2vw;
+}
+#r-container::-webkit-scrollbar {
+    display: none;
+}
+
+#create-task-btn, #ongoing-tasks-btn {
+    color: black;
+    height: 6vh;
+    width: 100%;
+    margin: 1vh 0 0 0;
+    font-size: x-large;
+    cursor: pointer;
+    text-align: center;
+    border: 1px solid red;
+}
+#create-task-btn:hover, #ongoing-tasks-btn:hover {
+    background-color: #bebebe;
+}
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
 }
