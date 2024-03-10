@@ -9,26 +9,77 @@
 <div class="notification-container" >
     
     <br />
-    <div class="notification" >
-        <span class="notif-content-container" >
-            <h3>Task Update</h3>
-            Your task "Complete Project" has been updated.
-        </span>
-        <span class="vx-btn-container" >
-            <button class="vx-btn vb-left" >&#10004;</button>
-            <button class="vx-btn vb-right" >&#10006;</button>
-        </span>
-    </div>
-    
-    <div class="notification" >
-        <span class="notif-content-container" >
-            <h3>Welcome to the New Group!</h3>
-            Youhave successfully joined the "New Group". Start interacting with other members and complete the task!
-        </span>
-        <span class="vx-btn-container" >
-            <button class="vx-btn vb-left" >&#10004;</button>
-            <button class="vx-btn vb-right" >&#10006;</button>
-        </span>
-    </div>
+
 </div>
+
+<form id="sForm" method="post" action="http://127.0.0.1:8000/notificationProcess/">
+    {% csrf_token %}
+    <input type="hidden" name="reqEmail" id="emailForm" value="">
+    <input type="hidden" name="type" value="" id="processType">
+</form>
+
+<script>
+    var sForm=document.getElementById('sForm')
+    var emailForm=document.getElementById('emailForm')
+    var processType=document.getElementById('processType')
+
+    var connectionRequest=({{instance.connectionRecieved | safe}}).requests
+    console.log('creq: ',connectionRequest)
+    var notificationContainer=document.querySelector('.notification-container')
+    var i=0
+    connectionRequest.map((result)=>{
+        var newEle=document.createElement('div')
+        newEle.classList.add('notification')
+        var newEle1=document.createElement('span')
+        newEle1.classList.add('notif-content-container')
+        var newH=document.createElement('h3')
+        newH.innerHTML=`Connection Request from <i> ${result} </i>`
+        newEle1.appendChild(newH)
+
+        var Ele2=document.createElement('span')
+        Ele2.classList.add('vx-btn-container')
+
+        var btn1=document.createElement('button')
+        btn1.setAttribute('onclick',`processRequest('a${i}')`)
+        btn1.classList.add('vx-btn')
+        btn1.classList.add('vb-left')
+        btn1.innerHTML='&#10004;'
+
+        var btn2=document.createElement('button')
+        btn2.classList.add('vx-btn')
+        btn2.classList.add('vb-right')
+        btn2.setAttribute('onclick',`processRequest('r${i}')`)
+        btn2.innerHTML='&#10006;'
+
+        Ele2.appendChild(btn1)
+        Ele2.appendChild(btn2)
+
+        newEle.appendChild(newEle1)
+        newEle.appendChild(Ele2)
+
+        notificationContainer.appendChild(newEle)
+
+
+
+
+    })
+
+    function processRequest(param){
+
+        if(param[0]=='a'){
+            console.log('accept,',param[1])
+            emailForm.value=connectionRequest[param[1]]
+            processType.value=1
+            sForm.submit()
+        }
+        else{
+            if(param[0]=='r'){
+                console.log('reject,',param[1])
+                emailForm.value=connectionRequest[param[1]]
+                processType.value=0
+                sForm.submit()
+            }
+        }
+    }
+</script>
 {% endblock %}

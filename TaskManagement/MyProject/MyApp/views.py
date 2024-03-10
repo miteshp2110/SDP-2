@@ -63,7 +63,8 @@ def login(request):
 def notification(request):
     isAuthenticated = request.session.get('isAuthenticated')
     if isAuthenticated:
-        return render(request,'notification.html', {'isAuthenticated': isAuthenticated})
+        instance = UserData.objects.get(email=request.session.get('email'))
+        return render(request,'notification.html', {'isAuthenticated': isAuthenticated,'instance':instance})
     messages.error(request, 'Login first!')
     return redirect('home')
 
@@ -92,6 +93,62 @@ def feedback(request):
             return render(request,'feedback.html')
     messages.error(request, 'Login first!')
     return redirect('home')
+
+def processRequest(request):
+    reqEmail=request.POST.get('reqEmail')
+    print(reqEmail)
+    instanceTo=get_object_or_404(UserData,email=reqEmail)
+    instanceFrom=get_object_or_404(UserData,email=request.session.get('email'))
+    print('insFrom: ',instanceFrom.name," insTo: ",instanceTo.name)
+    i1=instanceFrom.connectionSent['requests']
+    i2=instanceTo.connectionRecieved['requests']
+    i1.append(reqEmail)
+    i2.append(request.session.get('email'))
+    instanceFrom.connectionSent['requests']=i1
+    instanceTo.connectionRecieved['requests']=i2
+    instanceTo.save()
+    instanceFrom.save()
+
+    return redirect('account')
+
+
+def acceptRequest(request):
+    reqEmail=request.POST.get('reqEmail')
+    pType=request.POST.get('type')
+
+    if(pType=='1'):
+        print("acc")
+        instanceTo = get_object_or_404(UserData, email=reqEmail)
+        instanceFrom = get_object_or_404(UserData, email=request.session.get('email'))
+        i1=instanceTo.activeConnections['connections']
+        i2=instanceFrom.activeConnections['connections']
+
+        i1.append(request.session.get('email'))
+        i2.append(reqEmail)
+
+
+
+
+        instanceTo.activeConnections['connections']=i1
+        instanceFrom.activeConnections['connections']=i2
+
+        instanceTo.save()
+        instanceFrom.save()
+
+    instance=get_object_or_404(UserData,email=request.session.get('email'))
+
+    newArr=instance.connectionRecieved['requests']
+
+    filtered_list = [value for value in newArr if value != reqEmail]
+
+    instance.connectionRecieved['requests']=filtered_list
+    instance.save()
+
+
+
+
+    return redirect('notification')
+
 
 
 

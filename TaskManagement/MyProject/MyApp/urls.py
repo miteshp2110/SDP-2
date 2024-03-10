@@ -10,4 +10,6 @@ urlpatterns=[
     path('account/activeConnections',views.activeConnections),
     path('account/addConnections',views.addConnection),
     path('account/feedback', views.feedback, name='feedback'),
+    path('account/processRequest',views.processRequest),
+    path('notificationProcess/',views.acceptRequest)
 ]
