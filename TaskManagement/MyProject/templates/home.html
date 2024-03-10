@@ -14,45 +14,80 @@
 
   <div id="lr-container" >
     <div id="l-container" >
+      <button onclick="pendingTasks()" id="pending-tasks-btn" >Pending tasks</button>
       <button onclick="createTask()" id="create-task-btn" >Create task</button>
-      <button onclick="ongoingTasks()" id="ongoing-tasks-btn" >Ongoing tasks</button>
+      <button onclick="assignedTasks()" id="assigned-tasks-btn" >Assigned tasks</button>
     </div>
 
     <div id="r-container" >
+      <div id="pending-tasks-container" hidden >
+        for pending tasks!
+      </div>
+
       <div id="create-task-container" hidden >
         <input type="text" />
       </div>
 
-      <table id="ongoing-tasks-table" hidden >
-        <tr>
-          <th>S. No.</th>
-          <th>Task title</th>
-          <th>Deadline</th>
-          <th>Assigned by:</th>
-        </tr>
-        <tr>
-          <td>1.</td>
-          <td>r2c2</td>
-          <td>r2c3</td>
-          <td>r2c4</td>
-        </tr>
-      </table>
+      <div id="assigned-tasks-container"  >
+        <div class="task-assigned" >
+          <div style="flex-grow: 0.2;" >1.</div>
+          <div style="flex-grow: 8;" >
+            Task Title
+            <br />
+            Description
+          </div>
+          <div style="flex-grow: 3;" >Deadline</div>
+          <div style="flex-grow: 4;" >Assigned to</div>
+        </div>
+
+        <div class="task-assigned" >
+          <div style="flex-grow: 0.2;" >2.</div>
+          <div style="flex-grow: 8;" >
+            Task Title
+            <br />
+            Description
+          </div>
+          <div style="flex-grow: 3;" >Deadline</div>
+          <div style="flex-grow: 4;" >Assigned to</div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
 <script>
+  const pending_tasks_container = document.getElementById("pending-tasks-container");
   const create_task_container = document.getElementById("create-task-container");
-  const ongoing_tasks_table = document.getElementById("ongoing-tasks-table");
+  const assigned_tasks_div = document.getElementById("assigned-tasks-container");
+  // const pending_tasks_btn = document.getElementById("pending-tasks-btn");
+  // const create_task_btn = document.getElementById("create-task-btn");
+  // const assigned_tasks_btn = document.getElementById("assigned-tasks-btn");
 
-  function createTask() {
-    ongoing_tasks_table.hidden = true;
-    create_task_container.hidden = false;
-  }
-
-  function ongoingTasks() {
+  function pendingTasks() {
     create_task_container.hidden = true;
-    ongoing_tasks_table.hidden = false;
+    // create_task_btn.style.backgroundColor = "white";
+    assigned_tasks_div.hidden = true;
+    // assigned_tasks_btn.style.backgroundColor = "white";
+    pending_tasks_container.hidden = false;
+    // pending_tasks_btn.style.backgroundColor = "#e0e0e0";
+  }
+  
+  function createTask() {
+    pending_tasks_container.hidden = true;
+    // pending_tasks_btn.style.backgroundColor = "white";
+    assigned_tasks_div.hidden = true;
+    // assigned_tasks_btn.style.backgroundColor = "white";
+    create_task_container.hidden = false;
+    // create_task_btn.style.backgroundColor = "#e0e0e0";
+  }
+  
+  function assignedTasks() {
+    pending_tasks_container.hidden = true;
+    // pending_tasks_btn.style.backgroundColor = "white";
+    create_task_container.hidden = true;
+    // create_task_btn.style.backgroundColor = "white";
+    assigned_tasks_div.hidden = false;
+    // assigned_tasks_btn.style.backgroundColor = "#e0e0e0";
   }
 </script>
 
@@ -115,17 +150,7 @@
 
 {% if messages %}
     {% for message in messages %}
-        <div style="
-        width: 150px;
-        font-size: x-large;
-        border-left: 4px solid red;
-        border-radius: 5px;
-        box-shadow: 0 0 10px 2px #d9d9d9;
-        position: absolute;
-        top: 10vh;
-        left: -30vw;
-        transition: left 700ms ease;
-        " id="err-msg" >
+        <div id="err-msg" >
             {{message}}
         </div>
 
