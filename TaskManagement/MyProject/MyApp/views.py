@@ -150,5 +150,24 @@ def acceptRequest(request):
     return redirect('notification')
 
 
+def addTask(request):
+    title=request.POST.get('title')
+    description=request.POST.get('description')
+    deadline=request.POST.get('deadline')
+    employed=request.POST.get('employed')
+
+    myObj={'Title':title,'Description':description,'Deadline':deadline,'Employed':employed}
+    instance=(get_object_or_404(UserData,email=request.session.get('email')))
+    i1=instance.assignedTask['tasks']
+    i1.append(myObj)
+    instance.assignedTask=i1
+    instance.save()
+
+
+
+
+    return redirect('home')
+
+
 
 

@@ -20,7 +20,26 @@
 
     <div id="r-container" >
       <div id="create-task-container" hidden >
-        <input type="text" />
+        <h1>Create a Task</h1>
+        <form id="sForm" method="post" action="http://127.0.0.1:8000/addTask/">
+          {% csrf_token %}
+          <input type="text" placeholder="TaskTitle" name="title" class="inputField">
+          <br>
+          <textarea id="textAr" name="description">TaskDescription</textarea>
+          <br>
+          <h2>Deadline</h2>
+          <input type="date" id="deadlineDate" name="deadline">
+          <h2 id="aTo">AssignTo</h2>
+          <input type="hidden" id="assignTo" name="employed" value="">
+
+        </form>
+
+        <div class="availaibleMembers" id="memberContainer">
+
+
+        </div>
+        <button onclick="submitForm()" class="subBtn">Create</button>
+
       </div>
 
       <table id="ongoing-tasks-table" hidden >
@@ -40,6 +59,39 @@
     </div>
   </div>
 </div>
+<script>
+  var sForm=document.getElementById('sForm')
+  var availaibleMember=document.getElementById('memberContainer')
+  var validMember=({{instance.activeConnections | safe}})['connections']
+  var i=0
+  validMember.map((result)=>{
+    var newEle=document.createElement('div')
+    newEle.classList.add('memberCard')
+    newEle.id=i
+    newEle.setAttribute('onclick',`buttonPicker(${i})`)
+    newEle.innerHTML=result
+    availaibleMember.appendChild(newEle)
+    i++
+  })
+
+  var active;
+
+  function buttonPicker(id)
+  {
+    if(active){
+      active.classList.remove('active')
+    }
+    active=document.getElementById(id)
+    active.classList.add('active')
+    document.getElementById('assignTo').value=validMember[id]
+  }
+
+  function submitForm(){
+    console.log()
+    console.log(sForm)
+    sForm.submit()
+  }
+</script>
 
 <script>
   const create_task_container = document.getElementById("create-task-container");
