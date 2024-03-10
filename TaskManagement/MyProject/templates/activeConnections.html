@@ -12,10 +12,10 @@
     <div class="nameHeader"> Welcome {{instance.name}}</div>
 
 <div class="navContainer">
-    <a href="http://127.0.0.1:8000/account/activeConnections"> <button id="actBtn" class="btn">Active Connections</button></a>
-    <a href="http://127.0.0.1:8000/account/addConnections"> <button class="btn">Add Connection</button></a>
-    <a href="http://127.0.0.1:8000/account/feedback"> <button class="btn">Feedback</button></a>
-    <form method="post" action="http://127.0.0.1:8000/account/logout">
+    <a href="/account/activeConnections"> <button id="actBtn" class="btn">Active Connections</button></a>
+    <a href="/account/addConnections"> <button class="btn">Add Connection</button></a>
+    <a href="/account/feedback"> <button class="btn">Feedback</button></a>
+    <form method="post" action="/account/logout">
         {% csrf_token %}
         <button id="logoutBtn" type="submit" class="btn">Logout</button>
     </form>

@@ -11,11 +11,11 @@
     <div class="nameHeader"> Welcome {{instance.name}}</div>
 
 <div class="navContainer">
-    <a href="http://127.0.0.1:8000/account/activeConnections"> <button class="btn">Active Connections</button></a>
-    <a href="http://127.0.0.1:8000/account/addConnections"> <button class="btn">Add Connection</button></a>
-    <a href="http://127.0.0.1:8000/account/feedback"> <button class="btn">Feedback</button></a>
+    <a href="/account/activeConnections"> <button class="btn">Active Connections</button></a>
+    <a href="/account/addConnections"> <button class="btn">Add Connection</button></a>
+    <a href="/account/feedback"> <button class="btn">Feedback</button></a>
 
-    <form method="post" action="http://127.0.0.1:8000/account/logout">
+    <form method="post" action="/account/logout">
         {% csrf_token %}
         <button id="logoutBtn" type="submit" class="btn">Logout</button>
     </form>
@@ -27,7 +27,7 @@
 {% else %}
 <div class="align-vc" >
     <div class="formContainer" >
-        <form action="http://127.0.0.1:8000/account/" method="post">
+        <form action="/account/" method="post">
             {% csrf_token %}
             <input type="text" placeholder="Enter Name" class="verificationInput" name="name" required>
             <br />
