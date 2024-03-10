@@ -1,12 +1,12 @@
 .container {
-  max-width: 500px;
+  width: 80vw;
+  height: 60vh;
   margin: 50px auto;
   padding: 20px;
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-
-
+  overflow: auto;
 }
 
 h1 {
@@ -25,36 +25,9 @@ label {
   color: #555;
 }
 
-input[type="range"] {
-  width: 100%;
-  -webkit-appearance: none;
-  appearance: none;
-  height: 20px;
-  background: #ddd;
-  border-radius: 10px;
-  outline: none;
-}
-
-input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 30px;
-  height: 30px;
-  background: #007bff;
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-input[type="range"]::-moz-range-thumb {
-  width: 30px;
-  height: 30px;
-  background: #007bff;
-  border-radius: 50%;
-  cursor: pointer;
-}
-
 textarea {
-  width: 100%;
+  width: calc(100% - 20px);
+  height: 30vh;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -63,7 +36,6 @@ textarea {
 
 button[type="submit"] {
   display: block;
-  width: 100%;
   padding: 10px;
   background-color: #007bff;
   border: none;

@@ -5,8 +5,57 @@
 
 {% block header %}
 {% if isAuthenticated %}
-hi {{instance.name}}
-{{instance.password}}
+
+<!-- hi {{instance.name}}
+{{instance.password}} -->
+
+<div id="dashboard-container" >
+  <h1>Dashboard</h1>
+
+  <div id="lr-container" >
+    <div id="l-container" >
+      <button onclick="createTask()" id="create-task-btn" >Create task</button>
+      <button onclick="ongoingTasks()" id="ongoing-tasks-btn" >Ongoing tasks</button>
+    </div>
+
+    <div id="r-container" >
+      <div id="create-task-container" hidden >
+        <input type="text" />
+      </div>
+
+      <table id="ongoing-tasks-table" hidden >
+        <tr>
+          <th>S. No.</th>
+          <th>Task title</th>
+          <th>Deadline</th>
+          <th>Assigned by:</th>
+        </tr>
+        <tr>
+          <td>1.</td>
+          <td>r2c2</td>
+          <td>r2c3</td>
+          <td>r2c4</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+  const create_task_container = document.getElementById("create-task-container");
+  const ongoing_tasks_table = document.getElementById("ongoing-tasks-table");
+
+  function createTask() {
+    ongoing_tasks_table.hidden = true;
+    create_task_container.hidden = false;
+  }
+
+  function ongoingTasks() {
+    create_task_container.hidden = true;
+    ongoing_tasks_table.hidden = false;
+  }
+</script>
+
 {% else %}
 
 <div id="col" >
