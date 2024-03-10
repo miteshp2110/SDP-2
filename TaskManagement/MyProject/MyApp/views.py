@@ -79,14 +79,17 @@ def activeConnections(request):
 def addConnection(request):
     instance=UserData.objects.get(email=request.session.get('email'))
     instance1=(get_object_or_404(allUser)).userObj['users']
-
     return render(request,'addConnection.html',{'instance':instance,'instance1':instance1})
 
 
 def feedback(request):
     isAuthenticated = request.session.get('isAuthenticated')
     if isAuthenticated:
-        return render(request,'feedback.html')
+        if request.method == 'POST':
+            messages.error(request, 'Feedback sent successfully!')
+            return redirect('home')
+        else:
+            return render(request,'feedback.html')
     messages.error(request, 'Login first!')
     return redirect('home')
 

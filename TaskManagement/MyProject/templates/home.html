@@ -7,6 +7,19 @@
 {% if isAuthenticated %}
 hi {{instance.name}}
 {{instance.password}}
+
+
+<div class="create-button1">
+  <button onclick="showCreateButtons()">Create New Program</button>
+</div>
+
+<div class="create-button">
+  <button onclick="createIndividualTask()">Individual Tasks</button>
+  <input type="text" placeholder="Enter task for individual" id="individualTaskText"/>
+  <input type="text" placeholder="Enter task for group" id="groupTaskText"/>
+  <button onclick="createGroupTask()">Group Tasks</button>
+</div>
+
 {% else %}
 
 <div id="col" >
@@ -67,11 +80,13 @@ hi {{instance.name}}
 {% if messages %}
     {% for message in messages %}
         <div style="
-        width: 150px;
+        width: 25vw;
         font-size: x-large;
-        border-left: 4px solid red;
+        background-color: white;
+        border-left: 4px solid rgb(0, 38, 255);
         border-radius: 5px;
         box-shadow: 0 0 10px 2px #d9d9d9;
+        padding-left: 1vw;
         position: absolute;
         top: 10vh;
         left: -30vw;

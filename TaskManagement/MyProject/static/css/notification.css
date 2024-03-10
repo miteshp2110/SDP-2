@@ -2,6 +2,9 @@
     scale:1.2;
 }
 
+.notification-container::-webkit-scrollbar {
+    display: none;
+}
 .notification-container {
     height: 70vh;
     overflow: auto;
