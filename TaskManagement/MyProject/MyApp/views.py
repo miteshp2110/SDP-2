@@ -158,10 +158,13 @@ def addTask(request):
 
     myObj={'Title':title,'Description':description,'Deadline':deadline,'Employed':employed}
     instance=(get_object_or_404(UserData,email=request.session.get('email')))
+    print(instance.assignedTask)
     i1=instance.assignedTask['tasks']
     i1.append(myObj)
-    instance.assignedTask=i1
+    print(i1)
+    instance.assignedTask['tasks']=i1
     instance.save()
+
 
 
 
