@@ -1,7 +1,3 @@
-body {
-    background-color: #d9d9d9;
-}
-
 #homeLogo {
     scale: 1.2;
 }
@@ -42,40 +38,56 @@ img {
     height: 60vh;
 }
 
-#dashboard-container {
-    margin: 0 2vh;
+#err-msg {
+    width: 25vw;
+    font-size: x-large;
+    background-color: white;
+    border-left: 4px solid blue;
+    border-radius: 5px;
+    box-shadow: 0 0 10px 2px #d9d9d9;
+    position: absolute;
+    top: 10vh;
+    left: -30vw;
+    transition: left 700ms ease;
 }
 
 h1 {
     text-align: left;
     font-size: 50px;
-    border-bottom: 1px solid black;
+    margin-left: 1vw;
 }
 
 #lr-container {
-    border: 1px solid red;
     display: flex;
-    height: 75vh;
+    height: 77vh;
     overflow: auto;
+    align-items: center;
 }
 
 #l-container {
-    border: 1px solid green;
-    width: 17vw;
+    width: 15vw;
+    height: 73vh;
     display: flex;
     align-items: center;
     flex-direction: column;
+    margin-left: 1vw;
+    padding: 0 0.5vw;
+    box-shadow: 0 0 10px 2px #d9d9d9;
+    border-radius: 10px;
 }
 #r-container {
-    border: 1px solid green;
     width: 80vw;
-    margin-left: 2vw;
+    height: 72vh;
+    margin-left: 1vw;
+    border-radius: 10px;
+    padding: 0.5vh 0.5vw;
+    overflow: auto;
 }
 #r-container::-webkit-scrollbar {
     display: none;
 }
 
-#create-task-btn, #ongoing-tasks-btn {
+#create-task-btn, #assigned-tasks-btn, #pending-tasks-btn {
     color: black;
     height: 6vh;
     width: 100%;
@@ -83,15 +95,26 @@ h1 {
     font-size: x-large;
     cursor: pointer;
     text-align: center;
-    border: 1px solid red;
+    border: none;
+    border-radius: 3px;
+    background-color: white;
 }
-#create-task-btn:hover, #ongoing-tasks-btn:hover {
-    background-color: #bebebe;
+#create-task-btn:hover, #assigned-tasks-btn:hover, #pending-tasks-btn:hover {
+    background-color: #e0e0e0;
 }
 
-table, th, td {
-    border: 1px solid black;
-    border-collapse: collapse;
+.task-assigned {
+    font-size: large;
+    box-shadow: 0 0 10px 2px #d9d9d9;
+    border-radius: 15px;
+    padding: 1vh;
+    display: flex;
+    margin-bottom: 3vh;
+}
+.task-assigned div {
+    display: flex;
+    align-items: center;
+    /* border: 1px solid red; */
 }
 .inputField{
     margin-top:10vh;
