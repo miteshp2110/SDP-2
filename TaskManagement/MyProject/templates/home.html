@@ -19,10 +19,25 @@
       <button onclick="assignedTasks()" id="assigned-tasks-btn" >Assigned tasks</button>
     </div>
 
+
+
     <div id="r-container" >
+
       <div id="pending-tasks-container" hidden >
-        for pending tasks!
+        <h1>Pending tasks</h1>
+        <br />
+        <div class="task-assigned" >
+          <div style="flex-grow: 0.2;" >1.</div>
+          <div style="flex-grow: 8;" >
+            Task Title
+            <br />
+            Description
+          </div>
+          <div style="flex-grow: 3;" >Deadline</div>
+          <div style="flex-grow: 4;" >Assigned to</div>
+        </div>
       </div>
+
 
       <div id="create-task-container" hidden >
         <h1>Create a Task</h1>
@@ -48,6 +63,8 @@
       </div>
 
       <div id="assigned-tasks-container"  >
+        <h1>Assigned tasks</h1>
+        <br />
         <div class="task-assigned" >
           <div style="flex-grow: 0.2;" >1.</div>
           <div style="flex-grow: 8;" >
