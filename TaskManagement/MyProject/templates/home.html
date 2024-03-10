@@ -63,34 +63,92 @@
       </div>
 
       <div id="assigned-tasks-container"  >
+
         <h1>Assigned tasks</h1>
         <br />
-        <div class="task-assigned" >
-          <div style="flex-grow: 0.2;" >1.</div>
-          <div style="flex-grow: 8;" >
-            Task Title
-            <br />
-            Description
-          </div>
-          <div style="flex-grow: 3;" >Deadline</div>
-          <div style="flex-grow: 4;" >Assigned to</div>
-        </div>
 
-        <div class="task-assigned" >
-          <div style="flex-grow: 0.2;" >2.</div>
-          <div style="flex-grow: 8;" >
-            Task Title
-            <br />
-            Description
-          </div>
-          <div style="flex-grow: 3;" >Deadline</div>
-          <div style="flex-grow: 4;" >Assigned to</div>
-        </div>
+
       </div>
     </div>
   </div>
 </div>
 <script>
+<!--  var assignedTaskArray=({{instance.assignedTask | safe}}).tasks-->
+<!--  console.log('tar: ',assignedTaskArray)-->
+<!--  var cnt= document.getElementById('assigned-tasks-container')-->
+<!--  var x=1-->
+<!--  assignedTaskArray.map((result)=>{-->
+<!--    console.log(result)-->
+<!--    const taskCard = document.createElement("div");-->
+<!--  taskCard.classList.add("task-assigned");-->
+
+<!--  const taskNumber = document.createElement("div");-->
+<!--  taskNumber.style.flexGrow = "0.2";-->
+<!--  taskNumber.textContent = i + ".";-->
+
+<!--  const taskDetails = document.createElement("div");-->
+<!--  taskDetails.style.flexGrow = "8";-->
+<!--  taskDetails.innerHTML = `<b>${result.Title}</b><br>${result.Description}`;-->
+
+<!--  const taskDeadline = document.createElement("div");-->
+<!--  taskDeadline.style.flexGrow = "3";-->
+<!--  taskDeadline.textContent = result.Deadline;-->
+
+<!--  const assignedTo = document.createElement("div");-->
+<!--  assignedTo.style.flexGrow = "4";-->
+<!--  assignedTo.textContent = result.Employed;-->
+
+<!--  taskCard.appendChild(taskNumber);-->
+<!--  taskCard.appendChild(taskDetails);-->
+<!--  taskCard.appendChild(taskDeadline);-->
+<!--  taskCard.appendChild(assignedTo);-->
+<!--  cnt.appendChild(taskCard)-->
+<!--  i++-->
+
+<!--  })-->
+
+var assignedTaskArray = {{ instance.assignedTask | safe }}.tasks;
+console.log('tar: ', assignedTaskArray);
+
+var assignedTasksContainer = document.getElementById('assigned-tasks-container');
+var taskNumber = 1;
+
+assignedTaskArray.forEach(result => {
+  console.log(result);
+
+  const taskCard = createTaskCard(result, taskNumber);
+  assignedTasksContainer.appendChild(taskCard);
+
+  taskNumber++;
+});
+
+function createTaskCard(result, taskNumber) {
+  const taskCard = document.createElement("div");
+  taskCard.classList.add("task-assigned");
+
+  const taskNumberElement = createTaskElement("div", "0.2", taskNumber + ".");
+  const taskDetailsElement = createTaskElement("div", "8", `<b>${result.Title}:&nbsp;</b>${result.Description}`);
+  const taskDeadlineElement = createTaskElement("div", "3", result.Deadline);
+  const assignedToElement = createTaskElement("div", "4", result.Employed);
+
+  taskCard.appendChild(taskNumberElement);
+  taskCard.appendChild(taskDetailsElement);
+  taskCard.appendChild(taskDeadlineElement);
+  taskCard.appendChild(assignedToElement);
+
+  return taskCard;
+}
+
+function createTaskElement(elementType, flexGrow, content) {
+  const element = document.createElement(elementType);
+  element.style.flexGrow = flexGrow;
+  element.innerHTML = content;
+  return element;
+}
+
+
+
+
   var sForm=document.getElementById('sForm')
   var availaibleMember=document.getElementById('memberContainer')
   var validMember=({{instance.activeConnections | safe}})['connections']

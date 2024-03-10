@@ -156,7 +156,7 @@ def addTask(request):
     deadline=request.POST.get('deadline')
     employed=request.POST.get('employed')
 
-    myObj={'Title':title,'Description':description,'Deadline':deadline,'Employed':employed}
+    myObj={'Title':title,'Description':description,'Deadline':deadline,'Employed':employed,'AssignedBy':request.session.get('email')}
     instance=(get_object_or_404(UserData,email=request.session.get('email')))
     print(instance.assignedTask)
     i1=instance.assignedTask['tasks']
