@@ -15,6 +15,7 @@ class UserData(models.Model):
     connectionSent=models.JSONField(blank=True,default={'requests':[]})
     connectionRecieved=models.JSONField(blank=True,default={'requests':[]})
     activeConnections=models.JSONField(blank=True,default={'connections':[]})
+    notification=models.JSONField(blank=True,default={'notifications':[]})
     class Meta:
         db_table="Users"
 
