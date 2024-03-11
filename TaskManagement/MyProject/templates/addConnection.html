@@ -36,8 +36,9 @@
     var usersArray={{instance1 | safe}}
     var connectionSent=({{instance.connectionSent | safe}}).requests
     var activeConnection=({{instance.activeConnections | safe}}).connections
+    var conRecieved=({{instance.connectionRecieved | safe}}).requests
     activeConnection.push("{{instance.email}}")
-    var fnlArray= usersArray.filter(value => !activeConnection.includes(value) && !connectionSent.includes(value));
+    var fnlArray= usersArray.filter(value => !activeConnection.includes(value) && !connectionSent.includes(value) && !conRecieved.includes(value));
     var connectionContainer=document.querySelector('.connectionContainer')
     var i=0
     var sForm=document.getElementById('sForm')
