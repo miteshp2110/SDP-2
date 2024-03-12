@@ -51,3 +51,9 @@
 .vb-right:hover {
     background-color: #ff7171;
 }
+.vb-lr {
+    border-radius: 4px;
+}
+.vb-lr:hover {
+    background-color: #ff7171;
+}
