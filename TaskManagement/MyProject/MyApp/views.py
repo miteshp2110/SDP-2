@@ -10,8 +10,12 @@ from django.contrib import messages
 def home(request):
     isAuthenticated = request.session.get("isAuthenticated")
     if (isAuthenticated):
+
+
         instance = UserData.objects.get(email=request.session.get('email'))
-        return render(request,'home.html',{'isAuthenticated':True,'instance':instance})
+        length_AssignedTasks=len(instance.assignedTask['tasks'])
+        length = len(instance.notification['notifications']) + len(instance.connectionRecieved['requests'])
+        return render(request,'home.html',{'isAuthenticated':True,'instance':instance,'length':length,'taskLength':length_AssignedTasks})
 
     return render(request,'home.html')
 @csrf_exempt
@@ -19,7 +23,8 @@ def account(request):
     isAuthenticated=request.session.get("isAuthenticated")
     if(isAuthenticated):
         instance=UserData.objects.get(email=request.session.get('email'))
-        return render(request,'account.html',{'isAuthenticated':True,'instance':instance})
+        length = len(instance.notification['notifications']) + len(instance.connectionRecieved['requests'])
+        return render(request,'account.html',{'isAuthenticated':True,'instance':instance,'length':length})
     else:
         if (request.method == "POST"):
             verificationEmail = request.POST.get('email')
@@ -65,8 +70,13 @@ def login(request):
 def notification(request):
     isAuthenticated = request.session.get('isAuthenticated')
     if isAuthenticated:
+
+
         instance = UserData.objects.get(email=request.session.get('email'))
-        return render(request,'notification.html', {'isAuthenticated': isAuthenticated,'instance':instance})
+
+        length=len(instance.notification['notifications'])+len(instance.connectionRecieved['requests'])
+
+        return render(request,'notification.html', {'isAuthenticated': isAuthenticated,'instance':instance,'length':length})
     messages.error(request, 'Login first!')
     return redirect('home')
 
@@ -196,6 +206,15 @@ def addTask(request):
 
     return redirect('home')
 
+@csrf_exempt
+def clrNotification(request):
+    num=request.POST.get('notificationNumber')
+    instance=get_object_or_404(UserData,email=request.session.get('email'))
+    i1=instance.notification['notifications']
+    i1.pop(num)
+    instance.notification['notifications']=i1
+    instance.save()
+    return redirect('notification')
 
 
 

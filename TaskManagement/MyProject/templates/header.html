@@ -10,10 +10,14 @@
 
 <body>
 <div class="headerContainer">
+    {% if length != 0 %}
+    <div class="notificationNumber">{{length}}</div>
+    {% endif %}
     <a href="/"><img src="{% static 'resources/home_svg.svg' %}" alt="home" id="homeLogo"> </a>
     <a href="/notification"><img src="{% static 'resources/bell_svg.svg' %}" alt="notification" id="bellLogo"></a>
     <a href="/account"><img src="{% static 'resources/account_svg.svg' %}" alt="account" id="accountLogo"></a>
 </div>
+
 
 {% block header %}{% endblock %}
 
