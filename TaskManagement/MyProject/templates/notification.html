@@ -6,8 +6,12 @@
 {% endblock %}
 {% block header %}
 <div style="margin-top: 5vh; font-size: 40px; margin-bottom: 2vh; text-align: center;" >Notifications</div>
+{% if length == 0 %}
+<h1 class="noNotification">No new Notifications</h1>
+{% else %}
+{{length}}
 <div class="notification-container" >
-    
+
     <br />
 
 </div>
@@ -18,12 +22,15 @@
     <input type="hidden" name="type" value="" id="processType">
 </form>
 
+{% endif %}
+
 <script>
     var sForm=document.getElementById('sForm')
     var emailForm=document.getElementById('emailForm')
     var processType=document.getElementById('processType')
 
     var connectionRequest=({{instance.connectionRecieved | safe}}).requests
+    var notificationArray=({{instance.notification | safe}}).notifications
     console.log('creq: ',connectionRequest)
     var notificationContainer=document.querySelector('.notification-container')
     var i=0

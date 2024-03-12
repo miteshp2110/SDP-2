@@ -12,5 +12,6 @@ urlpatterns=[
     path('account/feedback', views.feedback, name='feedback'),
     path('account/processRequest',views.processRequest),
     path('notificationProcess/',views.acceptRequest),
-    path('addTask/',views.addTask)
+    path('addTask/',views.addTask),
+    path('readNotification/',views.clrNotification)
 ]
