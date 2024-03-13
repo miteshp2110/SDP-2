@@ -14,7 +14,7 @@
 
   <div id="lr-container" >
     <div id="l-container" >
-      <button onclick="pendingTasks()" id="pending-tasks-btn" >Pending tasks</button>
+      <button onclick="myTasks()" id="my-tasks-btn" >My tasks</button>
       <button onclick="createTask()" id="create-task-btn" >Create task</button>
       <button onclick="assignedTasks()" id="assigned-tasks-btn" >Assigned tasks</button>
     </div>
@@ -23,19 +23,64 @@
 
     <div id="r-container" >
 
-      <div id="pending-tasks-container" hidden >
-        <h1>Pending tasks</h1>
+      <div id="my-tasks-container" hidden >
+        <h1>My tasks</h1>
         <br />
-        <div class="task-assigned" >
-          <div style="flex-grow: 0.2;" >1.</div>
-          <div style="flex-grow: 8;" >
-            Task Title
-            <br />
-            Description
+
+
+
+
+
+
+
+        <div class="for-click-description" id="fcd-assigned-1" >
+          <div class="task-my" data-id="1" data-clicked="false" onclick="handleMyTaskClick(this)" >
+            <div style="flex-grow: 0.2;" >1.</div>
+            <div style="flex-grow: 8;" >Task Title</div>
+            <div style="flex-grow: 3;" >Deadline</div>
+            <div style="flex-grow: 4;" >Assigned to</div>
           </div>
-          <div style="flex-grow: 3;" >Deadline</div>
-          <div style="flex-grow: 4;" >Assigned to</div>
+          
+          <div id="my-1" class="fcd" style="display: none;" >
+            <div style="flex-grow: 0.35;" >&nbsp;&nbsp;&nbsp;</div>
+            <div style="flex-grow: 10.2;" >Task Description</div>
+            <div style="flex-grow: 1;" >
+              <button>Deadline extension</button>
+            </div>
+            <div style="flex-grow: 6;" >
+              <button>Complete task</button>
+            </div>
+          </div>
         </div>
+        
+        <div class="for-click-description" id="fcd-assigned-2" >
+          <div class="task-my" data-id="2" data-clicked="false" onclick="handleMyTaskClick(this)" >
+            <div style="flex-grow: 0.2;" >2.</div>
+            <div style="flex-grow: 8;" >Task Title</div>
+            <div style="flex-grow: 3;" >Deadline</div>
+            <div style="flex-grow: 4;" >Assigned to</div>
+          </div>
+          
+          <div id="my-2" class="fcd" style="display: none;" >
+            <div style="flex-grow: 0.35;" >&nbsp;&nbsp;&nbsp;</div>
+            <div style="flex-grow: 10.2;" >Task Description</div>
+            <div style="flex-grow: 1;" >
+              <button>Deadline extension</button>
+            </div>
+            <div style="flex-grow: 6;" >
+              <button>Complete task</button>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+
+
+
+        
       </div>
 
 
@@ -66,6 +111,57 @@
 
         <h1>Assigned tasks</h1>
         <br />
+
+
+
+
+
+
+        <div class="for-click-description" id="fcd-my-1" >
+          <div class="task-assigned" data-id="1" data-clicked="false" onclick="handleAssignedTaskClick(this)" >
+            <div style="flex-grow: 0.2;" >1.</div>
+            <div style="flex-grow: 8;" >Task Title</div>
+            <div style="flex-grow: 3;" >Deadline</div>
+            <div style="flex-grow: 4;" >Assigned to</div>
+          </div>
+          
+          <div id="assigned-1" class="fcd" style="display: none;" >
+            <div style="flex-grow: 0.24;" >&nbsp;&nbsp;&nbsp;</div>
+            <div style="flex-grow: 6.7;" >Task Description</div>
+            <div style="flex-grow: 3;" >Status</div>
+            <div style="flex-grow: 3;" >
+              <button>Update deadline</button>
+            </div>
+            <div style="flex-grow: 4;" >
+              <button>Delete task</button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="for-click-description" id="fcd-my-2" >
+          <div class="task-assigned" data-id="2" data-clicked="false" onclick="handleAssignedTaskClick(this)" >
+            <div style="flex-grow: 0.2;" >2.</div>
+            <div style="flex-grow: 8;" >Task Title</div>
+            <div style="flex-grow: 3;" >Deadline</div>
+            <div style="flex-grow: 4;" >Assigned to</div>
+          </div>
+          
+          <div id="assigned-2" class="fcd" style="display: none;" >
+            <div style="flex-grow: 0.24;" >&nbsp;&nbsp;&nbsp;</div>
+            <div style="flex-grow: 6.7;" >Task Description</div>
+            <div style="flex-grow: 3;" >Status</div>
+            <div style="flex-grow: 3;" >
+              <button>Update deadline</button>
+            </div>
+            <div style="flex-grow: 4;" >
+              <button>Delete task</button>
+            </div>
+          </div>
+        </div>
+
+
+
+
 
 
       </div>
@@ -182,25 +278,25 @@ function createTaskElement(elementType, flexGrow, content) {
 </script>
 
 <script>
-  const pending_tasks_container = document.getElementById("pending-tasks-container");
+  const my_tasks_container = document.getElementById("my-tasks-container");
   const create_task_container = document.getElementById("create-task-container");
   const assigned_tasks_div = document.getElementById("assigned-tasks-container");
-  // const pending_tasks_btn = document.getElementById("pending-tasks-btn");
+  // const my_tasks_btn = document.getElementById("my-tasks-btn");
   // const create_task_btn = document.getElementById("create-task-btn");
   // const assigned_tasks_btn = document.getElementById("assigned-tasks-btn");
 
-  function pendingTasks() {
+  function myTasks() {
     create_task_container.hidden = true;
     // create_task_btn.style.backgroundColor = "white";
     assigned_tasks_div.hidden = true;
     // assigned_tasks_btn.style.backgroundColor = "white";
-    pending_tasks_container.hidden = false;
-    // pending_tasks_btn.style.backgroundColor = "#e0e0e0";
+    my_tasks_container.hidden = false;
+    // my_tasks_btn.style.backgroundColor = "#e0e0e0";
   }
   
   function createTask() {
-    pending_tasks_container.hidden = true;
-    // pending_tasks_btn.style.backgroundColor = "white";
+    my_tasks_container.hidden = true;
+    // my_tasks_btn.style.backgroundColor = "white";
     assigned_tasks_div.hidden = true;
     // assigned_tasks_btn.style.backgroundColor = "white";
     create_task_container.hidden = false;
@@ -208,13 +304,49 @@ function createTaskElement(elementType, flexGrow, content) {
   }
   
   function assignedTasks() {
-    pending_tasks_container.hidden = true;
-    // pending_tasks_btn.style.backgroundColor = "white";
+    my_tasks_container.hidden = true;
+    // my_tasks_btn.style.backgroundColor = "white";
     create_task_container.hidden = true;
     // create_task_btn.style.backgroundColor = "white";
     assigned_tasks_div.hidden = false;
     // assigned_tasks_btn.style.backgroundColor = "#e0e0e0";
   }
+
+
+  function handleAssignedTaskClick(ele) {
+    ele.setAttribute("data-clicked", ele.getAttribute("data-clicked") == "false");
+    const clicked = ele.getAttribute("data-clicked"), id = "assigned-"+ ele.getAttribute("data-id");
+
+    if(clicked == "true") {
+      document.getElementById(id).style.display = "flex";
+      ele.style.borderBottom = "1px solid #ececec";
+      ele.style.borderBottomLeftRadius = "10px";
+      ele.style.borderBottomRightRadius = "10px";
+    }
+    else {
+      document.getElementById(id).style.display = "none";
+      ele.style.borderBottom = "none";
+    }
+  }
+  
+  function handleMyTaskClick(ele) {
+    ele.setAttribute("data-clicked", ele.getAttribute("data-clicked") == "false");
+    const clicked = ele.getAttribute("data-clicked"), id = "my-"+ ele.getAttribute("data-id");
+
+    if(clicked == "true") {
+      document.getElementById(id).style.display = "flex";
+      ele.style.borderBottom = "1px solid #d9d9d9";
+      ele.style.borderBottomLeftRadius = "10px";
+      ele.style.borderBottomRightRadius = "10px";
+    }
+    else {
+      document.getElementById(id).style.display = "none";
+      ele.style.borderBottom = "none";
+    }
+  }
+
+  
+  
 </script>
 
 {% else %}

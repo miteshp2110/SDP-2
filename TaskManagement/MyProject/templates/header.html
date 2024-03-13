@@ -31,7 +31,7 @@
         const notificationNumberRight = bellLogoRect.right;
 
         notificationNumber.style.top = notificationNumberTop +"px";
-        notificationNumber.style.right = (window.innerWidth - (1.016 * notificationNumberRight) + (bellLogoWidth / 2)) +"px";
+        notificationNumber.style.right = (window.innerWidth - notificationNumberRight - (notificationNumberRight / 60) + (bellLogoWidth / 2)) +"px";
     }
 
     positionNotificationNumber();
