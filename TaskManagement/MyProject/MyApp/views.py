@@ -208,7 +208,7 @@ def addTask(request):
 
 @csrf_exempt
 def clrNotification(request):
-    num=request.POST.get('notificationNumber')
+    num=int(request.POST.get('notificationNumber'))
     instance=get_object_or_404(UserData,email=request.session.get('email'))
     i1=instance.notification['notifications']
     i1.pop(num)
