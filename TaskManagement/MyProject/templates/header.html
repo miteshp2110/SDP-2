@@ -11,12 +11,31 @@
 <body>
 <div class="headerContainer">
     {% if length != 0 %}
-    <div class="notificationNumber">{{length}}</div>
+    <div id="notificationNumber">{{length}}</div>
     {% endif %}
     <a href="/"><img src="{% static 'resources/home_svg.svg' %}" alt="home" id="homeLogo"> </a>
     <a href="/notification"><img src="{% static 'resources/bell_svg.svg' %}" alt="notification" id="bellLogo"></a>
     <a href="/account"><img src="{% static 'resources/account_svg.svg' %}" alt="account" id="accountLogo"></a>
 </div>
+
+<script>
+    const bellLogo = document.getElementById("bellLogo");
+    const notificationNumber = document.getElementById("notificationNumber");
+
+    function positionNotificationNumber() {
+        const bellLogoRect = bellLogo.getBoundingClientRect();
+        const bellLogoWidth = bellLogo.offsetWidth;
+        const bellLogoHeight = bellLogo.offsetHeight;
+
+        const notificationNumberTop = bellLogoRect.top;
+        const notificationNumberRight = bellLogoRect.right;
+
+        notificationNumber.style.top = notificationNumberTop +"px";
+        notificationNumber.style.right = (window.innerWidth - notificationNumberRight - (notificationNumberRight / 60) + (bellLogoWidth / 2)) +"px";
+    }
+
+    positionNotificationNumber();
+</script>
 
 
 {% block header %}{% endblock %}
