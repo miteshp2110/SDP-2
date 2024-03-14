@@ -3,6 +3,9 @@
     margin:0px;
 
 }
+*::-webkit-scrollbar {
+    display: none;
+}
 
 .headerContainer{
     background:black;

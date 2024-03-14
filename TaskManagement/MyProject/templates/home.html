@@ -23,8 +23,8 @@
 
     <div id="r-container" >
 
-      <div id="my-tasks-container" hidden >
-        <h1>My tasks</h1>
+      <div id="my-tasks-container" >
+        <h1 style="font-size: 35px;" >My tasks</h1>
         <br />
 
 
@@ -35,10 +35,10 @@
 
         <div class="for-click-description" id="fcd-assigned-1" >
           <div class="task-my" data-id="1" data-clicked="false" onclick="handleMyTaskClick(this)" >
-            <div style="flex-grow: 0.2;" >1.</div>
-            <div style="flex-grow: 8;" >Task Title</div>
-            <div style="flex-grow: 3;" >Deadline</div>
-            <div style="flex-grow: 4;" >Assigned to</div>
+            <div style="width: 10px;" >1.</div>
+            <div style="width: 400px; overflow-wrap: anywhere;" >a;slkdjf;lasjkd;fljas; ldfj;lajsdfsdjf;lajs;dlfjka;lksdj;flkjas;ldkfja;lskdjf;laksjd;fl kjasd;lkfj;laksdjf;lkasjd</div>
+            <div style="width: 150px;" >Deadline</div>
+            <div style="width: 200px;" >Assigned to</div>
           </div>
           
           <div id="my-1" class="fcd" style="display: none;" >
@@ -85,7 +85,7 @@
 
 
       <div id="create-task-container" hidden >
-        <h1>Create a Task</h1>
+        <h1 style="font-size: 35px;" >Create a Task</h1>
         <form id="sForm" method="post" action="/addTask/">
           {% csrf_token %}
           <input type="text" placeholder="TaskTitle" name="title" class="inputField">
@@ -107,9 +107,9 @@
 
       </div>
 
-      <div id="assigned-tasks-container"  >
+      <div id="assigned-tasks-container" hidden >
 
-        <h1>Assigned tasks</h1>
+        <h1 style="font-size: 35px;" >Assigned tasks</h1>
         <br />
 
 
@@ -169,39 +169,39 @@
   </div>
 </div>
 <script>
-<!--  var assignedTaskArray=({{instance.assignedTask | safe}}).tasks-->
-<!--  console.log('tar: ',assignedTaskArray)-->
-<!--  var cnt= document.getElementById('assigned-tasks-container')-->
-<!--  var x=1-->
-<!--  assignedTaskArray.map((result)=>{-->
-<!--    console.log(result)-->
-<!--    const taskCard = document.createElement("div");-->
-<!--  taskCard.classList.add("task-assigned");-->
+//  var assignedTaskArray=({{instance.assignedTask | safe}}).tasks
+//  console.log('tar: ',assignedTaskArray)
+//  var cnt= document.getElementById('assigned-tasks-container')
+//  var x=1
+//  assignedTaskArray.map((result)=>{
+//    console.log(result)
+//    const taskCard = document.createElement("div");
+//  taskCard.classList.add("task-assigned");
 
-<!--  const taskNumber = document.createElement("div");-->
-<!--  taskNumber.style.flexGrow = "0.2";-->
-<!--  taskNumber.textContent = i + ".";-->
+//  const taskNumber = document.createElement("div");
+//  taskNumber.style.flexGrow = "0.2";
+//  taskNumber.textContent = i + ".";
 
-<!--  const taskDetails = document.createElement("div");-->
-<!--  taskDetails.style.flexGrow = "8";-->
-<!--  taskDetails.innerHTML = `<b>${result.Title}</b><br>${result.Description}`;-->
+//  const taskDetails = document.createElement("div");
+//  taskDetails.style.flexGrow = "8";
+//  taskDetails.innerHTML = `<b>${result.Title}</b><br>${result.Description}`;
 
-<!--  const taskDeadline = document.createElement("div");-->
-<!--  taskDeadline.style.flexGrow = "3";-->
-<!--  taskDeadline.textContent = result.Deadline;-->
+//  const taskDeadline = document.createElement("div");
+//  taskDeadline.style.flexGrow = "3";
+//  taskDeadline.textContent = result.Deadline;
 
-<!--  const assignedTo = document.createElement("div");-->
-<!--  assignedTo.style.flexGrow = "4";-->
-<!--  assignedTo.textContent = result.Employed;-->
+//  const assignedTo = document.createElement("div");
+//  assignedTo.style.flexGrow = "4";
+//  assignedTo.textContent = result.Employed;
 
-<!--  taskCard.appendChild(taskNumber);-->
-<!--  taskCard.appendChild(taskDetails);-->
-<!--  taskCard.appendChild(taskDeadline);-->
-<!--  taskCard.appendChild(assignedTo);-->
-<!--  cnt.appendChild(taskCard)-->
-<!--  i++-->
+//  taskCard.appendChild(taskNumber);
+//  taskCard.appendChild(taskDetails);
+//  taskCard.appendChild(taskDeadline);
+//  taskCard.appendChild(assignedTo);
+//  cnt.appendChild(taskCard)
+//  i++
 
-<!--  })-->
+//  })
 
 var assignedTaskArray = {{ instance.assignedTask | safe }}.tasks;
 console.log('tar: ', assignedTaskArray);
@@ -320,8 +320,6 @@ function createTaskElement(elementType, flexGrow, content) {
     if(clicked == "true") {
       document.getElementById(id).style.display = "flex";
       ele.style.borderBottom = "1px solid #ececec";
-      ele.style.borderBottomLeftRadius = "10px";
-      ele.style.borderBottomRightRadius = "10px";
     }
     else {
       document.getElementById(id).style.display = "none";
@@ -336,8 +334,6 @@ function createTaskElement(elementType, flexGrow, content) {
     if(clicked == "true") {
       document.getElementById(id).style.display = "flex";
       ele.style.borderBottom = "1px solid #d9d9d9";
-      ele.style.borderBottomLeftRadius = "10px";
-      ele.style.borderBottomRightRadius = "10px";
     }
     else {
       document.getElementById(id).style.display = "none";

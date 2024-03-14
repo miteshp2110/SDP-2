@@ -10,7 +10,7 @@
 
 <body>
 <div class="headerContainer">
-    {% if length != 0 %}
+    {% if length %}
     <div id="notificationNumber">{{length}}</div>
     {% endif %}
     <a href="/"><img src="{% static 'resources/home_svg.svg' %}" alt="home" id="homeLogo"> </a>
@@ -18,6 +18,7 @@
     <a href="/account"><img src="{% static 'resources/account_svg.svg' %}" alt="account" id="accountLogo"></a>
 </div>
 
+{% if length %}
 <script>
     const bellLogo = document.getElementById("bellLogo");
     const notificationNumber = document.getElementById("notificationNumber");
@@ -36,6 +37,7 @@
 
     positionNotificationNumber();
 </script>
+{% endif %}
 
 
 {% block header %}{% endblock %}

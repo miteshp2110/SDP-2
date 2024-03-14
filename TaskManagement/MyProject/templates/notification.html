@@ -5,10 +5,10 @@
 <link rel="stylesheet" href="{% static 'css/notification.css' %}">
 {% endblock %}
 {% block header %}
-<div style="margin-top: 5vh; font-size: 40px; margin-bottom: 2vh; text-align: center;" >Notifications</div>
+<h1 style="margin-top: 5vh; margin-bottom: 2vh; text-align: center; font-size: 50px;" >Notifications</h1>
 {% if length == 0 %}
 <div id="noNotification-container" >
-    <h1 class="noNotification">No new Notifications</h1>
+    <div class="noNotification">No new Notifications</div>
 </div>
 {% else %}
 <div class="notification-container" >

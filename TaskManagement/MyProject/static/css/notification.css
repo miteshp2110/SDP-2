@@ -2,9 +2,6 @@
     scale:1.2;
 }
 
-.notification-container::-webkit-scrollbar {
-    display: none;
-}
 .notification-container {
     height: 70vh;
     overflow: auto;
@@ -16,7 +13,7 @@
 .notification {
     width: 60vw;
     padding: 2vw;
-    border-radius: 5px;
+    border-radius: 8px;
     box-shadow: 0 0 10px 2px #d9d9d9;
     margin-bottom: 3vh;
     display: flex;
@@ -62,9 +59,10 @@
 .noNotification{
     padding:3px;
     background-color: white;
-    border-radius:10px;
+    border-radius: 8px;
     box-shadow: 0 0 10px 2px #d9d9d9;
     width:fit-content;
+    font-size: 35px;
 }
 #noNotification-container {
     margin-top: 6vh;
