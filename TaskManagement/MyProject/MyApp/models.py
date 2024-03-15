@@ -21,11 +21,18 @@ class UserData(models.Model):
 
 class allUser(models.Model):
     userObj=models.JSONField(blank=True,default={'users':[]})
+    feedback=models.JSONField(blank=True,default={'feedbacks':[]})
 
     class Meta:
         db_table='uList'
 
+class adminUser(models.Model):
+    email = models.EmailField(blank=False)
+    name = models.CharField(blank=False, max_length=150)
+    password = models.CharField(blank=False, max_length=150)
 
+    class Meta:
+        db_table='admins'
 
 
 
