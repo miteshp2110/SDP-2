@@ -76,24 +76,6 @@
 
   styleFn();
 </script>
-{% endif %}
-
-{% if messages %}
-    {% for message in messages %}
-        <div id="err-msg" >
-            {{message}}
-        </div>
-
-        <script>
-          setTimeout(() => {
-            document.getElementById("err-msg").style.left = "3vw";
-            setTimeout(() => {
-              document.getElementById("err-msg").hidden = true;
-            }, 2500);
-          }, 500);
-        </script>
-    {% endfor %}
-{% endif %}
 
 </body>
 </html>
