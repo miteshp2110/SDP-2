@@ -1,35 +1,44 @@
 *{
     padding:0px;
     margin:0px;
-
+}
+*::-webkit-scrollbar {
+    display: none;
 }
 
-.headerContainer{
-    background:black;
-    width:30vw;
-    height:10vh;
-    margin-left:35vw;
-    border-radius:0px 0px 10px 10px;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+.header-container{
+    background: #FFFFFF;
+    height:8vh;
     padding:8px;
+    border-bottom: 1.5px solid #D9D9D9;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 4vw;
+    padding-right: 4vw;
 }
-.headerContainer img{
+.header-container img{
+    height: 6vh;
+    transition:all 0.1s;
+}
+.header-title {
+    font-size: 7vh;
+}
+.header-navs {
+    width: 17%;
+    display: flex;
+    justify-content: space-between;
+}
 
-    height:6vh;
-    margin-top:1.5vh;
-    margin-left:6vw;
-    transition:all ease-in-out 0.2s;
-    }
-
-.headerContainer img:hover{
+.header-container img:hover{
     cursor:pointer;
-    scale:1.1;
-    transition:all ease-in-out 0.3s;
-}
+    scale:1.2;
+    transition:all 0.1s;
+}    
 a{
     text-decoration: none;
     color:white;
-}
+}    
 
 #notificationNumber{
     z-index: 1;
