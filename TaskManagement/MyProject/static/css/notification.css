@@ -3,7 +3,7 @@
 }
 
 .notification-container {
-    height: 70vh;
+    height: 87vh;
     overflow: auto;
     display: flex;
     flex-direction: column;

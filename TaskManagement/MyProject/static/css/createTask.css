@@ -2,47 +2,110 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-
-    border: 1px solid royalblue;
 }
 
-#create-form div {
+#create-form + div {
     border: 1px solid red;
+}
+
+#task-title {
+    width: 25vw;
+}
+
+#task-title, #task-deadline {
+    font-size: 20px;
+    margin-left: 1vw;
+}
+
+label, #task-description {
+    font-size: x-large;
+}
+
+#task-assign-to {
+    font-size: 20px;
+    height: 30vh;
 }
 
 .task-assign-to-radio {
     opacity: 0;
+    margin-left: -2vw;
 }
 
 .task-assign-to-label {
     color: black;
+    padding: 0.1vh 1.5vh;
 }
 
 .task-assign-to-label:hover {
     background-color: #D5D5D5;
     cursor: pointer;
+    border-radius: 50px;
 }
 
 .task-assign-to-radio:checked + .task-assign-to-label {
     color: white;
-    background-color: #5A41FF;
+    background-color: #547feb;
+    border-radius: 50px;
 }
 
 .task-assign-to-container {
-    font-size: xx-large;
+    font-size: x-large;
+    border: 1.5px solid #DEDEDE;
+    border-radius: 8px;
+    padding: 1.5vh 3vh;
+}
+
+.task-assign-to-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#assign-to-label {
+    margin-bottom: 3vh;
+    font-weight: 500;
+    font-size: 26px;
+    text-align: center;
 }
 
 #add-connections-in-assign {
     color: black;
+    font-size: large;
+    border: 1px solid black;
+    border-radius: 4px;
+    margin-left: 7%;
+    padding: 0.5vh;
+    text-align: center;
+}
+#add-connections-in-assign:hover {
+    color: white;
+    background-color: royalblue;
 }
 
 #task-description{
-    resize:none;
-    width:21.5vw;
-    height:10vh;
+    resize: none;
+    width: 30vw;
+    height: 20vh;
 }
 
-#task-deadline{
-    margin-left:1.5vw;
-    margin-top:2vh;
+#task-deadline:hover {
+    cursor: pointer;
+}
+
+#create-task {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: x-large;
+    background-color: transparent;
+    border: 1px solid black;
+    border-radius: 7px;
+    padding: 0.5vh 1vh;
+    width: 8vw;
+}
+
+#create-task:hover {
+    cursor: pointer;
+    background-color: royalblue;
+    color: white;
 }
