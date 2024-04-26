@@ -99,6 +99,12 @@ def feedback(request):
     isAuthenticated = request.session.get('isAuthenticated')
     if isAuthenticated:
         if request.method == 'POST':
+            feed=request.POST.get('comments')
+            instance=get_object_or_404(allUser)
+            i1=instance.feedback['feedbacks']
+            i1.insert(0,feed)
+            instance.feedback['feedbacks']=i1
+            instance.save()
             messages.error(request, 'Feedback sent successfully!')
             return redirect('home')
         else:
@@ -215,6 +221,10 @@ def clrNotification(request):
     instance.notification['notifications']=i1
     instance.save()
     return redirect('notification')
+
+
+
+
 
 
 

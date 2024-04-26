@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+</head>
+<body>
+<h1 style="text-align:center; margin-top:5vh; background-color:black;color:white;width:fit-content;margin-left:42.5vw;padding:3px;border-radius:10px;">Welcome Admin </h1>
+    <div class="formContainer" >
+        <form action="/admins/accountAdmin/login" method="post">
+            {% csrf_token %}
+            <input type="email" placeholder="Email" class="verificationInput" name="email" required>
+            <input type="password" placeholder="Password" class="verificationInput" name="password" required>
+            <br>
+            <button class="Btn" type="submit">Login</button>
+        </form>
+        <br>
+        <br>
+        <a href="/admins/accountAdmin" class="Btn" id="loginBtn">Or SignUp</a>
+    </div>
+
+</body>
+</html>

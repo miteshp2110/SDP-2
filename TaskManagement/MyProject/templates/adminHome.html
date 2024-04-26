@@ -4,7 +4,99 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
+<style>
+    header{
+        background-color:black;
+        height:10vh;
+        width:100%;
+        display:flex;
+        align-items:center;
+    }
+    .userName{
+        color:white;
+        font-size:2em;
+        width:fit-content;
+        height:fit-content;
+        margin-left:2vw;
+        font-weight:bold;
+    }
+    .logoutBtn{
+        font-size:1em;
+        background-color:white;
+        border:none;
+        padding:0.5em;
+        border-radius:10px;
+        right:2vw;
+        position:absolute;
+        font-weight:bold;
+        transition:all ease-in-out 0.2s ;
+    }
+    .logoutBtn:hover{
+        cursor:pointer;
+        background-color:#6082B6;
+        color:white;
+        transition:all ease-in-out 0.2s ;
+    }
+    .allUsers{
+        height:60vh;
+        width:25vw;
+        background-color:black;
+        margin-top:15vh;
+        margin-left:15vw;
+        border-radius:10px;
+        padding:5px;
+        display:flex;
+        justify-content:center;
+        color:white;
+    }
+    .allUsers h1{
+        color:white;
+    }
+</style>
 <body>
+<header>
+
+    {% if isAuthenticated %}
+        <div class="userName">Welcome {{instance.name}}</div>
+        <button class="logoutBtn" onclick="logout()">Logout</button>
+    {% else %}
+        <div class="userName">Welcome to Admin Page</div>
+        <button class="logoutBtn" onclick="login()">LogIn</button>
+    {% endif %}
+
+</header>
+    <form method="post" action="/admins/accountAdmin/logout" id="logoutForm">
+        {% csrf_token %}
+    </form>
+    {% if isAuthenticated %}
+    <script>
+        var userArray={{allUser.userObj | safe}}.users
+        var feedbackArray=({{allUser.feedback | safe}}).feedbacks
+        console.log(userArray)
+        var logoutForm=document.getElementById('logoutForm')
+        function logout(){
+            logoutForm.submit()
+        }
+
+
+    </script>
+
+    <div class="allUsers"><h1>Users Details</h1>
+        <div class="displayContainer">
+            <div class="displayCard">
+                <div class="userEmail">email@gmail.com</div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+     login to continue
+<script>
+    function login(){
+            console.log('hi')
+            window.location.replace('/admins/accountAdmin/login')
+        }
+</script>
+    {% endif %}
 
 </body>
 </html>

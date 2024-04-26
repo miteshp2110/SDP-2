@@ -87,7 +87,7 @@
             <div style="width: 15vw;" >Deadline</div>
             <div style="width: 20vw;" >Assigned to</div>
           </div>
-          
+
           <div id="my-1" class="fcd" style="display: none;" >
             <div style="width: 50vw; overflow-wrap: anywhere;" >Task Description</div>
             <div style="width: 0;" >
@@ -98,7 +98,7 @@
             </div>
           </div>
         </div>
-        
+
         <div class="for-click-description" id="fcd-assigned-2" >
           <div class="task-my" data-id="2" data-clicked="false" onclick="handleMyTaskClick(this)" >
             <div style="width: 0.2;" >2.</div>
@@ -106,7 +106,7 @@
             <div style="width: 3;" >Deadline</div>
             <div style="width: 4;" >Assigned to</div>
           </div>
-          
+
           <div id="my-2" class="fcd" style="display: none;" >
             <div style="width: 10.2;" >Task Description</div>
             <div style="width: 1;" >
@@ -125,7 +125,7 @@
 
 
 
-        
+
       </div>
 
 
@@ -413,7 +413,8 @@
     // my_tasks_btn.style.backgroundColor = "#e0e0e0";
     notesContainer.hidden = true;
   }
-  
+
+
   function createTask() {
     myTasksContainer.hidden = true;
     // my_tasks_btn.style.backgroundColor = "white";
@@ -424,7 +425,7 @@
     // create_task_btn.style.backgroundColor = "#e0e0e0";
     notesContainer.hidden = true;
   }
-  
+
   function assignedTasks() {
     myTasksContainer.hidden = true;
     // my_tasks_btn.style.backgroundColor = "white";
@@ -455,7 +456,7 @@
     else
       descriptionBox.style.height = "0";
   }
-  
+
   function handleMyTaskClick(ele) {
     ele.setAttribute("data-clicked", ele.getAttribute("data-clicked") == "false");
     const clicked = ele.getAttribute("data-clicked"), id = "my-"+ ele.getAttribute("data-id");
@@ -470,8 +471,8 @@
     }
   }
 
-  
-  
+
+
 </script>
 
 {% else %}
@@ -547,6 +548,7 @@
         </script>
     {% endfor %}
 {% endif %}
+
 
 </body>
 </html>
