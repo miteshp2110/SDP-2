@@ -1,0 +1,51 @@
+{% extends 'dashboard.html' %}
+
+{% load static %}
+
+{% block title %}
+    Notes
+{% endblock %}
+
+{% block dashboard-cssLink %}
+    <link rel="stylesheet" href="{% static 'css/notes.css' %}" >
+{% endblock %}    
+
+{% block r-container %}
+    <div id="notes-container" >
+        <h1 style="font-size: 35px; font-weight: 400;" >Notes</h1>
+        <br />
+
+        <div class="notes">
+
+
+            <!-- Note template starts -->
+            <div class="note">
+                <div class="note-title-delete">
+                    <span class="note-title">
+                        Title
+                    </span>
+                    <button class="note-delete-btn">
+                        <img src="{% static 'resources/delete.svg' %}" alt="Delete note" />
+                    </button>
+                </div>
+                <hr />
+                <div class="note-description-date">
+                    <div class="note-description">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae consectetur distinctio quaerat officiis facilis, eveniet, quo mollitia quibusdam voluptas itaque, assumenda labore quod ratione alias provident rerum ea necessitatibus odit magnam optio accusantium reprehenderit id! Molestias ipsa laboriosam obcaecati fugit numquam excepturi veritatis, dicta cumque officiis, qui laborum eum repudiandae!
+                    </div>
+                    <div class="note-date">
+                        created on: dd/mm/yyyy
+                    </div>
+                </div>
+            </div>
+            <!-- Note template ends -->
+
+
+        </div>
+    </div>
+
+
+    <script>
+        
+    </script>
+{% endblock %}

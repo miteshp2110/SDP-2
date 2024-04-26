@@ -3,6 +3,10 @@ from django.urls import path
 
 urlpatterns=[
     path('', views.home, name='home'),
+    path('createTask/', views.createTask, name='createTask'),
+    path('myTasks/', views.myTasks, name='myTasks'),
+    path('assignedTasks/', views.assignedTasks, name='assignedTasks'),
+    path('notes/', views.notes, name='notes'),
     path('account/',views.account,name='account'),
     path('notification/',views.notification,name='notification'),
     path('account/login',views.login,name='login'),

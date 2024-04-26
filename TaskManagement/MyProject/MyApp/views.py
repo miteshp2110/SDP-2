@@ -8,14 +8,8 @@ from .models import UserData,allUser
 from django.contrib import messages
 @csrf_exempt
 def home(request):
-    isAuthenticated = request.session.get("isAuthenticated")
-    if (isAuthenticated):
-
-
-        instance = UserData.objects.get(email=request.session.get('email'))
-        length_AssignedTasks=len(instance.assignedTask['tasks'])
-        length = len(instance.notification['notifications']) + len(instance.connectionRecieved['requests'])
-        return render(request,'home.html',{'isAuthenticated':True,'instance':instance,'length':length,'taskLength':length_AssignedTasks})
+    if request.session.get('isAuthenticated'):
+        return redirect('/myTasks')
 
     return render(request,'home.html')
 @csrf_exempt
@@ -217,4 +211,56 @@ def clrNotification(request):
     return redirect('notification')
 
 
+def myTasks(request):
+    isAuthenticated = request.session.get('isAuthenticated')
+    if isAuthenticated:
+        instance = UserData.objects.get(email=request.session.get('email'))
+        length_AssignedTasks = len(instance.assignedTask['tasks'])
+        length = len(instance.notification['notifications']) + len(instance.connectionRecieved['requests'])
 
+        return render(request, 'myTasks.html', {
+            'isAuthenticated': True,
+            'instance': instance,
+            'length': length,
+            'taskLength': length_AssignedTasks
+        })
+
+    return render(request, 'myTasks.html')
+
+
+def createTask(request):
+    isAuthenticated = request.session.get('isAuthenticated')
+    if isAuthenticated:
+        instance = UserData.objects.get(email=request.session.get('email'))
+        length_AssignedTasks = len(instance.assignedTask['tasks'])
+        length = len(instance.notification['notifications']) + len(instance.connectionRecieved['requests'])
+
+        return render(request, 'createTask.html', {
+            'isAuthenticated': True,
+            'instance': instance,
+            'length': length,
+            'taskLength': length_AssignedTasks
+        })
+
+    return render(request, 'createTask.html')
+
+
+def assignedTasks(request):
+    isAuthenticated = request.session.get('isAuthenticated')
+    if isAuthenticated:
+        instance = UserData.objects.get(email=request.session.get('email'))
+        length_AssignedTasks = len(instance.assignedTask['tasks'])
+        length = len(instance.notification['notifications']) + len(instance.connectionRecieved['requests'])
+
+        return render(request, 'assignedTasks.html', {
+            'isAuthenticated': True,
+            'instance': instance,
+            'length': length,
+            'taskLength': length_AssignedTasks
+        })
+
+    return render(request, 'assignedTasks.html')
+
+
+def notes(request):
+    return render(request, 'notes.html')
