@@ -1,6 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="61.992" height="68.547" viewBox="0 0 61.992 68.547">
-  <g id="Icon_feather-home" data-name="Icon feather-home" transform="translate(-3 -1.5)">
-    <path id="Path_1" data-name="Path 1" d="M4.5,25.941,34,3l29.5,22.941V61.992a6.555,6.555,0,0,1-6.555,6.555H11.055A6.555,6.555,0,0,1,4.5,61.992Z" transform="translate(0 0)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
-    <path id="Path_2" data-name="Path 2" d="M13.5,50.774V18H33.164V50.774" transform="translate(10.664 17.774)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
-  </g>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 27.1.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 60.5 68" style="enable-background:new 0 0 60.5 68;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:none;stroke:#231F20;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;}
+</style>
+<g id="Icon_feather-home" transform="translate(-3 -1.5)">
+	<path id="Path_1" class="st0" d="M4.6,25.8L33.2,3.1l28.7,22.7v35.8c0,3.6-2.8,6.5-6.4,6.5H11c-3.5,0-6.4-2.9-6.4-6.5V25.8z"/>
+	<path id="Path_2" class="st0" d="M23.7,68.1V35.6h19.1v32.5"/>
+</g>
 </svg>

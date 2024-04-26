@@ -2,10 +2,17 @@
 {% block title %}Account{% endblock %}
 {% load static %}
 {% block cssLink %}<link rel="stylesheet" href="{% static 'css/account.css' %}">{% endblock %}
+
+
+{% block header-title %}
+    {% if isAuthenticated %}
+        Account
+    {% else %}
+        SignUp
+    {% endif %}
+{% endblock %}
+
 {% block header %}
-
-
-
 
 {% if isAuthenticated %}
     <div class="nameHeader"> Welcome {{instance.name}}</div>
