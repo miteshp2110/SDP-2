@@ -52,6 +52,29 @@
     .allUsers h1{
         color:white;
     }
+    .userEmail{
+        text-align:center;
+    }
+    .displayContainer{
+        text-align:center;
+        overflow:auto;
+    }
+    .emailView{
+        margin-top:10px;
+    }
+    .allFeedback{
+        height:60vh;
+        position:absolute;
+        width:25vw;
+        background-color:black;
+        margin-top:-60vh;
+        margin-left:60vw;
+        border-radius:10px;
+        padding:5px;
+        display:flex;
+        justify-content:center;
+        color:white;
+    }
 </style>
 <body>
 <header>
@@ -73,6 +96,7 @@
         var userArray={{allUser.userObj | safe}}.users
         var feedbackArray=({{allUser.feedback | safe}}).feedbacks
         console.log(userArray)
+        console.log(feedbackArray)
         var logoutForm=document.getElementById('logoutForm')
         function logout(){
             logoutForm.submit()
@@ -81,13 +105,39 @@
 
     </script>
 
-    <div class="allUsers"><h1>Users Details</h1>
-        <div class="displayContainer">
-            <div class="displayCard">
-                <div class="userEmail">email@gmail.com</div>
-            </div>
+    <div class="allUsers">
+        <div class="displayContainer" id="mainContainer">
+            <h1>Users</h1>
+
+
+
         </div>
     </div>
+
+    <div class="allFeedback">
+        <div class="displayContainer" id="feedbackContainer">
+            <h1>Feedbacks</h1>
+
+
+
+        </div>
+    </div>
+<script>
+    var mainContainer=document.getElementById('mainContainer')
+    var feedbackContainer=document.getElementById('feedbackContainer')
+    userArray.map(obj=>{
+        newDiv=document.createElement('div')
+        newDiv.classList.add('emailView')
+        newDiv.innerHTML=obj
+        mainContainer.appendChild(newDiv)
+    })
+    feedbackArray.map(obj=>{
+        newDiv=document.createElement('div')
+        newDiv.classList.add('emailView')
+        newDiv.innerHTML=obj
+        feedbackContainer.appendChild(newDiv)
+    })
+</script>
     {% else %}
      login to continue
 <script>

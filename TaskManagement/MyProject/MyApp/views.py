@@ -1,3 +1,4 @@
+import datetime
 import json
 
 from django.shortcuts import render, redirect, get_object_or_404
@@ -265,10 +266,12 @@ def notes(request):
     if isAuthenticated:
         instance = UserData.objects.get(email=request.session.get('email'))
         length = len(instance.notification['notifications']) + len(instance.connectionRecieved['requests'])
+        notes=instance.notes.get('notes')
 
         return render(request, 'notes.html', {
             'instance': instance,
             'length': length,
+            'notes':notes
         })
 
     return render(request, 'notes.html')
@@ -296,7 +299,7 @@ def deleteTask(request):
         deletion_instance.selfTask['tasks'] = deletion_task
 
         notif = deletion_instance.notification.get('notifications')
-        newNotification = instance.email + " has deleted a task."
+        newNotification = instance.email + " has deleted a task "+task_to_delete.get('Title')
         notif.append(newNotification)
         deletion_instance.notification['notifications'] = notif
         instance.save()
@@ -304,3 +307,80 @@ def deleteTask(request):
         return JsonResponse({'message': 'Deleted'})
     else:
         return HttpResponse("ONLY POST REQUEST")
+
+def updateStatus(request):
+    if (request.method == "POST"):
+        #updationId = (json.loads(request.body)).get('updationId')
+        updationId = 0
+        instance = get_object_or_404(UserData, email=request.session.get('email'))
+        selfTask=(instance.selfTask).get('tasks')
+
+        task_to_update=selfTask[updationId]
+
+        assigned_by_email=(selfTask[updationId]).get('AssignedBy')
+        (selfTask[updationId])['Status']='Completed'
+
+        instance.selfTask['tasks']=selfTask
+
+
+        instance2=get_object_or_404(UserData,email=assigned_by_email)
+        assignedTask=(instance2.assignedTask).get('tasks')
+
+        count = 0
+        for obj in assignedTask:
+            count += 1
+            if ((obj.get('Title') == task_to_update.get('Title')) and (
+                    obj.get('Description') == task_to_update.get('Description')) and (
+                    obj.get('Deadline') == task_to_update.get('Deadline'))):
+                break
+
+
+
+        (assignedTask[count-1])['Status']="Completed"
+
+        instance2.assignedTask['tasks']=assignedTask
+
+        instance.save()
+
+        notif = instance2.notification.get('notifications')
+        newNotification = instance.email + " has Completed the task "+task_to_update.get('Title')
+        notif.append(newNotification)
+        instance2.notification['notifications'] = notif
+        instance2.save()
+        return JsonResponse({"message":"Updated Status"})
+    else:
+        return HttpResponse("ONLY POST REQUEST")
+
+@csrf_exempt
+def addNotes(request):
+    if request.method=="GET":
+        noteDescription="Hello this is a test note 2 created by Mitesh"
+        noteDate=datetime.datetime.now().date()
+        instance = get_object_or_404(UserData, email=request.session.get('email'))
+        notes = (instance.notes).get('notes')
+        tempObj={'Description: ':noteDescription,'Date':str(noteDate)}
+        notes.append(tempObj)
+        instance.notes['notes']=notes
+        instance.save()
+
+        return JsonResponse({"message": "Note Addedd Successfully"})
+    else:
+        return HttpResponse("ONLY POST REQUEST")
+
+@csrf_exempt
+def deleteNote(request):
+    deleteIndex=0
+    instance=get_object_or_404(UserData,email=request.session.get('email'))
+    notes=(instance.notes).get('notes')
+    notes.pop(deleteIndex)
+    instance.notes['notes']=notes
+    instance.save()
+    return JsonResponse({'message':"note Deleted"})
+
+def updateDeadline(request):
+    instance=get_object_or_404(UserData,email=request.session.get('email'))
+
+    if request.method=="POST":
+        print('post')
+    else:
+        return render(request,'updateDeadline.html',)
