@@ -116,7 +116,7 @@
             const taskNumberElement = createTaskElement("div", "0.2", taskNumber + ".");
             const taskDetailsElement = createTaskElement("div", "8", `<b>${result.Title}</b>`);
             const taskDeadlineElement = createTaskElement("div", "3", result.Deadline);
-            const myToElement = createTaskElement("div", "4", result.Employed);
+            const myToElement = createTaskElement("div", "4", result.AssignedBy);
 
             taskCard.appendChild(taskNumberElement);
             taskCard.appendChild(taskDetailsElement);
