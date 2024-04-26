@@ -81,6 +81,7 @@
             const taskDeleteBtnContainer = document.createElement("div");
             taskDeleteBtnContainer.classList.add("task-delete-btn-container");
             const taskDeleteBtn = document.createElement("button");
+            taskDeleteBtn.setAttribute('onclick',`deleteForm(${taskNumber-1})`)
             taskDeleteBtn.classList.add("task-delete-btn");
             taskDeleteBtnContainer.appendChild(taskDeleteBtn);
             const taskDeleteBtnImg = document.createElement("img");
@@ -129,6 +130,29 @@
                 descriptionBox.style.height = descriptionBox.scrollHeight * 0.35 + "vh";
             else
                 descriptionBox.style.height = "0";
+        }
+        function deleteForm(indx){
+            console.log('index is: '+indx)
+            fetch('/deleteTask/', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({'deletionId':indx})
+})
+.then(response => {
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+    return response.json();
+})
+.then(data => {
+    console.log('Response data:', data);
+    window.location.href="/assignedTasks"
+})
+.catch(error => {
+    console.error('Error:', error);
+});
         }
     </script>
 {% endblock %}

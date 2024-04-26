@@ -272,10 +272,11 @@ def notes(request):
         })
 
     return render(request, 'notes.html')
-  
+
+@csrf_exempt
 def deleteTask(request):
     if(request.method=="POST"):
-        deletionId=request.POST.get('deletionId')
+        deletionId=(json.loads(request.body)).get('deletionId')
         instance = get_object_or_404(UserData, email=request.session.get('email'))
         assignedTask = (instance.assignedTask).get('tasks')
         task_to_delete = assignedTask[deletionId]
