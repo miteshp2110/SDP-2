@@ -359,17 +359,20 @@ def updateStatus(request):
 
 @csrf_exempt
 def addNotes(request):
-    if request.method=="GET":
-        noteDescription="Hello this is a test note 2 created by Mitesh"
+    if request.method=="POST":
+        #req=(json.loads(request.POST))
+        print(request.POST)
+        noteTitle=request.POST.get('Title')
+        noteDescription=request.POST.get('Description')
         noteDate=datetime.datetime.now().date()
         instance = get_object_or_404(UserData, email=request.session.get('email'))
         notes = (instance.notes).get('notes')
-        tempObj={'Description: ':noteDescription,'Date':str(noteDate)}
+        tempObj={'Title':noteTitle,'Description':noteDescription,'Date':str(noteDate)}
         notes.append(tempObj)
         instance.notes['notes']=notes
         instance.save()
 
-        return JsonResponse({"message": "Note Addedd Successfully"})
+        return redirect('notes')
     else:
         return HttpResponse("ONLY POST REQUEST")
 
