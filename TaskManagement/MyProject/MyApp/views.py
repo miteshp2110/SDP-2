@@ -309,6 +309,7 @@ def deleteTask(request):
     else:
         return HttpResponse("ONLY POST REQUEST")
 
+@csrf_exempt
 def updateStatus(request):
     if (request.method == "POST"):
         #updationId = (json.loads(request.body)).get('updationId')

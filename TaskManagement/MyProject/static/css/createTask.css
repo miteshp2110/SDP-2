@@ -24,6 +24,7 @@ label, #task-description {
 #task-assign-to {
     font-size: 20px;
     height: 30vh;
+    line-height: 5vh;
 }
 
 .task-assign-to-radio {
@@ -39,18 +40,18 @@ label, #task-description {
 .task-assign-to-label:hover {
     background-color: #D5D5D5;
     cursor: pointer;
-    border-radius: 50px;
+    border-radius: 5px;
 }
 
 .task-assign-to-radio:checked + .task-assign-to-label {
     color: white;
     background-color: #547feb;
-    border-radius: 50px;
+    border-radius: 5px;
 }
 
 .task-assign-to-container {
     font-size: x-large;
-    border: 1.5px solid #DEDEDE;
+    border: 1px solid black;
     border-radius: 8px;
     padding: 1.5vh 3vh;
 }
@@ -78,8 +79,7 @@ label, #task-description {
     text-align: center;
 }
 #add-connections-in-assign:hover {
-    color: white;
-    background-color: royalblue;
+    background-color: #0051ff51;
 }
 
 #task-description{

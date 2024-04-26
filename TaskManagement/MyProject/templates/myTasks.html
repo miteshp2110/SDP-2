@@ -119,7 +119,7 @@
             const taskCompleteBtnContainer = document.createElement("div");
             taskCompleteBtnContainer.classList.add("task-update-btn-container");
             const taskCompleteBtn = document.createElement("button");
-            taskCompleteBtn.onclick = `updateStatus(${taskNumber - 1})`
+            taskCompleteBtn.setAttribute("onclick", `updateStatus(${taskNumber - 1})`)
             taskCompleteBtn.classList.add("task-update-btn");
             taskCompleteBtnContainer.appendChild(taskCompleteBtn);
             const taskCompleteBtnImg = document.createElement("img");
@@ -161,6 +161,7 @@
         }
 
         function updateStatus(indx) {
+            console.log(indx)
             fetch('/updateStatus/', {
                 method: 'POST',
                 headers: {
