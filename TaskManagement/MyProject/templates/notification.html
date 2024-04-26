@@ -4,11 +4,15 @@
 {% block cssLink %}
 <link rel="stylesheet" href="{% static 'css/notification.css' %}">
 {% endblock %}
+
+{% block header-title %}
+    Notifications
+{% endblock %}
+
 {% block header %}
-<h1 style="margin-top: 5vh; margin-bottom: 2vh; text-align: center; font-size: 50px;" >Notifications</h1>
 {% if length == 0 %}
 <div id="noNotification-container" >
-    <div class="noNotification">No new Notifications</div>
+    <div class="noNotification">No new notifications</div>
 </div>
 {% else %}
 <div class="notification-container" >

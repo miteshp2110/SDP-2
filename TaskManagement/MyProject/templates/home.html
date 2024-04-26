@@ -1,29 +1,76 @@
-{% extends 'header.html' %}
-{% block title %}Home {% endblock %}
+<!DOCTYPE html>
 {% load static %}
-{% block cssLink %}<link rel="stylesheet" href="{% static 'css/home.css' %}">{% endblock %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Home</title>
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
 
-{% block header %}
+ 
+
+</head>
+<body>
+  <div class="header-container">
+    {% if length %}
+      <div id="notificationNumber">{{length}}</div>
+    {% endif %}
+
+    <div class="header-title" >
+      {% if isAuthenticated %}
+        Dashboard
+      {% else %}
+        Home
+      {% endif %}
+    </div>
+
+    <div class="header-navs" >
+      <a href="/"><img src="{% static 'resources/home_svg.svg' %}" alt="home" id="homeLogo"> </a>
+      <a href="/notification"><img src="{% static 'resources/bell_svg.svg' %}" alt="notification" id="bellLogo"></a>
+      <a href="/account"><img src="{% static 'resources/account_svg.svg' %}" alt="account" id="accountLogo"></a>
+    </div>
+</div>
+
+  {% if length %}
+  <script>
+      const bellLogo = document.getElementById("bellLogo");
+      const notificationNumber = document.getElementById("notificationNumber");
+  
+      function positionNotificationNumber() {
+          const bellLogoRect = bellLogo.getBoundingClientRect();
+          const bellLogoWidth = bellLogo.offsetWidth;
+          const bellLogoHeight = bellLogo.offsetHeight;
+  
+          const notificationNumberTop = bellLogoRect.top;
+          const notificationNumberRight = bellLogoRect.right;
+  
+          notificationNumber.style.top = notificationNumberTop + 3 + "px";
+          notificationNumber.style.right = (window.innerWidth - notificationNumberRight - (notificationNumberRight / 60) + (bellLogoWidth / 2)) + 6 + "px";
+      }
+  
+      positionNotificationNumber();
+  </script>
+  {% endif %}
+
 {% if isAuthenticated %}
 
 <!-- hi {{instance.name}}
 {{instance.password}} -->
 
 <div id="dashboard-container" >
-  <h1>Dashboard</h1>
 
   <div id="lr-container" >
     <div id="l-container" >
       <button onclick="myTasks()" id="my-tasks-btn" >My tasks</button>
       <button onclick="createTask()" id="create-task-btn" >Create task</button>
       <button onclick="assignedTasks()" id="assigned-tasks-btn" >Assigned tasks</button>
+      <button onclick="notes()" id="notes-btn" >Notes</button>
     </div>
-
 
 
     <div id="r-container" >
 
-      <div id="my-tasks-container" >
+      <div id="my-tasks-container" hidden >
         <h1 style="font-size: 35px;" >My tasks</h1>
         <br />
 
@@ -35,19 +82,18 @@
 
         <div class="for-click-description" id="fcd-assigned-1" >
           <div class="task-my" data-id="1" data-clicked="false" onclick="handleMyTaskClick(this)" >
-            <div style="width: 10px;" >1.</div>
-            <div style="width: 400px; overflow-wrap: anywhere;" >a;slkdjf;lasjkd;fljas; ldfj;lajsdfsdjf;lajs;dlfjka;lksdj;flkjas;ldkfja;lskdjf;laksjd;fl kjasd;lkfj;laksdjf;lkasjd</div>
-            <div style="width: 150px;" >Deadline</div>
-            <div style="width: 200px;" >Assigned to</div>
+            <div style="width: 2vw;" >1.</div>
+            <div style="width: 40vw; overflow-wrap: anywhere;" >a;slkdjf;l;alskdjf;laskjd;flkajsd;flkjas;ldkfj;laskjdf;lkajsd;flkjas;ldkfja;lsdkfjla;skdjf;laskdfjasjkd;fljas;ldfj;lajsdfsdjf;lajs;dlfjka;lksdj;flkjas;ldkfja;lskdjf;laksjd;fl kjasd;lkfj;laksdjf;lkasjd</div>
+            <div style="width: 15vw;" >Deadline</div>
+            <div style="width: 20vw;" >Assigned to</div>
           </div>
           
           <div id="my-1" class="fcd" style="display: none;" >
-            <div style="flex-grow: 0.35;" >&nbsp;&nbsp;&nbsp;</div>
-            <div style="flex-grow: 10.2;" >Task Description</div>
-            <div style="flex-grow: 1;" >
+            <div style="width: 50vw; overflow-wrap: anywhere;" >Task Description</div>
+            <div style="width: 0;" >
               <button>Deadline extension</button>
             </div>
-            <div style="flex-grow: 6;" >
+            <div style="width: 6;" >
               <button>Complete task</button>
             </div>
           </div>
@@ -55,19 +101,18 @@
         
         <div class="for-click-description" id="fcd-assigned-2" >
           <div class="task-my" data-id="2" data-clicked="false" onclick="handleMyTaskClick(this)" >
-            <div style="flex-grow: 0.2;" >2.</div>
-            <div style="flex-grow: 8;" >Task Title</div>
-            <div style="flex-grow: 3;" >Deadline</div>
-            <div style="flex-grow: 4;" >Assigned to</div>
+            <div style="width: 0.2;" >2.</div>
+            <div style="width: 8;" >Task Title</div>
+            <div style="width: 3;" >Deadline</div>
+            <div style="width: 4;" >Assigned to</div>
           </div>
           
           <div id="my-2" class="fcd" style="display: none;" >
-            <div style="flex-grow: 0.35;" >&nbsp;&nbsp;&nbsp;</div>
-            <div style="flex-grow: 10.2;" >Task Description</div>
-            <div style="flex-grow: 1;" >
+            <div style="width: 10.2;" >Task Description</div>
+            <div style="width: 1;" >
               <button>Deadline extension</button>
             </div>
-            <div style="flex-grow: 6;" >
+            <div style="width: 6;" >
               <button>Complete task</button>
             </div>
           </div>
@@ -84,28 +129,40 @@
       </div>
 
 
-      <div id="create-task-container" hidden >
+      <div id="create-task-container" >
         <h1 style="font-size: 35px;" >Create a Task</h1>
-        <form id="sForm" method="post" action="/addTask/">
+        <br />
+
+        <form id="sForm" method="post" action="/addTask/" >
           {% csrf_token %}
-          <input type="text" placeholder="TaskTitle" name="title" class="inputField">
-          <br>
-          <textarea id="textAr" name="description">TaskDescription</textarea>
-          <br>
-          <h2>Deadline</h2>
-          <input type="date" id="deadlineDate" name="deadline">
-          <h2 id="aTo">AssignTo</h2>
-          <input type="hidden" id="assignTo" name="employed" value="">
+
+          <div id="create-form" >
+            <div>
+              <label for="task-title" >Title:</label>
+              <input type="text" id="task-title" placeholder="Task title" name="title" class="inputField" required />
+              <br />
+
+              <label for="task-description" >Description:</label>
+              <br />
+              <textarea id="task-description" name="description" placeholder="Task description" required ></textarea>
+              <br />
+
+              <label for="task-deadline">Deadline:</label>
+              <input type="date" onchange="handleDate(this)" id="task-deadline" name="deadline" required />
+              <br />
+            </div>
+
+            <div class="task-assign-to-container">
+              Assign to:
+              <div id="task-assign-to" ></div>
+            </div>
+          </div>
+
+          <input type="submit" value="Create" />
 
         </form>
-
-        <div class="availaibleMembers" id="memberContainer">
-
-
-        </div>
-        <button onclick="submitForm()" class="subBtn">Create</button>
-
       </div>
+
 
       <div id="assigned-tasks-container" hidden >
 
@@ -117,53 +174,62 @@
 
 
 
-        <div class="for-click-description" id="fcd-my-1" >
+        <!-- <div class="for-click-description" id="fcd-my-1" >
           <div class="task-assigned" data-id="1" data-clicked="false" onclick="handleAssignedTaskClick(this)" >
-            <div style="flex-grow: 0.2;" >1.</div>
-            <div style="flex-grow: 8;" >Task Title</div>
-            <div style="flex-grow: 3;" >Deadline</div>
-            <div style="flex-grow: 4;" >Assigned to</div>
+            <div style="width: 2vw;" >1.</div>
+            <div style="width: 40vw; overflow-wrap: anywhere;" >TasTask </div>
+            <div style="width: 15vw;" >Deadline</div>
+            <div style="width: 20vw;" >Assigned to</div>
           </div>
           
-          <div id="assigned-1" class="fcd" style="display: none;" >
-            <div style="flex-grow: 0.24;" >&nbsp;&nbsp;&nbsp;</div>
-            <div style="flex-grow: 6.7;" >Task Description</div>
-            <div style="flex-grow: 3;" >Status</div>
-            <div style="flex-grow: 3;" >
+          <div id="assigned-1" class="fcd">
+            <div style="width: 2vw; overflow: hidden;" >
+              <button style="display: flex; align-items: center; justify-content: center;" >
+                <img style="width: 15px; height: auto; margin: 0;" src="{% static 'resources/delete.svg' %}" alt="Delete task" />
+              </button>
+            </div>
+            <div style="width: 40vw; overflow-wrap: anywhere;" >aasdfasdfasdfasdfasdasfasdfasdfaasdfasdfasdfasdfasfasdfasdfasdfadsfasdffffffffffffffff</div>
+            <div style="width: 3;" >Status</div>
+            <div style="width: 3;" >
               <button>Update deadline</button>
             </div>
-            <div style="flex-grow: 4;" >
-              <button>Delete task</button>
-            </div>
           </div>
-        </div>
+        </div> -->
         
-        <div class="for-click-description" id="fcd-my-2" >
-          <div class="task-assigned" data-id="2" data-clicked="false" onclick="handleAssignedTaskClick(this)" >
-            <div style="flex-grow: 0.2;" >2.</div>
-            <div style="flex-grow: 8;" >Task Title</div>
-            <div style="flex-grow: 3;" >Deadline</div>
-            <div style="flex-grow: 4;" >Assigned to</div>
+
+
+
+
+
+      </div>
+
+
+      <div id="notes-container" hidden >
+        <h1 style="font-size: 35px;" >Notes</h1>
+        <br />
+
+        <div class="notes">
+          <div class="note">
+            <div class="note-title-delete">
+              <span class="note-title">
+                Title
+              </span>
+              <button class="note-delete-btn">
+                <img src="{% static 'resources/delete.svg' %}" alt="Delete note" />
+              </button>
+            </div>
+            <hr />
+            <div class="note-description-date">
+              <div class="note-description">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae consectetur distinctio quaerat officiis facilis, eveniet, quo mollitia quibusdam voluptas itaque, assumenda labore quod ratione alias provident rerum ea necessitatibus odit magnam optio accusantium reprehenderit id! Molestias ipsa laboriosam obcaecati fugit numquam excepturi veritatis, dicta cumque officiis, qui laborum eum repudiandae!
+              </div>
+              <div class="note-date">
+                created on: dd/mm/yyyy
+              </div>
+            </div>
           </div>
           
-          <div id="assigned-2" class="fcd" style="display: none;" >
-            <div style="flex-grow: 0.24;" >&nbsp;&nbsp;&nbsp;</div>
-            <div style="flex-grow: 6.7;" >Task Description</div>
-            <div style="flex-grow: 3;" >Status</div>
-            <div style="flex-grow: 3;" >
-              <button>Update deadline</button>
-            </div>
-            <div style="flex-grow: 4;" >
-              <button>Delete task</button>
-            </div>
-          </div>
         </div>
-
-
-
-
-
-
       </div>
     </div>
   </div>
@@ -203,128 +269,191 @@
 
 //  })
 
-var assignedTaskArray = {{ instance.assignedTask | safe }}.tasks;
-console.log('tar: ', assignedTaskArray);
+  var assignedTaskArray = {{ instance.assignedTask | safe }}.tasks;
+  console.log('tar: ', assignedTaskArray);
 
-var assignedTasksContainer = document.getElementById('assigned-tasks-container');
-var taskNumber = 1;
+  var assignedTasksContainer = document.getElementById('assigned-tasks-container');
+  var taskNumber = 1;
 
-assignedTaskArray.forEach(result => {
-  console.log(result);
+  assignedTaskArray.forEach(result => {
+    console.log(result);
 
-  const taskCard = createTaskCard(result, taskNumber);
-  assignedTasksContainer.appendChild(taskCard);
+    const taskCard = createTaskCard(result, taskNumber);
+    assignedTasksContainer.appendChild(taskCard);
 
-  taskNumber++;
-});
+    taskNumber++;
+  });
 
-function createTaskCard(result, taskNumber) {
-  const taskCard = document.createElement("div");
-  taskCard.classList.add("task-assigned");
+  function createTaskCard(result, taskNumber) {
+    const taskCardContainer = document.createElement("div");
+    taskCardContainer.classList.add("for-click-description");
+    taskCardContainer.id = "fcd-my-" + taskNumber;
 
-  const taskNumberElement = createTaskElement("div", "0.2", taskNumber + ".");
-  const taskDetailsElement = createTaskElement("div", "8", `<b>${result.Title}:&nbsp;</b>${result.Description}`);
-  const taskDeadlineElement = createTaskElement("div", "3", result.Deadline);
-  const assignedToElement = createTaskElement("div", "4", result.Employed);
+    const taskCard = document.createElement("div");
+    taskCard.classList.add("task-assigned");
+    taskCard.setAttribute("data-id", taskNumber);
+    taskCard.setAttribute("data-clicked", "false");
+    taskCard.setAttribute("onclick", "handleAssignedTaskClick(this)");
 
-  taskCard.appendChild(taskNumberElement);
-  taskCard.appendChild(taskDetailsElement);
-  taskCard.appendChild(taskDeadlineElement);
-  taskCard.appendChild(assignedToElement);
+    const taskCardDescription = document.createElement("div");
+    taskCardDescription.id = "assigned-" + taskNumber;
+    taskCardDescription.classList.add("fcd");
 
-  return taskCard;
-}
+    const taskDescription = createTaskElement("div", "", result.Description);
+    taskDescription.classList.add("task-description");
+    const taskStatus = createTaskElement("div", "", result.Status);
 
-function createTaskElement(elementType, flexGrow, content) {
-  const element = document.createElement(elementType);
-  element.style.flexGrow = flexGrow;
-  element.innerHTML = content;
-  return element;
-}
+    const taskDeleteBtnContainer = document.createElement("div");
+    taskDeleteBtnContainer.classList.add("task-delete-btn-container");
+    const taskDeleteBtn = document.createElement("button");
+    taskDeleteBtn.classList.add("task-delete-btn");
+    taskDeleteBtnContainer.appendChild(taskDeleteBtn);
+    const taskDeleteBtnImg = document.createElement("img");
+    taskDeleteBtnImg.classList.add("task-delete-btn-img");
+    taskDeleteBtnImg.src = "{% static 'resources/delete.svg' %}";
+    taskDeleteBtnImg.alt = "Delete task";
+    taskDeleteBtn.appendChild(taskDeleteBtnImg);
+
+    const taskUpdateDeadlineBtnContainer = document.createElement("div");
+    const taskUpdateDeadlineBtn = createTaskElement("button", "", "Update deadline");
+    taskUpdateDeadlineBtnContainer.appendChild(taskUpdateDeadlineBtn);
+    
+    taskCardDescription.appendChild(taskDeleteBtnContainer);
+    taskCardDescription.appendChild(taskDescription);
+    taskCardDescription.appendChild(taskStatus);
+    taskCardDescription.appendChild(taskUpdateDeadlineBtnContainer);
+
+    const taskNumberElement = createTaskElement("div", "0.2", taskNumber + ".");
+    const taskDetailsElement = createTaskElement("div", "8", `<b>${result.Title}</b>`);
+    const taskDeadlineElement = createTaskElement("div", "3", result.Deadline);
+    const assignedToElement = createTaskElement("div", "4", result.Employed);
+
+    taskCard.appendChild(taskNumberElement);
+    taskCard.appendChild(taskDetailsElement);
+    taskCard.appendChild(taskDeadlineElement);
+    taskCard.appendChild(assignedToElement);
+
+    taskCardContainer.appendChild(taskCard);
+    taskCardContainer.appendChild(taskCardDescription);
+
+    return taskCardContainer;
+  }
+
+  function createTaskElement(elementType, flexGrow, content) {
+    const element = document.createElement(elementType);
+    element.style.flexGrow = flexGrow;
+    element.innerHTML = content;
+    return element;
+  }
 
 
+  const sForm=document.getElementById('sForm')
 
-
-  var sForm=document.getElementById('sForm')
-  var availaibleMember=document.getElementById('memberContainer')
+  var taskAssignToContainer=document.getElementById("task-assign-to")
   var validMember=({{instance.activeConnections | safe}})['connections']
   var i=0
   validMember.map((result)=>{
-    var newEle=document.createElement('div')
-    newEle.classList.add('memberCard')
-    newEle.id=i
-    newEle.setAttribute('onclick',`buttonPicker(${i})`)
-    newEle.innerHTML=result
-    availaibleMember.appendChild(newEle)
+    const label = document.createElement("label")
+    label.setAttribute("for", "task-assign-to-" + i)
+    label.innerHTML = result
+    label.classList.add("task-assign-to-label")
+    
+    const radio = document.createElement("input")
+    radio.type = "radio"
+    radio.id = "task-assign-to-" + i
+    radio.name = "employed"
+    radio.value = result
+    radio.classList.add("task-assign-to-radio")
+    
+    if(i == 0) {
+      radio.required = "true"
+      console.log(radio)
+    }
+    
+    taskAssignToContainer.appendChild(radio)
+    taskAssignToContainer.appendChild(label)
+    taskAssignToContainer.appendChild(document.createElement("br"))
+
     i++
   })
 
-  var active;
-
-  function buttonPicker(id)
-  {
-    if(active){
-      active.classList.remove('active')
+  function handleDate(ele) {
+    const inputDate = ele.valueAsDate
+    const currentDate = new Date()
+    if(inputDate < currentDate) {
+      currentDate.setDate(currentDate.getDate() + 1)
+      ele.valueAsDate = currentDate
+      alert("Invalid date!")
     }
-    active=document.getElementById(id)
-    active.classList.add('active')
-    document.getElementById('assignTo').value=validMember[id]
   }
 
-  function submitForm(){
-    console.log(sForm);
-      sForm.submit();
-  }
+  sForm.addEventListener("submit", (event) => {
+    // event.preventDefault()
+    const formData = new FormData(event.target)
+    const plain = Object.fromEntries(formData.entries())
+    console.log(plain)
+  })
 </script>
 
 <script>
-  const my_tasks_container = document.getElementById("my-tasks-container");
-  const create_task_container = document.getElementById("create-task-container");
-  const assigned_tasks_div = document.getElementById("assigned-tasks-container");
+  const myTasksContainer = document.getElementById("my-tasks-container");
+  const createTaskContainer = document.getElementById("create-task-container");
+  const assignedTasksDiv = document.getElementById("assigned-tasks-container");
+  const notesContainer = document.getElementById("notes-container");
   // const my_tasks_btn = document.getElementById("my-tasks-btn");
   // const create_task_btn = document.getElementById("create-task-btn");
   // const assigned_tasks_btn = document.getElementById("assigned-tasks-btn");
 
   function myTasks() {
-    create_task_container.hidden = true;
+    createTaskContainer.hidden = true;
     // create_task_btn.style.backgroundColor = "white";
-    assigned_tasks_div.hidden = true;
+    assignedTasksDiv.hidden = true;
     // assigned_tasks_btn.style.backgroundColor = "white";
-    my_tasks_container.hidden = false;
+    myTasksContainer.hidden = false;
     // my_tasks_btn.style.backgroundColor = "#e0e0e0";
+    notesContainer.hidden = true;
   }
   
   function createTask() {
-    my_tasks_container.hidden = true;
+    myTasksContainer.hidden = true;
     // my_tasks_btn.style.backgroundColor = "white";
-    assigned_tasks_div.hidden = true;
+    assignedTasksDiv.hidden = true;
     // assigned_tasks_btn.style.backgroundColor = "white";
-    create_task_container.hidden = false;
+    createTaskContainer.hidden = false;
+    document.getElementById("task-title").focus();
     // create_task_btn.style.backgroundColor = "#e0e0e0";
+    notesContainer.hidden = true;
   }
   
   function assignedTasks() {
-    my_tasks_container.hidden = true;
+    myTasksContainer.hidden = true;
     // my_tasks_btn.style.backgroundColor = "white";
-    create_task_container.hidden = true;
+    createTaskContainer.hidden = true;
     // create_task_btn.style.backgroundColor = "white";
-    assigned_tasks_div.hidden = false;
+    assignedTasksDiv.hidden = false;
     // assigned_tasks_btn.style.backgroundColor = "#e0e0e0";
+    notesContainer.hidden = true;
+  }
+  
+  function notes() {
+    myTasksContainer.hidden = true;
+    // my_tasks_btn.style.backgroundColor = "white";
+    createTaskContainer.hidden = true;
+    // create_task_btn.style.backgroundColor = "white";
+    assignedTasksDiv.hidden = true;
+    // assigned_tasks_btn.style.backgroundColor = "#e0e0e0";
+    notesContainer.hidden = false;
   }
 
 
   function handleAssignedTaskClick(ele) {
     ele.setAttribute("data-clicked", ele.getAttribute("data-clicked") == "false");
-    const clicked = ele.getAttribute("data-clicked"), id = "assigned-"+ ele.getAttribute("data-id");
+    const clicked = ele.getAttribute("data-clicked"), descriptionBox = document.getElementById("assigned-"+ ele.getAttribute("data-id"));
 
-    if(clicked == "true") {
-      document.getElementById(id).style.display = "flex";
-      ele.style.borderBottom = "1px solid #ececec";
-    }
-    else {
-      document.getElementById(id).style.display = "none";
-      ele.style.borderBottom = "none";
-    }
+    if(clicked == "true")
+      descriptionBox.style.height = descriptionBox.scrollHeight * 0.35 + "vh";
+    else
+      descriptionBox.style.height = "0";
   }
   
   function handleMyTaskClick(ele) {
@@ -377,25 +506,25 @@ function createTaskElement(elementType, flexGrow, content) {
       a.style.opacity = "0.1";
       c.style.color = "#06D6A0";
       c.style.opacity = "1";
-    }, 1000);
+    }, 700);
 
     setTimeout(() => {
       c.style.color = "black";
       c.style.opacity = "0.1";
       m.style.color = "#FF5E5B";
       m.style.opacity = "1";
-    }, 2000);
+    }, 1400);
 
     setTimeout(() => {
       m.style.color = "black";
       m.style.opacity = "0.1";
       a.style.color = "#118AB2";
       a.style.opacity = "1";
-    }, 3000);
+    }, 2100);
 
     setTimeout(() => {
       styleFn();
-    }, 3000);
+    }, 2100);
   }
 
   styleFn();
@@ -419,4 +548,5 @@ function createTaskElement(elementType, flexGrow, content) {
     {% endfor %}
 {% endif %}
 
-{% endblock %}
+</body>
+</html>

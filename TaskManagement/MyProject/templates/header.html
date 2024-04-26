@@ -9,13 +9,18 @@
 </head>
 
 <body>
-<div class="headerContainer">
+<div class="header-container">
     {% if length %}
-    <div id="notificationNumber">{{length}}</div>
+        <div id="notificationNumber">{{length}}</div>
     {% endif %}
-    <a href="/"><img src="{% static 'resources/home_svg.svg' %}" alt="home" id="homeLogo"> </a>
-    <a href="/notification"><img src="{% static 'resources/bell_svg.svg' %}" alt="notification" id="bellLogo"></a>
-    <a href="/account"><img src="{% static 'resources/account_svg.svg' %}" alt="account" id="accountLogo"></a>
+
+    <div class="header-title" >{% block header-title %}{% endblock %}</div>
+
+    <div class="header-navs" >
+        <a href="/"><img src="{% static 'resources/home_svg.svg' %}" alt="home" id="homeLogo"> </a>
+        <a href="/notification"><img src="{% static 'resources/bell_svg.svg' %}" alt="notification" id="bellLogo"></a>
+        <a href="/account"><img src="{% static 'resources/account_svg.svg' %}" alt="account" id="accountLogo"></a>
+    </div>
 </div>
 
 {% if length %}
@@ -31,8 +36,8 @@
         const notificationNumberTop = bellLogoRect.top;
         const notificationNumberRight = bellLogoRect.right;
 
-        notificationNumber.style.top = notificationNumberTop +"px";
-        notificationNumber.style.right = (window.innerWidth - notificationNumberRight - (notificationNumberRight / 60) + (bellLogoWidth / 2)) +"px";
+        notificationNumber.style.top = notificationNumberTop + 3 + "px";
+        notificationNumber.style.right = (window.innerWidth - notificationNumberRight - (notificationNumberRight / 60) + (bellLogoWidth / 2)) + 6 + "px";
     }
 
     positionNotificationNumber();
