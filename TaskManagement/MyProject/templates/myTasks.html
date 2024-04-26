@@ -8,6 +8,29 @@
 
 {% block dashboard-cssLink %}
     <link rel="stylesheet" href="{% static 'css/assignedTasks.css' %}" >
+
+    <style>
+        .fcd button:hover {
+            background-color: #87DF87;
+        }
+
+        .task-update-btn-container {
+            width: 2vw;
+            overflow: hidden;
+        }
+
+        .task-update-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .task-update-btn-img {
+            width: 15px;
+            height: auto;
+            margin: 0;
+        }
+    </style>
 {% endblock %}    
 
 {% block r-container %}
@@ -94,15 +117,15 @@
             const taskStatus = createTaskElement("div", "", result.Status);
 
             const taskCompleteBtnContainer = document.createElement("div");
-            taskCompleteBtnContainer.classList.add("task-delete-btn-container");
+            taskCompleteBtnContainer.classList.add("task-update-btn-container");
             const taskCompleteBtn = document.createElement("button");
             taskCompleteBtn.onclick = `updateStatus(${taskNumber - 1})`
-            taskCompleteBtn.classList.add("task-delete-btn");
+            taskCompleteBtn.classList.add("task-update-btn");
             taskCompleteBtnContainer.appendChild(taskCompleteBtn);
             const taskCompleteBtnImg = document.createElement("img");
-            taskCompleteBtnImg.classList.add("task-delete-btn-img");
+            taskCompleteBtnImg.classList.add("task-update-btn-img");
             taskCompleteBtnImg.src = "{% static 'resources/complete.svg' %}";
-            taskCompleteBtnImg.alt = "Delete task";
+            taskCompleteBtnImg.alt = "Update status";
             taskCompleteBtn.appendChild(taskCompleteBtnImg);
 
             const taskUpdateDeadlineBtnContainer = document.createElement("div");
@@ -138,7 +161,6 @@
         }
 
         function updateStatus(indx) {
-            console.log('index is: '+indx)
             fetch('/updateStatus/', {
                 method: 'POST',
                 headers: {
