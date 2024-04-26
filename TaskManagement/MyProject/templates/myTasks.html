@@ -8,6 +8,29 @@
 
 {% block dashboard-cssLink %}
     <link rel="stylesheet" href="{% static 'css/assignedTasks.css' %}" >
+
+    <style>
+        .fcd button:hover {
+            background-color: #87DF87;
+        }
+
+        .task-update-btn-container {
+            width: 2vw;
+            overflow: hidden;
+        }
+
+        .task-update-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .task-update-btn-img {
+            width: 15px;
+            height: auto;
+            margin: 0;
+        }
+    </style>
 {% endblock %}    
 
 {% block r-container %}
@@ -93,22 +116,23 @@
             taskDescription.classList.add("task-description");
             const taskStatus = createTaskElement("div", "", result.Status);
 
-            const taskDeleteBtnContainer = document.createElement("div");
-            taskDeleteBtnContainer.classList.add("task-delete-btn-container");
-            const taskDeleteBtn = document.createElement("button");
-            taskDeleteBtn.classList.add("task-delete-btn");
-            taskDeleteBtnContainer.appendChild(taskDeleteBtn);
-            const taskDeleteBtnImg = document.createElement("img");
-            taskDeleteBtnImg.classList.add("task-delete-btn-img");
-            taskDeleteBtnImg.src = "{% static 'resources/delete.svg' %}";
-            taskDeleteBtnImg.alt = "Delete task";
-            taskDeleteBtn.appendChild(taskDeleteBtnImg);
+            const taskCompleteBtnContainer = document.createElement("div");
+            taskCompleteBtnContainer.classList.add("task-update-btn-container");
+            const taskCompleteBtn = document.createElement("button");
+            taskCompleteBtn.setAttribute("onclick", `updateStatus(${taskNumber - 1})`)
+            taskCompleteBtn.classList.add("task-update-btn");
+            taskCompleteBtnContainer.appendChild(taskCompleteBtn);
+            const taskCompleteBtnImg = document.createElement("img");
+            taskCompleteBtnImg.classList.add("task-update-btn-img");
+            taskCompleteBtnImg.src = "{% static 'resources/complete.svg' %}";
+            taskCompleteBtnImg.alt = "Update status";
+            taskCompleteBtn.appendChild(taskCompleteBtnImg);
 
             const taskUpdateDeadlineBtnContainer = document.createElement("div");
             const taskUpdateDeadlineBtn = createTaskElement("button", "", "Deadline extension");
             taskUpdateDeadlineBtnContainer.appendChild(taskUpdateDeadlineBtn);
             
-            taskCardDescription.appendChild(taskDeleteBtnContainer);
+            taskCardDescription.appendChild(taskCompleteBtnContainer);
             taskCardDescription.appendChild(taskDescription);
             taskCardDescription.appendChild(taskStatus);
             taskCardDescription.appendChild(taskUpdateDeadlineBtnContainer);
@@ -134,6 +158,29 @@
             element.style.flexGrow = flexGrow;
             element.innerHTML = content;
             return element;
+        }
+
+        function updateStatus(indx) {
+            console.log(indx)
+            fetch('/updateStatus/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({'updationId': indx})
+            })
+            .then(response => {
+                if (!response.ok)
+                    throw new Error('Network response was not ok');
+
+                return response.json();
+            })
+            .then(data => {
+                window.location.href="/myTasks"
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
         }
 
         function handleMyTaskClick(ele) {

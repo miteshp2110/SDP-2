@@ -131,28 +131,27 @@
             else
                 descriptionBox.style.height = "0";
         }
-        function deleteForm(indx){
-            console.log('index is: '+indx)
+
+        function deleteForm(indx) {
             fetch('/deleteTask/', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({'deletionId':indx})
-})
-.then(response => {
-    if (!response.ok) {
-        throw new Error('Network response was not ok');
-    }
-    return response.json();
-})
-.then(data => {
-    console.log('Response data:', data);
-    window.location.href="/assignedTasks"
-})
-.catch(error => {
-    console.error('Error:', error);
-});
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({'deletionId': indx})
+            })
+            .then(response => {
+                if (!response.ok)
+                    throw new Error('Network response was not ok');
+
+                return response.json();
+            })
+            .then(data => {
+                window.location.href="/assignedTasks"
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
         }
     </script>
 {% endblock %}
