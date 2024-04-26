@@ -1,0 +1,89 @@
+{% extends 'dashboard.html' %}
+
+{% load static %}
+
+{% block title %}
+    Create task
+{% endblock %}
+
+{% block dashboard-cssLink %}
+    <link rel="stylesheet" href="{% static 'css/createTask.css' %}" >
+{% endblock %}    
+
+{% block r-container %}
+    <div id="create-task-container" >
+        <h1 style="font-size: 35px; font-weight: 400;" >Create a Task</h1>
+        <br />
+
+        <form id="sForm" method="post" action="/addTask/" >
+            {% csrf_token %}
+
+            <div id="create-form" >
+                <div>
+                    <label for="task-title" >Title:</label>
+                    <input type="text" id="task-title" placeholder="Task title" name="title" class="inputField" required />
+                    <br />
+
+                    <label for="task-description" >Description:</label>
+                    <br />
+                    <textarea id="task-description" name="description" placeholder="Task description" required ></textarea>
+                    <br />
+
+                    <label for="task-deadline">Deadline:</label>
+                    <input type="date" onchange="validateDate(this)" id="task-deadline" name="deadline" required />
+                    <br />
+                </div>
+
+                <div class="task-assign-to-container">
+                    Assign to:
+                    <div id="task-assign-to" ></div>
+                    <a href="/account/addConnections" id="add-connections-in-assign" >Add connections</a>
+                </div>
+            </div>
+
+            <input type="submit" value="Create" />
+        </form>
+    </div>
+
+
+    <script>
+        function validateDate(ele) {
+            const inputDate = ele.valueAsDate
+            const currentDate = new Date()
+            
+            if(inputDate < currentDate) {
+                currentDate.setDate(currentDate.getDate() + 1)
+                ele.valueAsDate = currentDate
+                alert("Invalid date!")
+            }
+        }
+
+        const taskAssignToContainer = document.getElementById("task-assign-to")
+        const validMember = ({{instance.activeConnections|safe}})['connections']
+        var i = 0
+        validMember.map((result) => {
+            const label = document.createElement("label")
+            label.setAttribute("for", "task-assign-to-" + i)
+            label.innerHTML = result
+            label.classList.add("task-assign-to-label")
+            
+            const radio = document.createElement("input")
+            radio.type = "radio"
+            radio.id = "task-assign-to-" + i
+            radio.name = "employed"
+            radio.value = result
+            radio.classList.add("task-assign-to-radio")
+            
+            if(i == 0) {
+                radio.required = "true"
+                console.log(radio)
+            }
+            
+            taskAssignToContainer.appendChild(radio)
+            taskAssignToContainer.appendChild(label)
+            taskAssignToContainer.appendChild(document.createElement("br"))
+
+            i++
+        })
+    </script>
+{% endblock %}

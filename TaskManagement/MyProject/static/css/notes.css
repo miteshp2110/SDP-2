@@ -1,0 +1,69 @@
+#notes-container {
+    padding: 0 1vw;
+}
+
+.notes {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.note {
+    height: 30vh;
+    width: 12.5vw;
+    margin: 0 3vh 3vh 0;
+    padding: 2vh 2vh 1vh 2vh;
+    border: 1.5px solid #DEDEDE;
+    border-radius: 8px;
+}
+
+.note img {
+    width: 20px;
+    height: auto;
+}
+
+.note-title-delete {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.note-title {
+    font-size: 25px;
+}
+
+.note-delete-btn {
+    display: flex;
+    align-items: center;
+    border: none;
+    background-color: transparent;
+    transition: scale 0.05s linear;
+}
+
+.note-delete-btn:hover {
+    cursor: pointer;
+    background-color: #AAAAAA;
+    scale: 1.1;
+}
+
+.note hr {
+    margin-bottom: 1.7vh;
+}
+
+.note-description-date {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 24.5vh;
+}
+
+.note-description {
+    max-height: 21.5vh;
+    overflow: auto;
+    font-size: large;
+}
+
+.note-date {
+    font-size: 2.5vh;
+    color: #AAAAAA;
+    margin-top: 0.5vh;
+}

@@ -1,0 +1,149 @@
+{% extends 'dashboard.html' %}
+
+{% load static %}
+
+{% block title %}
+    My tasks
+{% endblock %}
+
+{% block dashboard-cssLink %}
+    <link rel="stylesheet" href="{% static 'css/assignedTasks.css' %}" >
+{% endblock %}    
+
+{% block r-container %}
+    <div id="my-tasks-container" >
+        <h1 style="font-size: 35px; font-weight: 400;" >My tasks</h1>
+        <br />
+
+
+        <!-- Task template starts -->
+        <template data-task-template >
+            <div class="for-click-description" id="fcd-my-1" >
+                <div class="task-my" data-id="1" data-clicked="false" onclick="handleMyTaskClick(this)" >
+                    <div style="width: 2vw;" data-no >1.</div>
+                    <div style="width: 40vw; overflow-wrap: anywhere;" data-title >a;slkdjf;l;alskdjf;laskjd;flkajsd;flkjas;ldkfj;laskjdf;lkajsd;flkjas;ldkfja;lsdkfjla;skdjf;laskdfjasjkd;fljas;ldfj;lajsdfsdjf;lajs;dlfjka;lksdj;flkjas;ldkfja;lskdjf;laksjd;fl kjasd;lkfj;laksdjf;lkasjd</div>
+                    <div style="width: 15vw;" data-deadline >Deadline</div>
+                    <div style="width: 20vw;" data-assigned-to >Assigned to</div>
+                </div>
+            
+                <div id="my-1" class="fcd" style="display: none;" >
+                    <div style="width: 50vw; overflow-wrap: anywhere;" data-description >Task Description</div>
+                    <div style="width: 0;" >
+                        <button>Deadline extension</button>
+                    </div>
+                    <div style="width: 6;" >
+                        <button>Complete task</button>
+                    </div>
+                </div>
+            </div>
+        </template>
+        <!-- Task template ends -->
+
+    
+    </div>
+
+
+    <script>
+        // const taskTemplate = document.querySelector("[data-task-template]")
+        // const mta = {{instance.selfTask|safe}}.tasks
+        // const mtc = document.getElementById("my-tasks-container")
+        // var taskNumber = 1
+        // mta.forEach(res => {
+        //     const tc = taskTemplate.content.cloneNode(true).children[0]
+        //     const no = tc.querySelector("[data-no]")
+        //     const title = tc.querySelector("[data-title]")
+        //     const deadline = tc.querySelector("[data-deadline]")
+        //     const assignedTo = tc.querySelector("[data-assigned-to]")
+        //     const assignedTo = tc.querySelector("[data-assigned-to]")
+        //     const assignedTo = tc.querySelector("[data-assigned-to]")
+        // })
+
+
+        const myTasksArray = {{instance.selfTask|safe}}.tasks;
+        console.log('tar: ', myTasksArray);
+
+        const myTasksContainer = document.getElementById("my-tasks-container");
+        var taskNumber = 1;
+
+        myTasksArray.forEach(result => {
+            console.log(result);
+
+            const taskCard = createTaskCard(result, taskNumber);
+            myTasksContainer.appendChild(taskCard);
+
+            taskNumber++;
+        });
+
+        function createTaskCard(result, taskNumber) {
+            const taskCardContainer = document.createElement("div");
+            taskCardContainer.classList.add("for-click-description");
+            taskCardContainer.id = "fcd-my-" + taskNumber;
+
+            const taskCard = document.createElement("div");
+            taskCard.classList.add("task-my");
+            taskCard.setAttribute("data-id", taskNumber);
+            taskCard.setAttribute("data-clicked", "false");
+            taskCard.setAttribute("onclick", "handleMyTaskClick(this)");
+
+            const taskCardDescription = document.createElement("div");
+            taskCardDescription.id = "my-" + taskNumber;
+            taskCardDescription.classList.add("fcd");
+
+            const taskDescription = createTaskElement("div", "", result.Description);
+            taskDescription.classList.add("task-description");
+            const taskStatus = createTaskElement("div", "", result.Status);
+
+            const taskDeleteBtnContainer = document.createElement("div");
+            taskDeleteBtnContainer.classList.add("task-delete-btn-container");
+            const taskDeleteBtn = document.createElement("button");
+            taskDeleteBtn.classList.add("task-delete-btn");
+            taskDeleteBtnContainer.appendChild(taskDeleteBtn);
+            const taskDeleteBtnImg = document.createElement("img");
+            taskDeleteBtnImg.classList.add("task-delete-btn-img");
+            taskDeleteBtnImg.src = "{% static 'resources/delete.svg' %}";
+            taskDeleteBtnImg.alt = "Delete task";
+            taskDeleteBtn.appendChild(taskDeleteBtnImg);
+
+            const taskUpdateDeadlineBtnContainer = document.createElement("div");
+            const taskUpdateDeadlineBtn = createTaskElement("button", "", "Deadline extension");
+            taskUpdateDeadlineBtnContainer.appendChild(taskUpdateDeadlineBtn);
+            
+            taskCardDescription.appendChild(taskDeleteBtnContainer);
+            taskCardDescription.appendChild(taskDescription);
+            taskCardDescription.appendChild(taskStatus);
+            taskCardDescription.appendChild(taskUpdateDeadlineBtnContainer);
+
+            const taskNumberElement = createTaskElement("div", "0.2", taskNumber + ".");
+            const taskDetailsElement = createTaskElement("div", "8", `<b>${result.Title}</b>`);
+            const taskDeadlineElement = createTaskElement("div", "3", result.Deadline);
+            const myToElement = createTaskElement("div", "4", result.AssignedBy);
+
+            taskCard.appendChild(taskNumberElement);
+            taskCard.appendChild(taskDetailsElement);
+            taskCard.appendChild(taskDeadlineElement);
+            taskCard.appendChild(myToElement);
+
+            taskCardContainer.appendChild(taskCard);
+            taskCardContainer.appendChild(taskCardDescription);
+
+            return taskCardContainer;
+        }
+
+        function createTaskElement(elementType, flexGrow, content) {
+            const element = document.createElement(elementType);
+            element.style.flexGrow = flexGrow;
+            element.innerHTML = content;
+            return element;
+        }
+
+        function handleMyTaskClick(ele) {
+            ele.setAttribute("data-clicked", ele.getAttribute("data-clicked") == "false");
+            const clicked = ele.getAttribute("data-clicked"), descriptionBox = document.getElementById("my-"+ ele.getAttribute("data-id"));
+
+            if(clicked == "true")
+                descriptionBox.style.height = descriptionBox.scrollHeight * 0.35 + "vh";
+            else
+                descriptionBox.style.height = "0";
+        }
+    </script>
+{% endblock %}

@@ -10,7 +10,7 @@
     background: #FFFFFF;
     height:8vh;
     padding:8px;
-    border-bottom: 1.5px solid #D9D9D9;
+    border-bottom: 1px solid  black;
     display: flex;
     justify-content: space-between;
     align-items: center;
