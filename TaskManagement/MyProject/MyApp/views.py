@@ -8,14 +8,10 @@ from .models import UserData,allUser
 from django.contrib import messages
 @csrf_exempt
 def home(request):
-    isAuthenticated = request.session.get("isAuthenticated")
-    if (isAuthenticated):
-        instance = UserData.objects.get(email=request.session.get('email'))
-        length_AssignedTasks=len(instance.assignedTask['tasks'])
-        length = len(instance.notification['notifications']) + len(instance.connectionRecieved['requests'])
-        return render(request,'home.html',{'isAuthenticated':True,'instance':instance,'length':length,'taskLength':length_AssignedTasks})
-    client_ip1 = request.META.get('REMOTE_ADDR')
-    print("ip: ",client_ip1)
+
+    if request.session.get('isAuthenticated'):
+        return redirect('/myTasks')
+
     return render(request,'home.html')
 @csrf_exempt
 def account(request):
@@ -222,7 +218,62 @@ def clrNotification(request):
     return redirect('notification')
 
 
-def deleteTask(request):
+
+def myTasks(request):
+    isAuthenticated = request.session.get('isAuthenticated')
+    if isAuthenticated:
+        instance = UserData.objects.get(email=request.session.get('email'))
+        length = len(instance.notification['notifications']) + len(instance.connectionRecieved['requests'])
+        return render(request, 'myTasks.html', {
+            'instance': instance,
+            'length': length,
+        })
+
+    return render(request, 'myTasks.html')
+
+
+def createTask(request):
+    isAuthenticated = request.session.get('isAuthenticated')
+    if isAuthenticated:
+        instance = UserData.objects.get(email=request.session.get('email'))
+        length = len(instance.notification['notifications']) + len(instance.connectionRecieved['requests'])
+
+        return render(request, 'createTask.html', {
+            'instance': instance,
+            'length': length,
+        })
+
+    return render(request, 'createTask.html')
+
+
+def assignedTasks(request):
+    isAuthenticated = request.session.get('isAuthenticated')
+    if isAuthenticated:
+        instance = UserData.objects.get(email=request.session.get('email'))
+        length = len(instance.notification['notifications']) + len(instance.connectionRecieved['requests'])
+
+        return render(request, 'assignedTasks.html', {
+            'instance': instance,
+            'length': length,
+        })
+
+    return render(request, 'assignedTasks.html')
+
+
+def notes(request):
+    isAuthenticated = request.session.get('isAuthenticated')
+    if isAuthenticated:
+        instance = UserData.objects.get(email=request.session.get('email'))
+        length = len(instance.notification['notifications']) + len(instance.connectionRecieved['requests'])
+
+        return render(request, 'notes.html', {
+            'instance': instance,
+            'length': length,
+        })
+
+    return render(request, 'notes.html')
+  
+  def deleteTask(request):
     if(request.method=="POST"):
         deletionId=request.POST.get('deletionId')
         instance = get_object_or_404(UserData, email=request.session.get('email'))
@@ -253,11 +304,3 @@ def deleteTask(request):
         return JsonResponse({'message': 'Deleted'})
     else:
         return HttpResponse("ONLY POST REQUEST")
-
-
-
-
-
-
-
-

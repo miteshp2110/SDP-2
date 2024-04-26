@@ -1,0 +1,48 @@
+#create-form {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    border: 1px solid royalblue;
+}
+
+#create-form div {
+    border: 1px solid red;
+}
+
+.task-assign-to-radio {
+    opacity: 0;
+}
+
+.task-assign-to-label {
+    color: black;
+}
+
+.task-assign-to-label:hover {
+    background-color: #D5D5D5;
+    cursor: pointer;
+}
+
+.task-assign-to-radio:checked + .task-assign-to-label {
+    color: white;
+    background-color: #5A41FF;
+}
+
+.task-assign-to-container {
+    font-size: xx-large;
+}
+
+#add-connections-in-assign {
+    color: black;
+}
+
+#task-description{
+    resize:none;
+    width:21.5vw;
+    height:10vh;
+}
+
+#task-deadline{
+    margin-left:1.5vw;
+    margin-top:2vh;
+}

@@ -1,0 +1,30 @@
+{% extends 'header.html' %}
+
+{% load static %}
+
+{% block cssLink %}
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    
+    {% block dashboard-cssLink %}
+    {% endblock %}
+{% endblock %}
+
+{% block header-title %}
+    Dashboard
+{% endblock %}
+
+{% block header %}
+    <div id="lr-container">
+        <div id="l-container">
+            <a href="/myTasks" id="my-tasks-btn" >My tasks</a>
+            <a href="/createTask" id="create-task-btn" >Create task</a>
+            <a href="/assignedTasks" id="assigned-tasks-btn" >Assigned tasks</a>
+            <a href="/notes" id="notes-btn" >Notes</a>
+        </div>
+
+        <div id="r-container">
+            {% block r-container %}
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}
