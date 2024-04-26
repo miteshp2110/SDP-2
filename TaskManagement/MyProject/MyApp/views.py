@@ -205,7 +205,7 @@ def addTask(request):
     instance2.save()
 
     messages.success(request, 'Task created and assigned successfully!')
-    return redirect('assignedTasks')
+    return redirect('/assignedTasks')
 
 @csrf_exempt
 def clrNotification(request):
