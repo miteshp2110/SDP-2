@@ -221,14 +221,11 @@ def myTasks(request):
     isAuthenticated = request.session.get('isAuthenticated')
     if isAuthenticated:
         instance = UserData.objects.get(email=request.session.get('email'))
-        length_AssignedTasks = len(instance.assignedTask['tasks'])
         length = len(instance.notification['notifications']) + len(instance.connectionRecieved['requests'])
 
         return render(request, 'myTasks.html', {
-            'isAuthenticated': True,
             'instance': instance,
             'length': length,
-            'taskLength': length_AssignedTasks
         })
 
     return render(request, 'myTasks.html')
@@ -238,14 +235,11 @@ def createTask(request):
     isAuthenticated = request.session.get('isAuthenticated')
     if isAuthenticated:
         instance = UserData.objects.get(email=request.session.get('email'))
-        length_AssignedTasks = len(instance.assignedTask['tasks'])
         length = len(instance.notification['notifications']) + len(instance.connectionRecieved['requests'])
 
         return render(request, 'createTask.html', {
-            'isAuthenticated': True,
             'instance': instance,
             'length': length,
-            'taskLength': length_AssignedTasks
         })
 
     return render(request, 'createTask.html')
@@ -255,18 +249,25 @@ def assignedTasks(request):
     isAuthenticated = request.session.get('isAuthenticated')
     if isAuthenticated:
         instance = UserData.objects.get(email=request.session.get('email'))
-        length_AssignedTasks = len(instance.assignedTask['tasks'])
         length = len(instance.notification['notifications']) + len(instance.connectionRecieved['requests'])
 
         return render(request, 'assignedTasks.html', {
-            'isAuthenticated': True,
             'instance': instance,
             'length': length,
-            'taskLength': length_AssignedTasks
         })
 
     return render(request, 'assignedTasks.html')
 
 
 def notes(request):
+    isAuthenticated = request.session.get('isAuthenticated')
+    if isAuthenticated:
+        instance = UserData.objects.get(email=request.session.get('email'))
+        length = len(instance.notification['notifications']) + len(instance.connectionRecieved['requests'])
+
+        return render(request, 'notes.html', {
+            'instance': instance,
+            'length': length,
+        })
+
     return render(request, 'notes.html')
