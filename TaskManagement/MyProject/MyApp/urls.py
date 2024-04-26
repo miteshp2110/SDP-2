@@ -17,5 +17,6 @@ urlpatterns=[
     path('account/processRequest',views.processRequest),
     path('notificationProcess/',views.acceptRequest),
     path('addTask/',views.addTask),
-    path('readNotification/',views.clrNotification)
+    path('readNotification/',views.clrNotification),
+    path('deleteTask/',views.deleteTask)
 ]
