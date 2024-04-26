@@ -1,7 +1,6 @@
 #create-form {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
 }
 
 #create-form + div {
@@ -54,12 +53,12 @@ label, #task-description {
     border: 1px solid black;
     border-radius: 8px;
     padding: 1.5vh 3vh;
+    margin-left: 12vw;
 }
 
 .task-assign-to-container {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
 }
 
 #assign-to-label {
@@ -75,7 +74,7 @@ label, #task-description {
     border: 1px solid black;
     border-radius: 4px;
     margin-left: 7%;
-    padding: 0.5vh;
+    padding: 0.5vh 0;
     text-align: center;
 }
 #add-connections-in-assign:hover {

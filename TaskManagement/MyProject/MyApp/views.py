@@ -312,8 +312,8 @@ def deleteTask(request):
 @csrf_exempt
 def updateStatus(request):
     if (request.method == "POST"):
-        #updationId = (json.loads(request.body)).get('updationId')
-        updationId = 0
+        updationId = (json.loads(request.body)).get('updationId')
+        # updationId = 0
         instance = get_object_or_404(UserData, email=request.session.get('email'))
         selfTask=(instance.selfTask).get('tasks')
 

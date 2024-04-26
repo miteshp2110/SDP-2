@@ -3,194 +3,246 @@
 {% load static %}
 
 {% block title %}
-    My tasks
+My tasks
 {% endblock %}
 
 {% block dashboard-cssLink %}
-    <link rel="stylesheet" href="{% static 'css/assignedTasks.css' %}" >
+<link rel="stylesheet" href="{% static 'css/assignedTasks.css' %}">
 
-    <style>
-        .fcd button:hover {
-            background-color: #87DF87;
-        }
+<style>
+    .task-update-btn:hover {
+        background-color: #87DF87 !important;
+    }
 
-        .task-update-btn-container {
-            width: 2vw;
-            overflow: hidden;
-        }
+    .task-update-btn-container {
+        width: 1.5vw;
+        overflow: hidden;
+    }
+    
+    .task-update-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none !important;
+        padding: 0.5vh !important;
+    }
 
-        .task-update-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+    .task-update-btn-img {
+        width: 15px;
+        height: auto;
+        margin: 0;
+    }
 
-        .task-update-btn-img {
-            width: 15px;
-            height: auto;
-            margin: 0;
-        }
-    </style>
-{% endblock %}    
+    .hide {
+        display: none;
+    }
+
+    #update-dialog {
+        background-color: #FFFFFF;
+        box-shadow: 0 0 10px 2px #D5D5D5;
+        z-index: 30;
+        border: 1px solid black;
+        border-radius: 10px;
+        height: 20vh;
+        width: 20vw;
+        position: absolute;
+        top: 35%;
+        left: 35%;
+        padding: 2vh;
+    }
+
+    #x-dialog {
+        border: none;
+        border-radius: 1px;
+        height: 18px;
+        width: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: transparent;
+        margin-left: 18.8vw;
+    }
+
+    #x-dialog:hover {
+        cursor: pointer;
+        background-color: #ff7171;
+    }
+
+    label[for="updatedDeadline"], #updatedDeadline {
+        font-size: larger;
+    }
+
+    #submit-deadline:hover {
+        cursor: pointer;
+    }
+</style>
+{% endblock %}
 
 {% block r-container %}
-    <div id="my-tasks-container" >
-        <h1 style="font-size: 35px; font-weight: 400;" >My tasks</h1>
-        <br />
+<div id="my-tasks-container">
+    <h1 class="h1-title" >My tasks</h1>
+    <hr class="hr" />
+    <br />
 
 
-        <!-- Task template starts -->
-        <template data-task-template >
-            <div class="for-click-description" id="fcd-my-1" >
-                <div class="task-my" data-id="1" data-clicked="false" onclick="handleMyTaskClick(this)" >
-                    <div style="width: 2vw;" data-no >1.</div>
-                    <div style="width: 40vw; overflow-wrap: anywhere;" data-title >a;slkdjf;l;alskdjf;laskjd;flkajsd;flkjas;ldkfj;laskjdf;lkajsd;flkjas;ldkfja;lsdkfjla;skdjf;laskdfjasjkd;fljas;ldfj;lajsdfsdjf;lajs;dlfjka;lksdj;flkjas;ldkfja;lskdjf;laksjd;fl kjasd;lkfj;laksdjf;lkasjd</div>
-                    <div style="width: 15vw;" data-deadline >Deadline</div>
-                    <div style="width: 20vw;" data-assigned-to >Assigned to</div>
+    <!-- Task template starts -->
+    <template data-task-template>
+        <div class="for-click-description">
+            <div class="task-my" onclick="handleMyTaskClick(this)" data-id>
+                <div data-s-no>S.no.</div>
+                <div data-title>Title</div>
+                <div data-deadline>Deadline</div>
+                <div data-assigned-by>AssignedBy</div>
+            </div>
+            <div class="fcd" data-fcd>
+                <div class="task-update-btn-container">
+                    <button class="task-update-btn" data-update-btn >
+                        <img class="task-update-btn-img" src="/static/resources/complete.svg" alt="Update status">
+                    </button>
                 </div>
-            
-                <div id="my-1" class="fcd" style="display: none;" >
-                    <div style="width: 50vw; overflow-wrap: anywhere;" data-description >Task Description</div>
-                    <div style="width: 0;" >
-                        <button>Deadline extension</button>
-                    </div>
-                    <div style="width: 6;" >
-                        <button>Complete task</button>
-                    </div>
+                <div class="task-description" data-description>Description</div>
+                <div data-status>Status</div>
+                <div data-change-deadline >
+                    <button>Deadline extension</button>
                 </div>
             </div>
-        </template>
-        <!-- Task template ends -->
-
-    
-    </div>
+        </div>
+    </template>
+    <!-- Task template ends -->
 
 
-    <script>
-        // const taskTemplate = document.querySelector("[data-task-template]")
-        // const mta = {{instance.selfTask|safe}}.tasks
-        // const mtc = document.getElementById("my-tasks-container")
-        // var taskNumber = 1
-        // mta.forEach(res => {
-        //     const tc = taskTemplate.content.cloneNode(true).children[0]
-        //     const no = tc.querySelector("[data-no]")
-        //     const title = tc.querySelector("[data-title]")
-        //     const deadline = tc.querySelector("[data-deadline]")
-        //     const assignedTo = tc.querySelector("[data-assigned-to]")
-        //     const assignedTo = tc.querySelector("[data-assigned-to]")
-        //     const assignedTo = tc.querySelector("[data-assigned-to]")
-        // })
+</div>
+
+<div id="update-dialog" class="hide" >
+    <button id="x-dialog" onclick="closeDialog()" >&#10006;</button>
+    <br />
+    <label for="updatedDeadline" >New deadline: </label>
+    <input type="date" id="updatedDeadline" name="updatedDeadline" onchange="validateDate(ele)" />
+    <br /><br />
+    <button id="submit-deadline" onclick="submitDeadline()" >Submit</button>
+</div>
 
 
-        const myTasksArray = {{instance.selfTask|safe}}.tasks;
-        console.log('tar: ', myTasksArray);
+<script>
+    const taskTemplate = document.querySelector("[data-task-template]")
+    const mta = {{ instance.selfTask| safe}}.tasks
+    const mtc = document.getElementById("my-tasks-container")
+    var taskNumber = 1
+    mta.forEach(result => {
+        const tc = taskTemplate.content.cloneNode(true).children[0]
+        const di = tc.querySelector("[data-id]")
+        const no = tc.querySelector("[data-s-no]")
+        const title = tc.querySelector("[data-title]")
+        const deadline = tc.querySelector("[data-deadline]")
+        const assignedBy = tc.querySelector("[data-assigned-by]")
+        const fcd = tc.querySelector("[data-fcd]")
+        const ub = tc.querySelector("[data-update-btn]")
+        const description = tc.querySelector("[data-description]")
+        const status = tc.querySelector("[data-status]")
+        const cdb = tc.querySelector("[data-change-deadline]").querySelector("button")
 
-        const myTasksContainer = document.getElementById("my-tasks-container");
-        var taskNumber = 1;
+        tc.id = "fcd-my-" + taskNumber
+        di.setAttribute("data-id", taskNumber)
+        no.innerHTML = taskNumber + "."
+        title.innerHTML = `<b>${result.Title}</b>`
+        deadline.innerHTML = "<x>Deadline:</x>&nbsp;" + result.Deadline
+        assignedBy.innerHTML = "<x>Assigned by:</x>&nbsp;" + result.AssignedBy
+        fcd.id = "my-" + taskNumber
+        ub.setAttribute("onclick", `updateStatus(${taskNumber - 1})`)
+        description.innerHTML = result.Description
+        status.innerHTML = "<x>Status:</x>&nbsp;" + result.Status
+        cdb.setAttribute("onclick", `deadlineExtension(${taskNumber - 1})`)
 
-        myTasksArray.forEach(result => {
-            console.log(result);
+        mtc.appendChild(tc)
 
-            const taskCard = createTaskCard(result, taskNumber);
-            myTasksContainer.appendChild(taskCard);
+        taskNumber++
+    })
 
-            taskNumber++;
+    function updateStatus(indx) {
+        console.log("::" + indx)
+        fetch('/updateStatus/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ 'updationId': indx })
+        })
+        .then(response => {
+            if (!response.ok)
+                throw new Error('Network response was not ok');
+
+            return response.json();
+        })
+        .then(data => {
+            window.location.href = "/myTasks"
+        })
+        .catch(error => {
+            console.error('Error:', error);
         });
+    }
 
-        function createTaskCard(result, taskNumber) {
-            const taskCardContainer = document.createElement("div");
-            taskCardContainer.classList.add("for-click-description");
-            taskCardContainer.id = "fcd-my-" + taskNumber;
+    function handleMyTaskClick(ele) {
+        const descriptionBox = document.getElementById("my-" + ele.getAttribute("data-id"));
 
-            const taskCard = document.createElement("div");
-            taskCard.classList.add("task-my");
-            taskCard.setAttribute("data-id", taskNumber);
-            taskCard.setAttribute("data-clicked", "false");
-            taskCard.setAttribute("onclick", "handleMyTaskClick(this)");
+        descriptionBox.classList.toggle("fcd-clicked")
+    }
 
-            const taskCardDescription = document.createElement("div");
-            taskCardDescription.id = "my-" + taskNumber;
-            taskCardDescription.classList.add("fcd");
+    var dialogOpen = false
+    var ind = 0
 
-            const taskDescription = createTaskElement("div", "", result.Description);
-            taskDescription.classList.add("task-description");
-            const taskStatus = createTaskElement("div", "", result.Status);
+    function deadlineExtension(index) {
+        ind = index
+        if(!dialogOpen)
+            document.getElementById("update-dialog").classList.remove("hide")
+        
+        setTimeout(() => {
+            dialogOpen = !dialogOpen;
+        }, 100)
+    }
 
-            const taskCompleteBtnContainer = document.createElement("div");
-            taskCompleteBtnContainer.classList.add("task-update-btn-container");
-            const taskCompleteBtn = document.createElement("button");
-            taskCompleteBtn.setAttribute("onclick", `updateStatus(${taskNumber - 1})`)
-            taskCompleteBtn.classList.add("task-update-btn");
-            taskCompleteBtnContainer.appendChild(taskCompleteBtn);
-            const taskCompleteBtnImg = document.createElement("img");
-            taskCompleteBtnImg.classList.add("task-update-btn-img");
-            taskCompleteBtnImg.src = "{% static 'resources/complete.svg' %}";
-            taskCompleteBtnImg.alt = "Update status";
-            taskCompleteBtn.appendChild(taskCompleteBtnImg);
+    function closeDialog() {
+        dialogOpen = false
+        document.getElementById("update-dialog").classList.add("hide")
+    }
 
-            const taskUpdateDeadlineBtnContainer = document.createElement("div");
-            const taskUpdateDeadlineBtn = createTaskElement("button", "", "Deadline extension");
-            taskUpdateDeadlineBtnContainer.appendChild(taskUpdateDeadlineBtn);
+    document.addEventListener("click", (event) => {
+        if(!event.target.matches("#update-dialog") && !event.target.matches("#submit-deadline") && dialogOpen) {
+            dialogOpen = !dialogOpen
+            document.getElementById("update-dialog").classList.add("hide")
+        }
+    })
+
+    function submitDeadline() {
+        fetch('/requestUpdate/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({'index': ind , 'updatedDeadline': document.getElementById("updatedDeadline").valueAsDate})
+        })
+        .then(response => {
+            if(!response.ok)
+                throw new Error("Network response was not OK")
+
+            return response.json()
+        })
+        .then(data => {
+            window.location.href = "/myTasks"
+        })
+        .catch(error => {
+            console.error("Error: " + error)
+        })
+    }
+
+    function validateDate(ele) {
+        const inputDate = ele.valueAsDate
+        const currentDate = new Date()
             
-            taskCardDescription.appendChild(taskCompleteBtnContainer);
-            taskCardDescription.appendChild(taskDescription);
-            taskCardDescription.appendChild(taskStatus);
-            taskCardDescription.appendChild(taskUpdateDeadlineBtnContainer);
-
-            const taskNumberElement = createTaskElement("div", "0.2", taskNumber + ".");
-            const taskDetailsElement = createTaskElement("div", "8", `<b>${result.Title}</b>`);
-            const taskDeadlineElement = createTaskElement("div", "3", result.Deadline);
-            const myToElement = createTaskElement("div", "4", result.AssignedBy);
-
-            taskCard.appendChild(taskNumberElement);
-            taskCard.appendChild(taskDetailsElement);
-            taskCard.appendChild(taskDeadlineElement);
-            taskCard.appendChild(myToElement);
-
-            taskCardContainer.appendChild(taskCard);
-            taskCardContainer.appendChild(taskCardDescription);
-
-            return taskCardContainer;
+        if(inputDate < currentDate) {
+            currentDate.setDate(currentDate.getDate() + 1)
+            ele.valueAsDate = currentDate
+            alert("Invalid date!")
         }
-
-        function createTaskElement(elementType, flexGrow, content) {
-            const element = document.createElement(elementType);
-            element.style.flexGrow = flexGrow;
-            element.innerHTML = content;
-            return element;
-        }
-
-        function updateStatus(indx) {
-            console.log(indx)
-            fetch('/updateStatus/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({'updationId': indx})
-            })
-            .then(response => {
-                if (!response.ok)
-                    throw new Error('Network response was not ok');
-
-                return response.json();
-            })
-            .then(data => {
-                window.location.href="/myTasks"
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        }
-
-        function handleMyTaskClick(ele) {
-            ele.setAttribute("data-clicked", ele.getAttribute("data-clicked") == "false");
-            const clicked = ele.getAttribute("data-clicked"), descriptionBox = document.getElementById("my-"+ ele.getAttribute("data-id"));
-
-            if(clicked == "true")
-                descriptionBox.style.height = descriptionBox.scrollHeight * 0.35 + "vh";
-            else
-                descriptionBox.style.height = "0";
-        }
-    </script>
+    }
+</script>
 {% endblock %}
