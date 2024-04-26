@@ -34,7 +34,8 @@
     cursor:pointer;
     scale:1.2;
     transition:all 0.1s;
-}    
+}
+
 a{
     text-decoration: none;
     color:white;
@@ -52,4 +53,18 @@ a{
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+#err-msg {
+    width: 25vw;
+    font-size: x-large;
+    padding-left: 0.5vw;
+    background-color: white;
+    border-left: 4px solid blue;
+    border-radius: 5px;
+    box-shadow: 0 0 10px 2px #d9d9d9;
+    position: absolute;
+    top: 10vh;
+    left: -30vw;
+    transition: left 700ms ease;
 }

@@ -45,3 +45,13 @@
     padding: 0 3vw;
     overflow: auto;
 }
+
+.h1-title {
+    font-size: 35px;
+    font-weight: 400;
+}
+
+.hr {
+    margin: 1vh 0;
+    border: 1px solid #0000004c;
+}

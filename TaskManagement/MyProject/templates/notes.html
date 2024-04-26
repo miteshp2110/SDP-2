@@ -12,40 +12,189 @@
 
 {% block r-container %}
     <div id="notes-container" >
-        <h1 style="font-size: 35px; font-weight: 400;" >Notes</h1>
+        <h1 class="h1-title" >Notes <button onclick="addNote()" class="addButton">Add</button></h1>
+        <hr class="hr" />
         <br />
 
-        <div class="notes">
+        <div class="notes" id="noteMain">
+            <dialog id="addDialog">
+                <button id="closeDialog" onclick="closeDialog()">CLOSE</button>
+                <div class="dialogForm">
+                    <form method="post" action="/addNotes/">
+                        <input type="text" placeholder="Title" name="Title" >
+                        <br>
+                        <textarea  placeholder="Description" id="description" name="Description"></textarea>
+                        <br>
+                        <button  id="submitButton">Submit</button>
+                    </form>
+                </div>
+
+            </dialog>
+
+
+
 
 
             <!-- Note template starts -->
-            <div class="note">
-                <div class="note-title-delete">
-                    <span class="note-title">
-                        Title
-                    </span>
-                    <button class="note-delete-btn">
-                        <img src="{% static 'resources/delete.svg' %}" alt="Delete note" />
-                    </button>
-                </div>
-                <hr />
-                <div class="note-description-date">
-                    <div class="note-description">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae consectetur distinctio quaerat officiis facilis, eveniet, quo mollitia quibusdam voluptas itaque, assumenda labore quod ratione alias provident rerum ea necessitatibus odit magnam optio accusantium reprehenderit id! Molestias ipsa laboriosam obcaecati fugit numquam excepturi veritatis, dicta cumque officiis, qui laborum eum repudiandae!
-                    </div>
-                    <div class="note-date">
-                        created on: dd/mm/yyyy
-                    </div>
-                </div>
-            </div>
+<!--            <div class="note">-->
+<!--                <div class="note-title-delete">-->
+<!--                    <span class="note-title">-->
+<!--                        Title-->
+<!--                    </span>-->
+<!--                    <button class="note-delete-btn">-->
+<!--                        <img src="{% static 'resources/delete.svg' %}" alt="Delete note" />-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--                <hr />-->
+<!--                <div class="note-description-date">-->
+<!--                    <div class="note-description">-->
+<!--                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae consectetur distinctio quaerat officiis facilis, eveniet, quo mollitia quibusdam voluptas itaque, assumenda labore quod ratione alias provident rerum ea necessitatibus odit magnam optio accusantium reprehenderit id! Molestias ipsa laboriosam obcaecati fugit numquam excepturi veritatis, dicta cumque officiis, qui laborum eum repudiandae!-->
+<!--                    </div>-->
+<!--                    <div class="note-date">-->
+<!--                        created on: dd/mm/yyyy-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
             <!-- Note template ends -->
 
-
         </div>
+
     </div>
 
 
     <script>
-        
+        var mainContainer=document.getElementById('noteMain')
+        var noteArray={{notes|safe}}
+        var i=0
+        noteArray.map(note => {
+  // Create note element
+  const noteElement = document.createElement('div');
+  noteElement.classList.add('note');
+
+  // Create note title and delete button section
+  const titleDeleteSection = document.createElement('div');
+  titleDeleteSection.classList.add('note-title-delete');
+
+  const noteTitle = document.createElement('span');
+  noteTitle.classList.add('note-title');
+  noteTitle.textContent = note.Title;
+
+  const deleteButton = document.createElement('button');
+  deleteButton.classList.add('note-delete-btn');
+
+  const deleteImg = document.createElement('img');
+  deleteImg.setAttribute('src', "{% static 'resources/delete.svg' %}");
+  deleteImg.setAttribute('alt', 'Delete note');
+  deleteImg.setAttribute('onclick',`deleteNote(${i})`)
+
+  deleteButton.appendChild(deleteImg);
+  titleDeleteSection.appendChild(noteTitle);
+  titleDeleteSection.appendChild(deleteButton);
+
+  // Create horizontal line
+  const hr = document.createElement('hr');
+
+  // Create note description and date section
+  const descriptionDateSection = document.createElement('div');
+  descriptionDateSection.classList.add('note-description-date');
+
+  const noteDescription = document.createElement('div');
+  noteDescription.classList.add('note-description');
+  noteDescription.textContent = note.Description;
+
+  const noteDate = document.createElement('div');
+  noteDate.classList.add('note-date');
+  noteDate.textContent = `created on: ${note.Date}`;
+
+  descriptionDateSection.appendChild(noteDescription);
+  descriptionDateSection.appendChild(noteDate);
+
+  // Append sections to note element
+  noteElement.appendChild(titleDeleteSection);
+  noteElement.appendChild(hr);
+  noteElement.appendChild(descriptionDateSection);
+
+  // Append note element to container
+  mainContainer.appendChild(noteElement);
+   i++
+});
+
+        function deleteNote(indx){
+            fetch('/deleteNote/', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({'deleteIndex':indx})
+})
+.then(response => {
+  if (!response.ok) {
+    throw new Error('Network response was not ok');
+  }
+  return response.json();
+})
+.then(data => {
+  window.location.href='/notes'
+})
+.catch(error => {
+  console.error('Error:', error);
+});
+        }
+
+    var dialog=document.getElementById('addDialog')
+        function addNote(){
+            dialog.style.display='block'
+        }
+
+        function closeDialog(){
+            dialog.style.display='none'
+        }
     </script>
+
+<style>
+    .addButton{
+        background:none;
+        height:2em;
+        width:3em;
+        margin-left:2em;
+        margin-bottom:1em;
+        border-radius:5px;
+        transition:all ease-in-out 0.2s;
+    }
+    .addButton:hover{
+        background:#B9D9EB;
+    }
+    #notes-container h1 {
+        display: flex;
+        align-items: center;
+        transition:all ease-in-out 0.2s;
+    }
+    #addDialog{
+        height:20em;
+        width:14em;
+        margin-left:0.7em;
+        margin-top:-3em;
+        position:absolute;
+        border-radius:5px;
+        padding:2px;
+    }
+    #closeDialog{
+        background:none;
+
+    }
+    input{
+        font-size:1.1em;
+        margin-top:2em;
+    }
+    #description{
+        height:12em;
+        margin-top:2em;
+        width:16em;
+        resize:none;
+    }
+    #submitButton{
+        margin-top:1em;
+        margin-left:6.5em;
+    }
+</style>
 {% endblock %}

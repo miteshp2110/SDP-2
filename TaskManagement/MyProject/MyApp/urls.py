@@ -18,5 +18,11 @@ urlpatterns=[
     path('notificationProcess/',views.acceptRequest),
     path('addTask/',views.addTask),
     path('readNotification/',views.clrNotification),
-    path('deleteTask/',views.deleteTask)
+    path('deleteTask/',views.deleteTask),
+    path('updateStatus/',views.updateStatus),
+    path('addNotes/',views.addNotes),
+    path('deleteNote/',views.deleteNote),
+    path('updateDeadline/',views.updateDeadline),
+    path('requestUpdate/',views.requestUpdate),
+    path('deleteDeadline/',views.deleteDeadline)
 ]

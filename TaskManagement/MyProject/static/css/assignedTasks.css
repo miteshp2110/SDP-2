@@ -14,15 +14,41 @@
     cursor: pointer;
     font-size: large;
     padding: 2vh 0.5vw;
-    display: flex;
     background-color: white;
     border-radius: 12px;
+    display: flex;
+    /* border: 1px solid red; */
+}
+
+[data-s-no], [data-title], [data-deadline], .task-update-btn-container {
+    border-right: 1.5px solid #DEDEDE;
+}
+
+[data-title], [data-deadline], [data-assigned-to], [data-assigned-by] {
+    padding-left: 1vw !important;
+}
+
+[data-s-no], .task-update-btn-container {
+    width: 1.5vw;
+}
+
+[data-title] {
+    width: 28vw;
+}
+
+[data-deadline] {
+    width: 15vw;
+}
+
+[data-assigned-to] {
+    width: 25vw;
 }
 
 .task-assigned div, .task-my div {
     display: flex;
     align-items: center;
     padding: 0.5vh;
+    /* border: 1px solid yellow; */
 }
 
 .fcd {
@@ -31,19 +57,30 @@
     padding: 0 0.5vw;
     display: flex;
     overflow: hidden;
-    transition: height 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fcd-clicked {
+    height: fit-content;
+    padding: 2vh 0.5vw;
 }
 
 .fcd div {
     display: flex;
     align-items: center;
     padding: 0.5vh;
+    /* border: 1px solid #2fff2f; */
+}
+.fcd > div {
+    border-right: 1.5px solid #DEDEDE;
 }
 
 .fcd button {
     cursor: pointer;
     background: transparent;
-    border: none;
+    border: 1px solid black;
+    border-radius: 3px;
+    padding: 0.5vh 1vh;
 }
 
 .fcd button:hover {
@@ -51,12 +88,12 @@
 }
 
 .task-description {
-    width: 40vw;
+    width: 28vw;
     overflow-wrap: anywhere;
 }
 
 .task-delete-btn-container {
-    width: 2vw;
+    width: 1.5vw;
     overflow: hidden;
 }
 
@@ -64,10 +101,41 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    border: none !important;
+    padding: 0.5vh !important;
+}
+
+.task-delete-btn:hover {
+    background-color: #ff7171 !important;
+}
+
+.task-delete-btn:hover, .task-update-btn:hover {
+    scale: 1.15;
 }
 
 .task-delete-btn-img {
     width: 15px;
     height: auto;
     margin: 0;
+}
+
+[data-status] {
+    width: 15vw;
+}
+
+[data-change-deadline] {
+    width: 25vw;
+    border: none !important;
+}
+
+[data-change-deadline] button {
+    font-size: medium;
+}
+
+[data-status], [data-description], [data-change-deadline] {
+    padding-left: 1vw !important;
+}
+
+x {
+    color: #a7a7a7;   
 }

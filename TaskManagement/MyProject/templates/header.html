@@ -17,9 +17,9 @@
     <div class="header-title" >{% block header-title %}{% endblock %}</div>
 
     <div class="header-navs" >
-        <a href="/"><img src="{% static 'resources/home_svg.svg' %}" alt="home" id="homeLogo"> </a>
-        <a href="/notification"><img src="{% static 'resources/bell_svg.svg' %}" alt="notification" id="bellLogo"></a>
-        <a href="/account"><img src="{% static 'resources/account_svg.svg' %}" alt="account" id="accountLogo"></a>
+        <a href="/"><img src="{% static 'resources/home_svg.svg' %}" alt="home" id="homeLogo" > </a>
+        <a href="/notification"><img src="{% static 'resources/bell_svg.svg' %}" alt="notification" id="bellLogo" ></a>
+        <a href="/account"><img src="{% static 'resources/account_svg.svg' %}" alt="account" id="accountLogo" ></a>
     </div>
 </div>
 
@@ -46,6 +46,24 @@
 
 
 {% block header %}{% endblock %}
+
+
+{% if messages %}
+    {% for message in messages %}
+        <div id="err-msg" >
+            {{message}}
+        </div>
+
+        <script>
+          setTimeout(() => {
+            document.getElementById("err-msg").style.left = "3vw";
+            setTimeout(() => {
+              document.getElementById("err-msg").hidden = true;
+            }, 2500);
+          }, 500);
+        </script>
+    {% endfor %}
+{% endif %}
 
 </body>
 </html>

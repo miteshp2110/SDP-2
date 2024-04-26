@@ -1,3 +1,4 @@
+import datetime
 import json
 
 from django.shortcuts import render, redirect, get_object_or_404
@@ -69,7 +70,7 @@ def notification(request):
 
         instance = UserData.objects.get(email=request.session.get('email'))
 
-        length=len(instance.notification['notifications'])+len(instance.connectionRecieved['requests'])
+        length=len(instance.notification['notifications'])+len(instance.connectionRecieved['requests'])+len(instance.updationQueue['queue'])
 
         return render(request,'notification.html', {'isAuthenticated': isAuthenticated,'instance':instance,'length':length})
     messages.error(request, 'Login first!')
@@ -204,8 +205,8 @@ def addTask(request):
     instance.save()
     instance2.save()
 
-
-    return redirect('home')
+    messages.success(request, 'Task created and assigned successfully!')
+    return redirect('/assignedTasks')
 
 @csrf_exempt
 def clrNotification(request):
@@ -223,7 +224,8 @@ def myTasks(request):
     isAuthenticated = request.session.get('isAuthenticated')
     if isAuthenticated:
         instance = UserData.objects.get(email=request.session.get('email'))
-        length = len(instance.notification['notifications']) + len(instance.connectionRecieved['requests'])
+        length = len(instance.notification['notifications']) + len(instance.connectionRecieved['requests']) + len(
+            instance.updationQueue['queue'])
         return render(request, 'myTasks.html', {
             'instance': instance,
             'length': length,
@@ -236,7 +238,8 @@ def createTask(request):
     isAuthenticated = request.session.get('isAuthenticated')
     if isAuthenticated:
         instance = UserData.objects.get(email=request.session.get('email'))
-        length = len(instance.notification['notifications']) + len(instance.connectionRecieved['requests'])
+        length = len(instance.notification['notifications']) + len(instance.connectionRecieved['requests']) + len(
+            instance.updationQueue['queue'])
 
         return render(request, 'createTask.html', {
             'instance': instance,
@@ -250,7 +253,8 @@ def assignedTasks(request):
     isAuthenticated = request.session.get('isAuthenticated')
     if isAuthenticated:
         instance = UserData.objects.get(email=request.session.get('email'))
-        length = len(instance.notification['notifications']) + len(instance.connectionRecieved['requests'])
+        length = len(instance.notification['notifications']) + len(instance.connectionRecieved['requests']) + len(
+            instance.updationQueue['queue'])
 
         return render(request, 'assignedTasks.html', {
             'instance': instance,
@@ -264,14 +268,18 @@ def notes(request):
     isAuthenticated = request.session.get('isAuthenticated')
     if isAuthenticated:
         instance = UserData.objects.get(email=request.session.get('email'))
-        length = len(instance.notification['notifications']) + len(instance.connectionRecieved['requests'])
+        length = len(instance.notification['notifications']) + len(instance.connectionRecieved['requests']) + len(
+            instance.updationQueue['queue'])
+        notes=instance.notes.get('notes')
 
         return render(request, 'notes.html', {
             'instance': instance,
             'length': length,
+            'notes':notes
         })
 
     return render(request, 'notes.html')
+
 @csrf_exempt
 def deleteTask(request):
     if(request.method=="POST"):
@@ -296,7 +304,7 @@ def deleteTask(request):
         deletion_instance.selfTask['tasks'] = deletion_task
 
         notif = deletion_instance.notification.get('notifications')
-        newNotification = instance.email + " has deleted a task."
+        newNotification = instance.email + " has deleted a task "+task_to_delete.get('Title')
         notif.append(newNotification)
         deletion_instance.notification['notifications'] = notif
         instance.save()
@@ -304,3 +312,156 @@ def deleteTask(request):
         return JsonResponse({'message': 'Deleted'})
     else:
         return HttpResponse("ONLY POST REQUEST")
+
+@csrf_exempt
+def updateStatus(request):
+    if (request.method == "POST"):
+        updationId = (json.loads(request.body)).get('updationId')
+        # updationId = 0
+        instance = get_object_or_404(UserData, email=request.session.get('email'))
+        selfTask=(instance.selfTask).get('tasks')
+
+        task_to_update=selfTask[updationId]
+
+        assigned_by_email=(selfTask[updationId]).get('AssignedBy')
+        (selfTask[updationId])['Status']='Completed'
+
+        instance.selfTask['tasks']=selfTask
+
+
+        instance2=get_object_or_404(UserData,email=assigned_by_email)
+        assignedTask=(instance2.assignedTask).get('tasks')
+
+        count = 0
+        for obj in assignedTask:
+            count += 1
+            if ((obj.get('Title') == task_to_update.get('Title')) and (
+                    obj.get('Description') == task_to_update.get('Description')) and (
+                    obj.get('Deadline') == task_to_update.get('Deadline'))):
+                break
+
+
+
+        (assignedTask[count-1])['Status']="Completed"
+
+        instance2.assignedTask['tasks']=assignedTask
+
+        instance.save()
+
+        notif = instance2.notification.get('notifications')
+        newNotification = instance.email + " has Completed the task "+task_to_update.get('Title')
+        notif.append(newNotification)
+        instance2.notification['notifications'] = notif
+        instance2.save()
+        return JsonResponse({"message":"Updated Status"})
+    else:
+        return HttpResponse("ONLY POST REQUEST")
+
+@csrf_exempt
+def addNotes(request):
+    if request.method=="POST":
+        #req=(json.loads(request.POST))
+        print(request.POST)
+        noteTitle=request.POST.get('Title')
+        noteDescription=request.POST.get('Description')
+        noteDate=datetime.datetime.now().date()
+        instance = get_object_or_404(UserData, email=request.session.get('email'))
+        notes = (instance.notes).get('notes')
+        tempObj={'Title':noteTitle,'Description':noteDescription,'Date':str(noteDate)}
+        notes.append(tempObj)
+        instance.notes['notes']=notes
+        instance.save()
+
+        return redirect('notes')
+    else:
+        return HttpResponse("ONLY POST REQUEST")
+
+@csrf_exempt
+def deleteNote(request):
+    deleteIndex=0
+    instance=get_object_or_404(UserData,email=request.session.get('email'))
+    notes=(instance.notes).get('notes')
+    notes.pop(deleteIndex)
+    instance.notes['notes']=notes
+    instance.save()
+    return JsonResponse({'message':"note Deleted"})
+
+@csrf_exempt
+def updateDeadline(request):
+    instance=get_object_or_404(UserData,email=request.session.get('email'))
+
+    if request.method=="POST":
+        req=(json.loads(request.body))
+        index=req.get('index')
+        selfId=req.get('selfId')
+        assignedId=req.get('assignedId')
+        updatedDeadline=req.get('updatedDeadline')
+        updation_email=(((instance.assignedTask).get('tasks'))[assignedId]).get('Employed')
+        (((instance.assignedTask).get('tasks'))[assignedId])['Deadline']=updatedDeadline
+        (instance.updationQueue).get('queue').pop(index)
+        instance.save()
+        instance2=get_object_or_404(UserData,email=updation_email)
+        (((instance2.selfTask).get('tasks'))[selfId])['Deadline']=updatedDeadline
+        noti="Deadline has been updated by "+request.session.get('email')
+        notification=(instance2.notification).get('notifications')
+        notification.append(noti)
+        instance2.notification['notifications']=notification
+        instance2.save()
+
+        return JsonResponse({'message':'Deadline Updated'})
+    else:
+        return HttpResponse("ONLY POST REQUEST")
+
+@csrf_exempt
+def requestUpdate(request):
+    if request.method=="POST":
+        taskId = (json.loads(request.body)).get('index')
+        # taskId=0
+        updatedDeadline = (json.loads(request.body)).get('updatedDeadline')
+        print(taskId, updatedDeadline)
+        instance = get_object_or_404(UserData, email=request.session.get('email'))
+        selfTask = (instance.selfTask).get('tasks')
+        currentDeadline = (selfTask[taskId]).get('Deadline')
+
+        noti = "User " + selfTask[taskId].get(
+            'Employed') + " has requested to update deadline from " + currentDeadline + " to " + updatedDeadline + " for task " + \
+               selfTask[taskId].get('Title')
+
+        instance2 = get_object_or_404(UserData, email=selfTask[taskId].get('AssignedBy'))
+        assignedTask = (instance2.assignedTask).get('tasks')
+        count = 0
+        for obj in assignedTask:
+            count += 1
+            if ((obj.get('Title') == selfTask[taskId].get('Title')) and (
+                    obj.get('Description') == selfTask[taskId].get('Description')) and (
+                    obj.get('Deadline') == selfTask[taskId].get('Deadline'))):
+                break
+
+        updationQueue = (instance2.updationQueue).get('queue')
+        tempObj = {'notification': noti, 'selfId': taskId, 'assignedId': count - 1, 'updatedDeadline': updatedDeadline}
+        updationQueue.append(tempObj)
+        instance2.save()
+        return JsonResponse({'message': 'Update Requested'})
+    else:
+        return HttpResponse("ONLY POST REQUEST")
+
+@csrf_exempt
+def deleteDeadline(request):
+    if request.method=="POST":
+        index=(json.loads(request.body)).get('index')
+        instance=get_object_or_404(UserData,email=request.session.get('email'))
+        updationQueue=(instance.updationQueue).get('queue')
+        deletion_email=(((instance.assignedTask).get('tasks'))[(((updationQueue)[index]).get('assignedId'))]).get('Employed')
+        updationQueue.pop(index)
+        instance.updationQueue['queue']=updationQueue
+        instance.save()
+        instance2=get_object_or_404(UserData,email=deletion_email)
+        notif=request.session.get('email')+" has rejected the deadline updation request"
+        notification=(instance2.notification).get('notifications')
+        notification.append(notif)
+        instance2.save()
+
+
+        return JsonResponse({'message':'Deleted'})
+    else:
+        return HttpResponse('POST REQUEST ONLY')
