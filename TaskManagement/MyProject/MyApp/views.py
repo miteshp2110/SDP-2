@@ -273,7 +273,7 @@ def notes(request):
 
     return render(request, 'notes.html')
   
-  def deleteTask(request):
+def deleteTask(request):
     if(request.method=="POST"):
         deletionId=request.POST.get('deletionId')
         instance = get_object_or_404(UserData, email=request.session.get('email'))
