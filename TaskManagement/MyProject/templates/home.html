@@ -40,7 +40,7 @@
             <div style="flex-grow: 3;" >Deadline</div>
             <div style="flex-grow: 4;" >Assigned to</div>
           </div>
-          
+
           <div id="my-1" class="fcd" style="display: none;" >
             <div style="flex-grow: 0.35;" >&nbsp;&nbsp;&nbsp;</div>
             <div style="flex-grow: 10.2;" >Task Description</div>
@@ -52,7 +52,7 @@
             </div>
           </div>
         </div>
-        
+
         <div class="for-click-description" id="fcd-assigned-2" >
           <div class="task-my" data-id="2" data-clicked="false" onclick="handleMyTaskClick(this)" >
             <div style="flex-grow: 0.2;" >2.</div>
@@ -60,7 +60,7 @@
             <div style="flex-grow: 3;" >Deadline</div>
             <div style="flex-grow: 4;" >Assigned to</div>
           </div>
-          
+
           <div id="my-2" class="fcd" style="display: none;" >
             <div style="flex-grow: 0.35;" >&nbsp;&nbsp;&nbsp;</div>
             <div style="flex-grow: 10.2;" >Task Description</div>
@@ -80,7 +80,7 @@
 
 
 
-        
+
       </div>
 
 
@@ -124,7 +124,7 @@
             <div style="flex-grow: 3;" >Deadline</div>
             <div style="flex-grow: 4;" >Assigned to</div>
           </div>
-          
+
           <div id="assigned-1" class="fcd" style="display: none;" >
             <div style="flex-grow: 0.24;" >&nbsp;&nbsp;&nbsp;</div>
             <div style="flex-grow: 6.7;" >Task Description</div>
@@ -137,7 +137,7 @@
             </div>
           </div>
         </div>
-        
+
         <div class="for-click-description" id="fcd-my-2" >
           <div class="task-assigned" data-id="2" data-clicked="false" onclick="handleAssignedTaskClick(this)" >
             <div style="flex-grow: 0.2;" >2.</div>
@@ -145,7 +145,7 @@
             <div style="flex-grow: 3;" >Deadline</div>
             <div style="flex-grow: 4;" >Assigned to</div>
           </div>
-          
+
           <div id="assigned-2" class="fcd" style="display: none;" >
             <div style="flex-grow: 0.24;" >&nbsp;&nbsp;&nbsp;</div>
             <div style="flex-grow: 6.7;" >Task Description</div>
@@ -293,7 +293,7 @@ function createTaskElement(elementType, flexGrow, content) {
     my_tasks_container.hidden = false;
     // my_tasks_btn.style.backgroundColor = "#e0e0e0";
   }
-  
+
   function createTask() {
     my_tasks_container.hidden = true;
     // my_tasks_btn.style.backgroundColor = "white";
@@ -302,7 +302,7 @@ function createTaskElement(elementType, flexGrow, content) {
     create_task_container.hidden = false;
     // create_task_btn.style.backgroundColor = "#e0e0e0";
   }
-  
+
   function assignedTasks() {
     my_tasks_container.hidden = true;
     // my_tasks_btn.style.backgroundColor = "white";
@@ -328,7 +328,7 @@ function createTaskElement(elementType, flexGrow, content) {
       ele.style.borderBottom = "none";
     }
   }
-  
+
   function handleMyTaskClick(ele) {
     ele.setAttribute("data-clicked", ele.getAttribute("data-clicked") == "false");
     const clicked = ele.getAttribute("data-clicked"), id = "my-"+ ele.getAttribute("data-id");
@@ -345,8 +345,8 @@ function createTaskElement(elementType, flexGrow, content) {
     }
   }
 
-  
-  
+
+
 </script>
 
 {% else %}
