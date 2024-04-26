@@ -1,7 +1,7 @@
 import json
 
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from .models import UserData,allUser
@@ -10,13 +10,12 @@ from django.contrib import messages
 def home(request):
     isAuthenticated = request.session.get("isAuthenticated")
     if (isAuthenticated):
-
-
         instance = UserData.objects.get(email=request.session.get('email'))
         length_AssignedTasks=len(instance.assignedTask['tasks'])
         length = len(instance.notification['notifications']) + len(instance.connectionRecieved['requests'])
         return render(request,'home.html',{'isAuthenticated':True,'instance':instance,'length':length,'taskLength':length_AssignedTasks})
-
+    client_ip1 = request.META.get('REMOTE_ADDR')
+    print("ip: ",client_ip1)
     return render(request,'home.html')
 @csrf_exempt
 def account(request):
@@ -221,6 +220,40 @@ def clrNotification(request):
     instance.notification['notifications']=i1
     instance.save()
     return redirect('notification')
+
+
+def deleteTask(request):
+    if(request.method=="POST"):
+        deletionId=request.POST.get('deletionId')
+        instance = get_object_or_404(UserData, email=request.session.get('email'))
+        assignedTask = (instance.assignedTask).get('tasks')
+        task_to_delete = assignedTask[deletionId]
+        deletion_instance = get_object_or_404(UserData, email=task_to_delete.get('Employed'))
+        deletion_task = deletion_instance.selfTask.get('tasks')
+
+        count = 0
+        for obj in deletion_task:
+            count += 1
+            if ((obj.get('Title') == task_to_delete.get('Title')) and (
+                    obj.get('Description') == task_to_delete.get('Description')) and (
+                    obj.get('Deadline') == task_to_delete.get('Deadline'))):
+                break
+
+        deletion_task.pop(count - 1)
+        assignedTask.pop(deletionId)
+        instance.assignedTask['tasks'] = assignedTask
+        deletion_instance.selfTask['tasks'] = deletion_task
+
+        notif = deletion_instance.notification.get('notifications')
+        newNotification = instance.email + " has deleted a task."
+        notif.append(newNotification)
+        deletion_instance.notification['notifications'] = notif
+        instance.save()
+        deletion_instance.save()
+        return JsonResponse({'message': 'Deleted'})
+    else:
+        return HttpResponse("ONLY POST REQUEST")
+
 
 
 
