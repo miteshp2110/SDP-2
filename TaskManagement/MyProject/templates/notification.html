@@ -40,6 +40,8 @@
 
     var connectionRequest=({{instance.connectionRecieved | safe}}).requests
     var notificationArray=({{instance.notification | safe}}).notifications
+    var deadlineQueue=({{instance.updationQueue|safe}}).queue
+    //console.log(deadlineQueue)
     //console.log('creq: ',connectionRequest)
     var notificationContainer=document.querySelector('.notification-container')
     var i=0
@@ -108,6 +110,42 @@
         i++
 
     })
+    var unq=0
+    deadlineQueue.map((result)=>{
+
+        var newEle=document.createElement('div')
+        newEle.classList.add('notification')
+        var newEle1=document.createElement('span')
+        newEle1.classList.add('notif-content-container')
+        var newH=document.createElement('h3')
+        newH.innerHTML=result.notification
+        newEle1.appendChild(newH)
+
+        var Ele2=document.createElement('span')
+        Ele2.classList.add('vx-btn-container')
+
+        var btn1=document.createElement('button')
+        btn1.setAttribute('onclick',`acceptDeadline(${unq})`)
+        btn1.classList.add('vx-btn')
+        btn1.classList.add('vb-left')
+        btn1.innerHTML='&#10004;'
+
+        var btn2=document.createElement('button')
+        btn2.classList.add('vx-btn')
+        btn2.classList.add('vb-right')
+        btn2.setAttribute('onclick',`rejectDeadline(${unq})`)
+        btn2.innerHTML='&#10006;'
+
+        Ele2.appendChild(btn1)
+        Ele2.appendChild(btn2)
+
+        newEle.appendChild(newEle1)
+        newEle.appendChild(Ele2)
+
+        notificationContainer.appendChild(newEle)
+        unq++
+        i++
+    })
 
     function processRequest(param){
 
@@ -131,6 +169,54 @@
     function processNotification(id){
         notNm.value=parseInt(id)
         nForm.submit()
+    }
+
+    function acceptDeadline(indx){
+
+
+        fetch("/updateDeadline/", {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({'index':indx,'selfId':deadlineQueue[indx].selfId,'assignedId':deadlineQueue[indx].assignedId,'updatedDeadline':deadlineQueue[indx].updatedDeadline})
+})
+.then(response => {
+  if (!response.ok) {
+    throw new Error('Network response was not ok');
+  }
+
+})
+.then(data => {
+  window.location.href='/notification'
+})
+.catch(error => {
+  console.error('Error:', error);
+});
+
+
+    }
+    function rejectDeadline(indx){
+
+        fetch("/deleteDeadline/", {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({'index':indx})
+})
+.then(response => {
+  if (!response.ok) {
+    throw new Error('Network response was not ok');
+  }
+  return response.json();
+})
+.then(data => {
+  window.location.href='/notification'
+})
+.catch(error => {
+  console.error('Error:', error);
+});
     }
 </script>
 {% endblock %}
