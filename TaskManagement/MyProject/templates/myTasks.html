@@ -117,7 +117,7 @@ My tasks
     <button id="x-dialog" onclick="closeDialog()" >&#10006;</button>
     <br />
     <label for="updatedDeadline" >New deadline: </label>
-    <input type="date" id="updatedDeadline" name="updatedDeadline" onchange="validateDate(ele)" />
+    <input type="date" id="updatedDeadline" name="updatedDeadline" onchange="validateDate(this)" />
     <br /><br />
     <button id="submit-deadline" onclick="submitDeadline()" >Submit</button>
 </div>
@@ -187,6 +187,17 @@ My tasks
         descriptionBox.classList.toggle("fcd-clicked")
     }
 
+    function validateDate(ele) {
+        const inputDate = ele.valueAsDate
+        const currentDate = new Date()
+            
+        if(inputDate < currentDate) {
+            currentDate.setDate(currentDate.getDate() + 1)
+            ele.valueAsDate = currentDate
+            alert("Invalid date!")
+        }
+    }
+
     var dialogOpen = false
     var ind = 0
 
@@ -206,7 +217,7 @@ My tasks
     }
 
     document.addEventListener("click", (event) => {
-        if(!event.target.matches("#update-dialog") && !event.target.matches("#submit-deadline") && dialogOpen) {
+        if(!event.target.matches("#update-dialog") && !event.target.matches("#submit-deadline") && !event.target.matches("#updatedDeadline") && dialogOpen) {
             dialogOpen = !dialogOpen
             document.getElementById("update-dialog").classList.add("hide")
         }
@@ -218,9 +229,10 @@ My tasks
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({'index': ind , 'updatedDeadline': document.getElementById("updatedDeadline").valueAsDate})
+            body: JSON.stringify({'index': ind , 'updatedDeadline': document.getElementById("updatedDeadline").value})
         })
         .then(response => {
+            console.log(response)
             if(!response.ok)
                 throw new Error("Network response was not OK")
 
@@ -232,17 +244,6 @@ My tasks
         .catch(error => {
             console.error("Error: " + error)
         })
-    }
-
-    function validateDate(ele) {
-        const inputDate = ele.valueAsDate
-        const currentDate = new Date()
-            
-        if(inputDate < currentDate) {
-            currentDate.setDate(currentDate.getDate() + 1)
-            ele.valueAsDate = currentDate
-            alert("Invalid date!")
-        }
     }
 </script>
 {% endblock %}

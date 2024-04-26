@@ -68,12 +68,3 @@ a{
     left: -30vw;
     transition: left 700ms ease;
 }
-
-.hoverable::after {
-    content: attr(data-hoverable);
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    z-index: 10;
-}

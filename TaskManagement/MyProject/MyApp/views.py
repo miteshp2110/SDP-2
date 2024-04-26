@@ -415,9 +415,10 @@ def updateDeadline(request):
 @csrf_exempt
 def requestUpdate(request):
     if request.method=="POST":
-        taskId = (json.loads(request.body)).get('taskId')
+        taskId = (json.loads(request.body)).get('index')
         # taskId=0
-        updatedDeadline = "2024-04-30"
+        updatedDeadline = (json.loads(request.body)).get('updatedDeadline')
+        print(taskId, updatedDeadline)
         instance = get_object_or_404(UserData, email=request.session.get('email'))
         selfTask = (instance.selfTask).get('tasks')
         currentDeadline = (selfTask[taskId]).get('Deadline')
