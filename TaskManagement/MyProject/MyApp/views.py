@@ -205,8 +205,8 @@ def addTask(request):
     instance.save()
     instance2.save()
 
-
-    return redirect('home')
+    messages.success(request, 'Task created and assigned successfully!')
+    return redirect('/assignedTasks')
 
 @csrf_exempt
 def clrNotification(request):
@@ -275,6 +275,7 @@ def notes(request):
         })
 
     return render(request, 'notes.html')
+
 @csrf_exempt
 def deleteTask(request):
     if(request.method=="POST"):
@@ -308,6 +309,7 @@ def deleteTask(request):
     else:
         return HttpResponse("ONLY POST REQUEST")
 
+@csrf_exempt
 def updateStatus(request):
     if (request.method == "POST"):
         #updationId = (json.loads(request.body)).get('updationId')

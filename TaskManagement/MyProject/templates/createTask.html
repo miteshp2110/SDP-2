@@ -22,26 +22,27 @@
                 <div>
                     <label for="task-title" >Title:</label>
                     <input type="text" id="task-title" placeholder="Task title" name="title" class="inputField" required />
-                    <br />
+                    <br /><br /><br />
 
                     <label for="task-description" >Description:</label>
                     <br />
                     <textarea id="task-description" name="description" placeholder="Task description" required ></textarea>
-                    <br />
+                    <br /><br /><br />
 
                     <label for="task-deadline">Deadline:</label>
                     <input type="date" onchange="validateDate(this)" id="task-deadline" name="deadline" required />
                     <br />
                 </div>
 
-                <div class="task-assign-to-container">
-                    Assign to:
+                <div class="task-assign-to-container" >
+                    <div id="assign-to-label" >Assign to:</div>
                     <div id="task-assign-to" ></div>
                     <a href="/account/addConnections" id="add-connections-in-assign" >Add connections</a>
                 </div>
             </div>
 
-            <input type="submit" value="Create" />
+            <br /><br /><br />
+            <input type="submit" value="Create" id="create-task" />
         </form>
     </div>
 
