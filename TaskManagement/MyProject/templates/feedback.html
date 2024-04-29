@@ -4,11 +4,15 @@
 {% block cssLink %}
   <link rel="stylesheet" href="{% static 'css/feedback.css' %}">
 {% endblock %}
+
+{% block header-title %}
+  Feedback
+{% endblock %}
+
 {% block header %}
 
 <body>
 <div class="feedback-container">
-  <h1>Feedback</h1>
 
   <form method="post" action="/account/feedback">
     {% csrf_token %}
@@ -16,7 +20,7 @@
       <label for="feedback">Your feedback:</label>
       <textarea id="feedback" name="comments" required ></textarea>
     </div>
-    
+
     <div style="display: flex; justify-content: right;" >
       <button type="submit" >Submit Feedback</button>
     </div>
