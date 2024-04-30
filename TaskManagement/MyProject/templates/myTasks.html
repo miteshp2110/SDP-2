@@ -14,6 +14,12 @@ My tasks
         background-color: #87DF87 !important;
     }
 
+    .task-update-btn:disabled:hover {
+        background-color: #F7F7F7 !important;
+        cursor: default;
+        scale: none;
+    }
+
     .task-update-btn-container {
         width: 1.5vw;
         overflow: hidden;
@@ -35,6 +41,11 @@ My tasks
 
     .hide {
         display: none;
+    }
+
+    [data-change-deadline] button:disabled:hover {
+        cursor: default;
+        background-color: #F7F7F7;
     }
 
     #update-dialog {
@@ -148,7 +159,7 @@ My tasks
         deadline.innerHTML = "<x>Deadline:</x>&nbsp;" + result.Deadline
         assignedBy.innerHTML = "<x>Assigned by:</x>&nbsp;" + result.AssignedBy
         fcd.id = "my-" + taskNumber
-        ub.setAttribute("onclick", `updateStatus(${taskNumber - 1}, this)`)
+        ub.setAttribute("onclick", `updateStatus(${taskNumber - 1})`)
         description.innerHTML = result.Description
         status.innerHTML = "<x>Status:</x>&nbsp;" + result.Status
         cdb.setAttribute("onclick", `deadlineExtension(${taskNumber - 1})`)
@@ -158,12 +169,7 @@ My tasks
         taskNumber++
     })
 
-    function updateStatus(indx, ele) {
-        if(ele.parentNode.parentNode.querySelector("[data-status]").textContent.slice(8) == "Completed") {
-            alert("Task already marked as completed!")
-            return
-        }
-
+    function updateStatus(indx) {
         console.log("::" + indx)
         fetch('/updateStatus/', {
             method: 'POST',
@@ -206,12 +212,8 @@ My tasks
     // Disable deadline extension button if task is completed 
     document.querySelectorAll("[data-status]").forEach(ele => {
         if(ele.textContent.slice(8) == "Completed") {
-            const disable = ele.parentNode.parentNode.querySelector("[data-change-deadline]").querySelector("button")
-            disable.disabled = true
-            disable.style.cursor = "default";
-            disable.addEventListener("mouseover", () => {
-                disable.style.backgroundColor = "white"
-            })
+            ele.parentNode.querySelector("[data-change-deadline]").querySelector("button").disabled = true
+            ele.parentNode.querySelector("[data-update-btn]").disabled = true
         }
     })
 
