@@ -148,7 +148,7 @@ My tasks
         deadline.innerHTML = "<x>Deadline:</x>&nbsp;" + result.Deadline
         assignedBy.innerHTML = "<x>Assigned by:</x>&nbsp;" + result.AssignedBy
         fcd.id = "my-" + taskNumber
-        ub.setAttribute("onclick", `updateStatus(${taskNumber - 1})`)
+        ub.setAttribute("onclick", `updateStatus(${taskNumber - 1}, this)`)
         description.innerHTML = result.Description
         status.innerHTML = "<x>Status:</x>&nbsp;" + result.Status
         cdb.setAttribute("onclick", `deadlineExtension(${taskNumber - 1})`)
@@ -158,7 +158,12 @@ My tasks
         taskNumber++
     })
 
-    function updateStatus(indx) {
+    function updateStatus(indx, ele) {
+        if(ele.parentNode.parentNode.querySelector("[data-status]").textContent.slice(8) == "Completed") {
+            alert("Task already marked as completed!")
+            return
+        }
+
         console.log("::" + indx)
         fetch('/updateStatus/', {
             method: 'POST',
@@ -198,6 +203,18 @@ My tasks
         }
     }
 
+    // Disable deadline extension button if task is completed 
+    document.querySelectorAll("[data-status]").forEach(ele => {
+        if(ele.textContent.slice(8) == "Completed") {
+            const disable = ele.parentNode.parentNode.querySelector("[data-change-deadline]").querySelector("button")
+            disable.disabled = true
+            disable.style.cursor = "default";
+            disable.addEventListener("mouseover", () => {
+                disable.style.backgroundColor = "white"
+            })
+        }
+    })
+
     var dialogOpen = false
     var ind = 0
 
@@ -217,19 +234,26 @@ My tasks
     }
 
     document.addEventListener("click", (event) => {
-        if(!event.target.matches("#update-dialog") && !event.target.matches("#submit-deadline") && !event.target.matches("#updatedDeadline") && dialogOpen) {
+        if(!event.target.matches("#update-dialog") && !event.target.matches("#submit-deadline") && !event.target.matches("#updatedDeadline") && !event.target.matches('label[for="updatedDeadline"]') && dialogOpen) {
             dialogOpen = !dialogOpen
             document.getElementById("update-dialog").classList.add("hide")
         }
     })
 
     function submitDeadline() {
+        const updatedDeadline = document.getElementById("updatedDeadline").value
+        if(updatedDeadline.trim() == "") {
+            alert("Empty deadline!")
+            document.getElementById("updatedDeadline").focus()
+            return
+        }
+
         fetch('/requestUpdate/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({'index': ind , 'updatedDeadline': document.getElementById("updatedDeadline").value})
+            body: JSON.stringify({'index': ind , 'updatedDeadline': updatedDeadline})
         })
         .then(response => {
             console.log(response)
