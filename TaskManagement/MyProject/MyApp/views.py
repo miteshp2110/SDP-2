@@ -19,7 +19,7 @@ def account(request):
     isAuthenticated=request.session.get("isAuthenticated")
     if(isAuthenticated):
         instance=UserData.objects.get(email=request.session.get('email'))
-        length = len(instance.notification['notifications']) + len(instance.connectionRecieved['requests'])
+        length=len(instance.notification['notifications'])+len(instance.connectionRecieved['requests'])+len(instance.updationQueue['queue'])
         return render(request,'account.html',{'isAuthenticated':True,'instance':instance,'length':length})
     else:
         if (request.method == "POST"):
@@ -83,12 +83,16 @@ def logout(request):
 @csrf_exempt
 def activeConnections(request):
     instance=UserData.objects.get(email=request.session.get('email'))
-    return render(request,'activeConnections.html',{'instance':instance})
+    length = len(instance.notification['notifications']) + len(instance.connectionRecieved['requests']) + len(
+        instance.updationQueue['queue'])
+    return render(request,'activeConnections.html',{'instance':instance, 'length': length})
 @csrf_exempt
 def addConnection(request):
     instance=UserData.objects.get(email=request.session.get('email'))
     instance1=(get_object_or_404(allUser)).userObj['users']
-    return render(request,'addConnection.html',{'instance':instance,'instance1':instance1})
+    length = len(instance.notification['notifications']) + len(instance.connectionRecieved['requests']) + len(
+        instance.updationQueue['queue'])
+    return render(request,'addConnection.html',{'instance':instance,'instance1':instance1, 'length': length})
 
 @csrf_exempt
 def feedback(request):
@@ -104,7 +108,10 @@ def feedback(request):
             messages.error(request, 'Feedback sent successfully!')
             return redirect('home')
         else:
-            return render(request,'feedback.html')
+            instance = UserData.objects.get(email=request.session.get('email'))
+            length = len(instance.notification['notifications']) + len(instance.connectionRecieved['requests']) + len(
+                instance.updationQueue['queue'])
+            return render(request,'feedback.html', {'length': length})
     messages.error(request, 'Login first!')
     return redirect('home')
 @csrf_exempt
