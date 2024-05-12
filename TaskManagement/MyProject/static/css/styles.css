@@ -68,3 +68,13 @@ a{
     left: -30vw;
     transition: left 700ms ease;
 }
+
+.hoverable {
+    position: relative;
+    display: inline-block;
+}
+
+.hoverable:hover::before {
+    content: "testing";
+    position: absolute;
+}
